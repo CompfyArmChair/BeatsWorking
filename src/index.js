@@ -7,7 +7,10 @@ var config = {
     width: 1366,
     height: 768,
     physics: {
-        default: 'arcade',        
+        default: 'arcade',  
+        arcade: {
+            gravity: { y: 300 }
+        }      
     },
     scene: {
         preload: preload,
@@ -17,14 +20,22 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
+/*********Game control variables********/
 var bpm = 60;
 //pixels per beat
 var ppb = 200;
+/***************************************/
+
 var beatlines = [];
 var enemies = [];
 var graphics;
 var nextEnemyEntry;
+var dude;
+var smallestBeatInterval = 999;
 
+var punchKey;
+var kickKey;
+var jumpKey;
 
 function preload()
 {
@@ -32,6 +43,10 @@ function preload()
     this.load.image('air', 'assets/clock.png');
     this.load.image('ground-block', 'assets/groundblock.png');
     this.load.image('dude', 'assets/dude.png');
+    this.load.image('kicking-dude', 'assets/kickingDude.png');
+    this.load.image('punching-dude', 'assets/punchingDude.png');
+    this.load.image('jumping-dude', 'assets/jumpingDude.png');
+    this.load.image('jump-kick-dude', 'assets/jumpKickDude.png');
 }
 
 function create()
@@ -39,16 +54,137 @@ function create()
     trackConfig = require("./track-config.json");
     nextEnemyEntry = trackConfig.enemies[0].entry;
 
-    var dude = this.add.image(166, 500, 'dude');
+    findSmallestInterval();
+
+    dude = this.add.image(166, 500, 'dude');
+    setDude(dude,'none', 0);
+    
     graphics = this.add.graphics({ lineStyle: { width: 2, color: 0xaa0000 }, fillStyle: { color: 0x0000aa } });
+
+    punchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    kickKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+}
+
+function findSmallestInterval()
+{    
+    for (var i = 0; i < trackConfig.enemies.length - 1; i++) {
+        const enemy = trackConfig.enemies[i];
+        const nextEnemy = trackConfig.enemies[i+1];  
+        if(nextEnemy.entry !== enemy.entry)
+        {
+            var entryDelta = nextEnemy.entry - enemy.entry;
+            if(entryDelta < smallestBeatInterval)
+            {
+                smallestBeatInterval = entryDelta;
+            }
+        }
+    }
+}
+
+function setDude(dude, action, actionInitiated)
+{
+    dude.setData('action', action);
+    dude.setData('action-initiated', actionInitiated);
 }
 
 function update(time, delta)
 {       
+    processKey(time, this);
     var moveAmount = getMove(delta);
     calculateBeatsElapsed(time, delta, this);
     updateBeatLines(moveAmount);
     updateEnemies(moveAmount);
+    updateDude(time, this);
+}
+
+function updateDude(time, game)
+{
+    if(dude.getData('action') === 'punch' || dude.getData('action') === 'kick' || dude.getData('action') === 'returning')
+    {
+        processAttack(time, game);
+    }
+    else if (dude.getData('action') === 'jump')
+    {
+        processJump(time, game);
+    }
+}
+
+function processJump(time, game)
+{
+    var delta = time - dude.getData('action-initiated');
+    var beatDurationMs = (60 / bpm) * 1000;
+
+    if(delta >= beatDurationMs)
+    {
+        var x = dude.x;
+        var y = dude.y;
+        dude.destroy();
+        dude = game.add.image(x, y, 'dude');
+        setDude(dude, 'none', 0);
+        
+    }
+    else if(delta >= (beatDurationMs/2))
+    {
+        dude.y += bpm/60;
+    }     
+    else 
+    {
+        dude.y -= bpm/60;
+    }
+}
+
+function processAttack(time, game)
+{
+    var delta = time - dude.getData('action-initiated');
+    var beatDuration = (60 / bpm);
+
+    var smallestInterval = beatDuration * smallestBeatInterval;
+
+    if((delta) >= ((smallestInterval * 1000)/2) && dude.getData('action') !== 'returning')
+    {
+        var x = dude.x;
+        var y = dude.y;
+        var actionInitiated = dude.getData('action-initiated');            
+        dude.destroy();
+        dude = game.add.image(x, y, 'dude');
+        setDude(dude, 'returning', actionInitiated);
+    } 
+    else if(delta >= (smallestInterval * 1000))
+    {
+        setDude(dude,'none', 0);
+    }
+}
+
+function processKey(time, game)
+{
+    if(dude.getData('action') === 'none')
+    {
+        if (punchKey.isDown)
+        {
+            var x = dude.x;
+            var y = dude.y;
+            dude.destroy();
+            dude = game.add.image(x, y, 'punching-dude');
+            setDude(dude, 'punch', time);
+        }
+        else if (kickKey.isDown)
+        {
+            var x = dude.x;
+            var y = dude.y;
+            dude.destroy();
+            dude = game.add.image(x, y, 'kicking-dude');
+            setDude(dude, 'kick', time);
+        }
+        else if (jumpKey.isDown)
+        {
+            var x = dude.x;
+            var y = dude.y;
+            dude.destroy();
+            dude = game.add.image(x, y, 'jumping-dude');
+            setDude(dude, 'jump', time);
+        }
+    }
 }
 
 var timeElaspsed = 0;
