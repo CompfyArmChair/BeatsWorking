@@ -21,7 +21,7 @@ var config = {
 
 var game = new Phaser.Game(config);
 /*********Game control variables********/
-var bpm = 60;
+var bpm = 112;
 //pixels per beat
 var ppb = 200;
 /***************************************/
@@ -141,7 +141,7 @@ function processAttack(time, game)
 
     var smallestInterval = beatDuration * smallestBeatInterval;
 
-    if((delta) >= ((smallestInterval * 1000)/2) && dude.getData('action') !== 'returning')
+    if((delta) >= ((smallestInterval * 1000)/4) && dude.getData('action') !== 'returning')
     {
         var x = dude.x;
         var y = dude.y;
@@ -150,7 +150,7 @@ function processAttack(time, game)
         dude = game.add.image(x, y, 'dude');
         setDude(dude, 'returning', actionInitiated);
     } 
-    else if(delta >= (smallestInterval * 1000))
+    else if(delta >= (smallestInterval * 1000/2))
     {
         setDude(dude,'none', 0);
     }
@@ -160,7 +160,7 @@ function processKey(time, game)
 {
     if(dude.getData('action') === 'none')
     {
-        if (punchKey.isDown)
+        if (Phaser.Input.Keyboard.JustDown(punchKey))
         {
             var x = dude.x;
             var y = dude.y;
@@ -168,7 +168,7 @@ function processKey(time, game)
             dude = game.add.image(x, y, 'punching-dude');
             setDude(dude, 'punch', time);
         }
-        else if (kickKey.isDown)
+        else if (Phaser.Input.Keyboard.JustDown(kickKey))
         {
             var x = dude.x;
             var y = dude.y;
@@ -176,7 +176,7 @@ function processKey(time, game)
             dude = game.add.image(x, y, 'kicking-dude');
             setDude(dude, 'kick', time);
         }
-        else if (jumpKey.isDown)
+        else if (Phaser.Input.Keyboard.JustDown(jumpKey))
         {
             var x = dude.x;
             var y = dude.y;
