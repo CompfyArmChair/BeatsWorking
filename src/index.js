@@ -95,43 +95,89 @@ function update(time, delta)
     calculateBeatsElapsed(time, delta, this);
     updateBeatLines(moveAmount);
     updateEnemies(moveAmount);
-    updateDude(time, this);
+    updateDude(time, this, moveAmount);
 }
 
-function updateDude(time, game)
+function updateDude(time, game, moveAmount)
 {
     if(dude.getData('action') === 'punch' || dude.getData('action') === 'kick' || dude.getData('action') === 'returning')
     {
         processAttack(time, game);
     }
-    else if (dude.getData('action') === 'jump')
+    else if (dude.getData('action') === 'jump' || dude.getData('action') === 'jumping')
     {
-        processJump(time, game);
+        processJump(moveAmount, game);
     }
 }
 
-function processJump(time, game)
-{
-    var delta = time - dude.getData('action-initiated');
-    var beatDurationMs = (60 / bpm) * 1000;
+var startX = 0;
+var startY = 0;
 
-    if(delta >= beatDurationMs)
+var jumpX = 0;
+var jumpY = 400;
+
+var destinationX = 0;
+var destinationY = 0;
+
+var progressX = 0;
+function processJump(moveAmount, game)
+{
+    if(dude.getData('action') !== 'jumping')    
     {
+        startX = dude.x;
+        startY = dude.y;
+        
+        jumpX = startX + (ppb/2);
+        jumpY = 400;
+        
+        destinationX = startX + ppb;
+        destinationY = startY;
+
+        progressX = startX;
+        dude.setData('action', 'jumping');
+    }
+
+    progressX += moveAmount;
+    var a1 = -(startX * startX) + (jumpX * jumpX);
+    var b1 = -startX + jumpX;
+    var d1 = -startY + jumpY;
+
+    var a2 = -(jumpX * jumpX) + (destinationX * destinationX);
+    var b2 = -jumpX + destinationX;
+    var d2 = -jumpY + destinationY; 
+
+    var bMultiplier = -(b2/b1);
+
+    var a3 = bMultiplier * a1 + a2;
+
+    var d3 = bMultiplier * d1 + d2;
+
+    var a = d3/a3;
+    var b = (d1-a1 * a)/b1;
+    var c = startY - (a*(startX * startX)) - (b * startX);
+
+    var y = (a * (progressX * progressX)) + (b * progressX) + c; 
+    
+    dude.y = y;
+
+    if(progressX >= destinationX)
+    {
+        debugger;
+        startX = 0;
+        startY = 0;
+
+        jumpX = 0;
+        jumpY = 700;
+
+        destinationX = 0;
+        destinationY = 0;
+        
         var x = dude.x;
-        var y = dude.y;
+        var y = 500;         
         dude.destroy();
         dude = game.add.image(x, y, 'dude');
-        setDude(dude, 'none', 0);
-        
-    }
-    else if(delta >= (beatDurationMs/2))
-    {
-        dude.y += bpm/60;
-    }     
-    else 
-    {
-        dude.y -= bpm/60;
-    }
+        setDude(dude,'none', 0);
+    } 
 }
 
 function processAttack(time, game)
