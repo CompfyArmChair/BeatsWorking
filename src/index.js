@@ -36,6 +36,7 @@ var smallestBeatInterval = 999;
 var punchKey;
 var kickKey;
 var jumpKey;
+var slideKey;
 
 function preload()
 {
@@ -46,7 +47,8 @@ function preload()
     this.load.image('kicking-dude', 'assets/kickingDude.png');
     this.load.image('punching-dude', 'assets/punchingDude.png');
     this.load.image('jumping-dude', 'assets/jumpingDude.png');
-    this.load.image('jump-kick-dude', 'assets/jumpKickDude.png');
+    this.load.image('sliding-dude', 'assets/slidingDude.png');
+    this.load.image('jump-kick-dude', 'assets/jumpKickDude.png');    
 }
 
 function create()
@@ -64,6 +66,7 @@ function create()
     punchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     kickKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    slideKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
 }
 
 function findSmallestInterval()
@@ -104,9 +107,29 @@ function updateDude(time, game, moveAmount)
     {
         processAttack(time, game);
     }
-    else if (dude.getData('action') === 'jump' || dude.getData('action') === 'jumping')
+    else if (dude.getData('action') === 'jump' || dude.getData('action') === 'jumping' || dude.getData('action') === 'jump-kick')
     {
         processJump(moveAmount, game);
+    }
+    else if (dude.getData('action') === 'slide')
+    {
+        processSlide(time, game);
+    }
+}
+
+function processSlide(time, game)
+{
+    var actionInitiated = dude.getData('action-initiated');
+    var delta = time - actionInitiated;    
+    var bpms = (60 / bpm) * 1000;
+
+    if(delta >= bpms)
+    {
+        var x = dude.x;
+        var y = 500;         
+        dude.destroy();
+        dude = game.add.image(x, y, 'dude');
+        setDude(dude,'none', 0);
     }
 }
 
@@ -116,35 +139,36 @@ var startY = 0;
 var jumpX = 0;
 var jumpY = 400;
 
-var destinationX = 0;
-var destinationY = 0;
+var jumpDestinationX = 0;
+var jumpDestinationY = 0;
+var jumpProgressX = 0;
 
-var progressX = 0;
 function processJump(moveAmount, game)
 {
-    if(dude.getData('action') !== 'jumping')    
+    if(dude.getData('action') !== 'jumping' && dude.getData('action') !== 'jump-kick')    
     {
-        startX = dude.x;
-        startY = dude.y;
-        
-        jumpX = startX + (ppb/2);
-        jumpY = 400;
-        
-        destinationX = startX + ppb;
-        destinationY = startY;
-
-        progressX = startX;
-        dude.setData('action', 'jumping');
+        debugger;
+        initJump(); 
     }
+    
+    dude.y = getCurrentJumpHeight(moveAmount);
 
-    progressX += moveAmount;
+    if(jumpProgressX >= jumpDestinationX)
+    {
+        endJump(game);
+    } 
+}
+
+function getCurrentJumpHeight(moveAmount)
+{
+    jumpProgressX += moveAmount;
     var a1 = -(startX * startX) + (jumpX * jumpX);
     var b1 = -startX + jumpX;
     var d1 = -startY + jumpY;
 
-    var a2 = -(jumpX * jumpX) + (destinationX * destinationX);
-    var b2 = -jumpX + destinationX;
-    var d2 = -jumpY + destinationY; 
+    var a2 = -(jumpX * jumpX) + (jumpDestinationX * jumpDestinationX);
+    var b2 = -jumpX + jumpDestinationX;
+    var d2 = -jumpY + jumpDestinationY; 
 
     var bMultiplier = -(b2/b1);
 
@@ -156,28 +180,40 @@ function processJump(moveAmount, game)
     var b = (d1-a1 * a)/b1;
     var c = startY - (a*(startX * startX)) - (b * startX);
 
-    var y = (a * (progressX * progressX)) + (b * progressX) + c; 
+    return (a * (jumpProgressX * jumpProgressX)) + (b * jumpProgressX) + c;
+}
+
+function initJump()
+{
+    startX = dude.x;
+    startY = dude.y;
     
-    dude.y = y;
+    jumpX = startX + (ppb/2);
+    jumpY = 400;
+    
+    jumpDestinationX = startX + ppb;
+    jumpDestinationY = startY;
 
-    if(progressX >= destinationX)
-    {
-        debugger;
-        startX = 0;
-        startY = 0;
+    jumpProgressX = startX;
+    dude.setData('action', 'jumping');
+}
 
-        jumpX = 0;
-        jumpY = 700;
+function endJump(game)
+{
+    startX = 0;
+    startY = 0;
 
-        destinationX = 0;
-        destinationY = 0;
-        
-        var x = dude.x;
-        var y = 500;         
-        dude.destroy();
-        dude = game.add.image(x, y, 'dude');
-        setDude(dude,'none', 0);
-    } 
+    jumpX = 0;
+    jumpY = 700;
+
+    jumpDestinationX = 0;
+    jumpDestinationY = 0;
+    
+    var x = dude.x;
+    var y = 500;         
+    dude.destroy();
+    dude = game.add.image(x, y, 'dude');
+    setDude(dude,'none', 0);
 }
 
 function processAttack(time, game)
@@ -230,6 +266,25 @@ function processKey(time, game)
             dude = game.add.image(x, y, 'jumping-dude');
             setDude(dude, 'jump', time);
         }
+        else if (Phaser.Input.Keyboard.JustDown(slideKey))
+        {
+            var x = dude.x;
+            var y = 550;
+            dude.destroy();
+            dude = game.add.image(x, y, 'sliding-dude');
+            setDude(dude, 'slide', time);
+        }
+    } 
+    else if(dude.getData('action') === 'jumping')
+    {
+        if (Phaser.Input.Keyboard.JustDown(kickKey))
+        {
+            var x = dude.x;
+            var y = dude.y;
+            dude.destroy();
+            dude = game.add.image(x, y, 'jump-kick-dude');
+            setDude(dude, 'jump-kick', time);
+        }
     }
 }
 
@@ -274,7 +329,6 @@ function generateGameAsset()
 
 function generateEnemy(game)
 {
-    
     var i = 0;
     for (i; i < trackConfig.enemies.length; i++) {
         const enemy = trackConfig.enemies[i];
@@ -288,7 +342,7 @@ function generateEnemy(game)
         }
     }
     trackConfig.enemies.splice(0, i);
-    if(trackConfig.enemies.length > 1)
+    if(trackConfig.enemies.length > 0)
     {
         nextEnemyEntry = trackConfig.enemies[0].entry;
     }
