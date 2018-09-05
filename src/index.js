@@ -9,7 +9,7 @@ var config = {
     physics: {
         default: 'arcade',  
         arcade: {
-            gravity: { y: 300 }
+            gravity: { y: 0 }
         }      
     },
     scene: {
@@ -31,8 +31,9 @@ var enemies = [];
 var graphics;
 var nextEnemyEntry;
 var dude;
-var smallestBeatInterval = 999;
+var dudes = {};
 
+var smallestBeatInterval = 999;
 var punchKey;
 var kickKey;
 var jumpKey;
@@ -55,18 +56,49 @@ function create()
 {    
     trackConfig = require("./track-config.json");
     nextEnemyEntry = trackConfig.enemies[0].entry;
-
-    findSmallestInterval();
-
-    dude = this.add.image(166, 500, 'dude');
-    setDude(dude,'none', 0);
-    
     graphics = this.add.graphics({ lineStyle: { width: 2, color: 0xaa0000 }, fillStyle: { color: 0x0000aa } });
+    findSmallestInterval();
+    initDude(this);
+    buildDude(166, 500, 'dude', 'none', 0);    
+    initKeys(this);
+}
 
-    punchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    kickKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-    slideKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
+function initKeys(game)
+{    
+    punchKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    kickKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    jumpKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    slideKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
+}
+
+function initDude(game)
+{
+    dudes['dude'] = game.physics.add.image(166, 500, 'dude');
+    dudes['dude'].disableBody(true, true);
+    dudes['kicking-dude'] = game.physics.add.image(166, 500, 'kicking-dude');
+    dudes['kicking-dude'].disableBody(true, true);
+    dudes['punching-dude'] = game.physics.add.image(166, 500, 'punching-dude');
+    dudes['punching-dude'].disableBody(true, true);
+    dudes['jumping-dude'] = game.physics.add.image(166, 500, 'jumping-dude');
+    dudes['jumping-dude'].disableBody(true, true);
+    dudes['sliding-dude'] = game.physics.add.image(166, 500, 'sliding-dude');
+    dudes['sliding-dude'].disableBody(true, true);
+    dudes['jump-kick-dude'] = game.physics.add.image(166, 500, 'jump-kick-dude');
+    dudes['jump-kick-dude'].disableBody(true, true);
+    debugger;
+}
+
+function buildDude(x, y, dudeInstance, action, actionInitiated)
+{
+    if(dude)
+    {
+        dude.disableBody(true, true);
+    }
+    dude = dudes[dudeInstance];
+    dude.x = x;
+    dude.y = y;
+    dude.enableBody(false, x, y, true, true);
+    setDude(dude, action, actionInitiated);
 }
 
 function findSmallestInterval()
@@ -125,11 +157,7 @@ function processSlide(time, game)
 
     if(delta >= bpms)
     {
-        var x = dude.x;
-        var y = 500;         
-        dude.destroy();
-        dude = game.add.image(x, y, 'dude');
-        setDude(dude,'none', 0);
+        buildDude(dude.x, 500, 'dude', 'none', 0);
     }
 }
 
@@ -147,7 +175,6 @@ function processJump(moveAmount, game)
 {
     if(dude.getData('action') !== 'jumping' && dude.getData('action') !== 'jump-kick')    
     {
-        debugger;
         initJump(); 
     }
     
@@ -209,11 +236,7 @@ function endJump(game)
     jumpDestinationX = 0;
     jumpDestinationY = 0;
     
-    var x = dude.x;
-    var y = 500;         
-    dude.destroy();
-    dude = game.add.image(x, y, 'dude');
-    setDude(dude,'none', 0);
+    buildDude( dude.x, 500, 'dude', 'none', 0);
 }
 
 function processAttack(time, game)
@@ -225,12 +248,8 @@ function processAttack(time, game)
 
     if((delta) >= ((smallestInterval * 1000)/4) && dude.getData('action') !== 'returning')
     {
-        var x = dude.x;
-        var y = dude.y;
-        var actionInitiated = dude.getData('action-initiated');            
-        dude.destroy();
-        dude = game.add.image(x, y, 'dude');
-        setDude(dude, 'returning', actionInitiated);
+        var actionInitiated = dude.getData('action-initiated'); 
+        buildDude(dude.x, dude.y, 'dude', 'returning', actionInitiated);
     } 
     else if(delta >= (smallestInterval * 1000/2))
     {
@@ -244,46 +263,26 @@ function processKey(time, game)
     {
         if (Phaser.Input.Keyboard.JustDown(punchKey))
         {
-            var x = dude.x;
-            var y = dude.y;
-            dude.destroy();
-            dude = game.add.image(x, y, 'punching-dude');
-            setDude(dude, 'punch', time);
+            buildDude(dude.x, dude.y, 'punching-dude', 'punch', time);
         }
         else if (Phaser.Input.Keyboard.JustDown(kickKey))
         {
-            var x = dude.x;
-            var y = dude.y;
-            dude.destroy();
-            dude = game.add.image(x, y, 'kicking-dude');
-            setDude(dude, 'kick', time);
+            buildDude(dude.x, dude.y, 'kicking-dude', 'kick', time);
         }
         else if (Phaser.Input.Keyboard.JustDown(jumpKey))
         {
-            var x = dude.x;
-            var y = dude.y;
-            dude.destroy();
-            dude = game.add.image(x, y, 'jumping-dude');
-            setDude(dude, 'jump', time);
+            buildDude(dude.x, dude.y, 'jumping-dude', 'jump', time);
         }
         else if (Phaser.Input.Keyboard.JustDown(slideKey))
-        {
-            var x = dude.x;
-            var y = 550;
-            dude.destroy();
-            dude = game.add.image(x, y, 'sliding-dude');
-            setDude(dude, 'slide', time);
+        { 
+            buildDude(dude.x, 550, 'sliding-dude', 'slide', time);
         }
     } 
     else if(dude.getData('action') === 'jumping')
     {
         if (Phaser.Input.Keyboard.JustDown(kickKey))
         {
-            var x = dude.x;
-            var y = dude.y;
-            dude.destroy();
-            dude = game.add.image(x, y, 'jump-kick-dude');
-            setDude(dude, 'jump-kick', time);
+            buildDude(dude.x, dude.y, 'jump-kick-dude', 'jump-kick', time);
         }
     }
 }
@@ -348,22 +347,44 @@ function generateEnemy(game)
     }
 }
 
-function buildEnemy(enemy, game)
+function buildEnemy(enemyConfig, game)
 {
     var y = 0;
-    if(enemy.type === "ground")
+    if(enemyConfig.type === "ground")
     {
         y = 530;
     }
 
-    if(enemy.type === "air")
+    if(enemyConfig.type === "air")
     {
         y = 430;
     }
 
-    var enemy = game.add.image(1366, y, enemy.type);
+    var enemy = game.physics.add.image(1366, y, enemyConfig.type);
+    enemy.setData('enemy-type', enemyConfig.type);
     enemy.setScale(0.5);
     enemies.push(enemy);
+    addEnemyCollisions(game, enemy);
+}
+
+function addEnemyCollisions(game, enemy)
+{
+    for (var key in dudes) {
+        var dude = dudes[key];
+        game.physics.add.overlap(dude, enemy, hitEnemy);
+    }
+}
+
+function hitEnemy(dude, enemy)
+{
+    if((dude.getData('action') === 'punch' || dude.getData('action') === 'jump-kick') && enemy.getData('enemy-type') === 'air')
+    {
+        enemy.disableBody(true, true);
+    }
+    else if((dude.getData('action') === 'kick' || dude.getData('action') === 'jump-kick') &&  enemy.getData('enemy-type') === 'ground')
+    {
+        enemy.disableBody(true, true);
+    }
 }
 
 function generateBeatLine()
