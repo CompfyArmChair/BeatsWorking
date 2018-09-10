@@ -6,6 +6,7 @@ var config = {
     parent: 'phaser-example',
     width: 1366,
     height: 768,
+    backgroundColor: 0x0,
     physics: {
         default: 'arcade',  
         arcade: {
@@ -33,16 +34,52 @@ var nextEnemyEntry;
 var dude;
 var dudes = {};
 
+// Beat calculations
 var smallestBeatInterval = 999;
+var timeElapsed = 0;
+var timeInit = 0;
+var beatCount = 0;        // 160 = gems
+
+// Keys
 var punchKey;
 var kickKey;
 var jumpKey;
 var slideKey;
+var downKey;
+var debugKey;
+
+// Jumping
+var startX = 0;
+var startY = 0;
+var jumpX = 0;
+var jumpY = 400;
+var jumpDestinationX = 0;
+var jumpDestinationY = 0;
+var jumpProgressX = 0;
+
+// Audio
+var currentPaletteNum;
+var currentPalette;
+var context;
+var bufferLoader;
+var timeoutID;
+var sounds;
+
+// Particle effects
+var enemyDeathParticle;
+var enemyEmitter;
+var collectableParticle;
+var collectableEmitter;
+
+// Text
+var currentTextEnd;
+var currentText;
+
 
 function preload()
 {
-    this.load.image('ground', 'assets/filingCabinet.png');
-    this.load.image('air', 'assets/clock.png');
+    this.load.image('rat', 'assets/rat.png');
+    this.load.image('bird', 'assets/bird.png');
     this.load.image('ground-block', 'assets/groundblock.png');
     this.load.image('dude', 'assets/dude.png');
     this.load.image('kicking-dude', 'assets/kickingDude.png');
@@ -50,25 +87,114 @@ function preload()
     this.load.image('jumping-dude', 'assets/jumpingDude.png');
     this.load.image('sliding-dude', 'assets/slidingDude.png');
     this.load.image('jump-kick-dude', 'assets/jumpKickDude.png');    
+    this.load.image('lava', 'assets/lava.png');
+    this.load.image('block', 'assets/block.png');
+    this.load.image('particle1', 'assets/particle.png');
+    this.load.image('particle2', 'assets/particle2.png');
+    this.load.spritesheet('gems', 'assets/gems.png', { frameWidth: 30, frameHeight: 30 });
+    this.load.spritesheet('markers', 'assets/markers.png', { frameWidth: 40, frameHeight: 40 });
 }
 
 function create()
 {    
-    trackConfig = require("./track-config.json");
-    nextEnemyEntry = trackConfig.enemies[0].entry;
+    trackConfig = require("./Level 0.json");
+    readLevelData(trackConfig);
+    nextEnemyEntry = trackConfig.GameEvents[0].TimeStamp;
     graphics = this.add.graphics({ lineStyle: { width: 2, color: 0xaa0000 }, fillStyle: { color: 0x0000aa } });
     findSmallestInterval();
     initDude(this);
     buildDude(166, 500, 'dude', 'none', 0);    
     initKeys(this);
+    setupParticleEffects(this);
+    setupSound(trackConfig);
+    debugLogLevelInfo();
+}
+
+function setupParticleEffects(game)
+{
+    enemyDeathParticle = game.add.particles('particle1');
+    enemyEmitter = enemyDeathParticle.createEmitter( {
+        x: 0,
+        y: 0,
+        angle: { min: -50, max: 30 },
+        speed: { min: 0, max: 220 },
+        quantity: 80,
+        lifespan: 700,
+        alpha: { start: 1, end: 0 },
+        gravityY: 250,
+        scale: { start: 0.3, end: 0.0 },
+        blendMode: 'ADD',
+        on: false
+    });
+
+    collectableParticle = game.add.particles('particle2');
+    collectableEmitter = collectableParticle.createEmitter( {
+        x: 0,
+        y: 0,
+        angle: { min: 0, max: 360 },
+        speed: { min: 30, max: 340 },
+        quantity: 150,
+        lifespan: 1200,
+        alpha: { start: 1, end: 0 },
+        gravityY: 140,
+        scale: { start: 0.4, end: 0.0 },
+        blendMode: 'ADD',
+        on: false
+    });
+}
+
+function continueSetup(soundList)
+{
+    sounds = soundList;
+    console.log("Set up " + sounds.length + " sounds.")
+}
+
+function readLevelData(trackConfig)
+{
+    bpm = trackConfig.Tempo;
+}
+
+function setupSound(trackConfig)
+{
+    SetupPalette(trackConfig, 1);
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    context = new AudioContext();
+    
+    bufferLoader = new BufferLoader(
+        context,
+        trackConfig.SampleList,
+        continueSetup
+        );
+    
+    bufferLoader.load();
+}
+
+function SetupPalette(trackConfig, trackNumber)
+{
+    currentPaletteNum = trackNumber;
+    currentPalette = [];
+    var trackInfo = trackConfig.TrackInfos[trackNumber - 1];
+    for (var i = 0; i < trackInfo.SampleMaps.length; i++)
+    {
+        var sampleMap = trackInfo.SampleMaps[i];
+        currentPalette[sampleMap.SourceActionIndex] = sampleMap.SampleFileIndex;
+    }
+}
+
+function debugLogLevelInfo()
+{
+    console.log("BPM: " + bpm);
+    console.log("Smallest interval: " + smallestBeatInterval);
 }
 
 function initKeys(game)
 {    
-    punchKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    punchKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
     kickKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    jumpKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    jumpKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
     slideKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
+    downKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    debugKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 }
 
 function initDude(game)
@@ -85,7 +211,6 @@ function initDude(game)
     dudes['sliding-dude'].disableBody(true, true);
     dudes['jump-kick-dude'] = game.physics.add.image(166, 500, 'jump-kick-dude');
     dudes['jump-kick-dude'].disableBody(true, true);
-    debugger;
 }
 
 function buildDude(x, y, dudeInstance, action, actionInitiated)
@@ -103,13 +228,13 @@ function buildDude(x, y, dudeInstance, action, actionInitiated)
 
 function findSmallestInterval()
 {    
-    for (var i = 0; i < trackConfig.enemies.length - 1; i++) {
-        const enemy = trackConfig.enemies[i];
-        const nextEnemy = trackConfig.enemies[i+1];  
-        if(nextEnemy.entry !== enemy.entry)
+    for (var i = 0; i < trackConfig.GameEvents.length - 1; i++) {
+        const enemy = trackConfig.GameEvents[i];
+        const nextEnemy = trackConfig.GameEvents[i+1];  
+        if(nextEnemy.TimeStamp !== enemy.TimeStamp)
         {
-            var entryDelta = nextEnemy.entry - enemy.entry;
-            if(entryDelta < smallestBeatInterval)
+            var entryDelta = nextEnemy.TimeStamp - enemy.TimeStamp;
+            if(entryDelta < smallestBeatInterval && entryDelta != 0)
             {
                 smallestBeatInterval = entryDelta;
             }
@@ -160,16 +285,6 @@ function processSlide(time, game)
         buildDude(dude.x, 500, 'dude', 'none', 0);
     }
 }
-
-var startX = 0;
-var startY = 0;
-
-var jumpX = 0;
-var jumpY = 400;
-
-var jumpDestinationX = 0;
-var jumpDestinationY = 0;
-var jumpProgressX = 0;
 
 function processJump(moveAmount, game)
 {
@@ -227,6 +342,8 @@ function initJump()
 
 function endJump(game)
 {
+    ProcessLand();
+
     startX = 0;
     startY = 0;
 
@@ -263,54 +380,102 @@ function processKey(time, game)
     {
         if (Phaser.Input.Keyboard.JustDown(punchKey))
         {
-            buildDude(dude.x, dude.y, 'punching-dude', 'punch', time);
+            ProcessPunch(time);
         }
         else if (Phaser.Input.Keyboard.JustDown(kickKey))
         {
-            buildDude(dude.x, dude.y, 'kicking-dude', 'kick', time);
+            ProcessKick(time);
         }
         else if (Phaser.Input.Keyboard.JustDown(jumpKey))
         {
-            buildDude(dude.x, dude.y, 'jumping-dude', 'jump', time);
+            ProcessJump(time);
         }
         else if (Phaser.Input.Keyboard.JustDown(slideKey))
         { 
-            buildDude(dude.x, 550, 'sliding-dude', 'slide', time);
+            ProcessSlide(time);
+        }
+        else if (Phaser.Input.Keyboard.JustDown(debugKey))
+        { 
+            ProcessDebug(time);
         }
     } 
     else if(dude.getData('action') === 'jumping')
     {
         if (Phaser.Input.Keyboard.JustDown(kickKey))
         {
-            buildDude(dude.x, dude.y, 'jump-kick-dude', 'jump-kick', time);
+            ProcessJumpKick(time);
         }
     }
 }
 
-var timeElaspsed = 0;
-var timeInit = 0;
-var beatCount = 0;
+function ProcessPunch(time)
+{
+    buildDude(dude.x, dude.y, 'punching-dude', 'punch', time);
+}
+
+function ProcessKick(time)
+{
+    buildDude(dude.x, dude.y, 'kicking-dude', 'kick', time);
+}
+
+function ProcessJump(time)
+{
+    buildDude(dude.x, dude.y, 'jumping-dude', 'jump', time);
+    playSound(3, null);
+}
+
+function ProcessJumpKick(time)
+{
+    // Disabled jump kick for now, for simplicity
+    //buildDude(dude.x, dude.y, 'jump-kick-dude', 'jump-kick', time);
+}
+
+function ProcessLand(time)
+{
+    playSound(4, null);
+}
+
+function ProcessSlide(time)
+{
+    buildDude(dude.x, 550, 'sliding-dude', 'slide', time);
+    playSound(5, null);
+}
+
+function ProcessSlideEnd(time)
+{
+}
+
+function ProcessDebug()
+{
+    console.log("smallestBeatInterval: " + smallestBeatInterval);
+    console.log("timeElapsed: " + timeElapsed);
+    console.log("timeInit: " + timeInit);
+    console.log("beatCount: " + beatCount);
+}
+
 function calculateBeatsElapsed(time, delta, game)
 {
     if(timeInit === 0)
     {
         timeInit = time;
-        timeElaspsed = time;
+        timeElapsed = time;
     }
-    timeElaspsed += delta;
+    timeElapsed += delta;
 
     var bDuration = (60/bpm) * 1000
     
-    var totalBeatCountElapsed = (beatCount * bDuration) + timeElaspsed;
+    var totalBeatCountElapsed = (beatCount * bDuration) + timeElapsed;
     
-    if(totalBeatCountElapsed >= (nextEnemyEntry * bDuration))
+    if (totalBeatCountElapsed >= (nextEnemyEntry * bDuration))
     {
         generateEnemy(game);
     }
     
-    if(timeElaspsed >= bDuration)
+    if (timeElapsed >= bDuration)
     {
-        timeElaspsed = 0;
+        // timeElapsed -= bDuration;        Seems as though it should be this instead, but it's (maybe?) causing issues
+        timeElapsed = 0;
+        
         beatsElapsed();
     }
 }
@@ -318,6 +483,12 @@ function calculateBeatsElapsed(time, delta, game)
 function beatsElapsed()
 {
     beatCount++;
+    if (currentText != null && currentTextEnd <= beatCount)
+    {
+        console.log("DESTROYED TEXT");
+        currentText.destroy();
+        currentText = null;
+    }
     generateGameAsset();
 }
 
@@ -329,9 +500,9 @@ function generateGameAsset()
 function generateEnemy(game)
 {
     var i = 0;
-    for (i; i < trackConfig.enemies.length; i++) {
-        const enemy = trackConfig.enemies[i];
-        if(enemy.entry === nextEnemyEntry)
+    for (i; i < trackConfig.GameEvents.length; i++) {
+        const enemy = trackConfig.GameEvents[i];
+        if(enemy.TimeStamp === nextEnemyEntry)
         {
             buildEnemy(enemy, game);
         }
@@ -340,29 +511,91 @@ function generateEnemy(game)
             break;
         }
     }
-    trackConfig.enemies.splice(0, i);
-    if(trackConfig.enemies.length > 0)
+    trackConfig.GameEvents.splice(0, i);
+    if(trackConfig.GameEvents.length > 0)
     {
-        nextEnemyEntry = trackConfig.enemies[0].entry;
+        nextEnemyEntry = trackConfig.GameEvents[0].TimeStamp;
     }
 }
 
 function buildEnemy(enemyConfig, game)
 {
     var y = 0;
-    if(enemyConfig.type === "ground")
+    var graphic = "";
+    var frame = -1;
+    if (enemyConfig.Type === "enemy")
     {
-        y = 530;
+        if (enemyConfig.SubType == "rat")
+        {
+            y = 535;
+            graphic = "rat";
+        }
+        else if (enemyConfig.SubType == "bird")
+        {
+            y = 450;
+            graphic = "bird";
+        }
+    }
+    else if (enemyConfig.Type === "gem")
+    {
+        y = 510;
+        graphic = "gems";
+        frame = Number(enemyConfig.SubType);
+    }
+    else if (enemyConfig.Type === "block")
+    {
+        y = 470;
+        graphic = "block";
+    }
+    else if (enemyConfig.Type === "lava")
+    {
+        y = 580;
+        graphic = "lava";
+    }
+    else if (enemyConfig.Type === "LoopRecordStart")
+    {
+        y = 22;
+        graphic = "markers";
+        frame = 23 + Number(enemyConfig.SubType);
+    }
+    else if (enemyConfig.Type === "LoopRecordStop")
+    {
+        y = 22;
+        graphic = "markers";
+        frame = 15 + Number(enemyConfig.SubType);
+    }
+    else if (enemyConfig.Type === "LoopPlayStart")
+    {
+        y = 44;
+        graphic = "markers";
+        frame = 7 + Number(enemyConfig.SubType);
+    }
+    else if (enemyConfig.Type === "LoopPlayStop")
+    {
+        y = 22;
+        graphic = "markers";
+        frame = 7 + Number(enemyConfig.SubType);
+    }
+    else if (enemyConfig.Type === "Palette")
+    {
+        y = 22;
+        graphic = "markers";
+        frame = Number(enemyConfig.SubType) - 1;
+    }
+    else if (enemyConfig.Type === "Text")
+    {
+        var textString = enemyConfig.SubType;
+        currentTextEnd = beatCount + enemyConfig.Width;
+        currentText = game.add.text(50, 70, textString, { fontSize: '32px', color: '#FFFFFF' });
+        console.log("Added text: " + textString);
     }
 
-    if(enemyConfig.type === "air")
-    {
-        y = 430;
-    }
-
-    var enemy = game.physics.add.image(1366, y, enemyConfig.type);
-    enemy.setData('enemy-type', enemyConfig.type);
-    enemy.setScale(0.5);
+    if (graphic == "") return;
+    
+    var enemy = game.physics.add.image(1366, y, graphic);
+    if (frame > -1)
+        enemy.setFrame(frame);
+    enemy.setData('enemy-data', enemyConfig);   // enemy-type
     enemies.push(enemy);
     addEnemyCollisions(game, enemy);
 }
@@ -377,14 +610,93 @@ function addEnemyCollisions(game, enemy)
 
 function hitEnemy(dude, enemy)
 {
-    if((dude.getData('action') === 'punch' || dude.getData('action') === 'jump-kick') && enemy.getData('enemy-type') === 'air')
+    if((dude.getData('action') === 'punch' || dude.getData('action') === 'jump-kick') && enemy.getData('enemy-data').SubType === 'bird')
     {
-        enemy.disableBody(true, true);
+        ProcessAirEnemyKilled(enemy);
     }
-    else if((dude.getData('action') === 'kick' || dude.getData('action') === 'jump-kick') &&  enemy.getData('enemy-type') === 'ground')
+    else if((dude.getData('action') === 'kick' || dude.getData('action') === 'jump-kick') && enemy.getData('enemy-data').SubType === 'rat')
     {
-        enemy.disableBody(true, true);
+        ProcessGroundEnemyKilled(enemy);
     }
+    else if (enemy.getData('enemy-data').Type === 'gem')
+    {
+        ProcessCollectableCollected(enemy);
+    }
+}
+
+function ProcessAirEnemyKilled(enemy)
+{
+    playSound(2, null);
+
+    enemy.disableBody(true, false);
+
+    enemyEmitter.setPosition(enemy.x, enemy.y);
+    enemyEmitter.explode();
+
+    var xDest = enemy.x + (50 + Math.random() * 40.0);
+    var yDest = enemy.y + (-60 + (Math.random() * 120.0));
+    var duration = 350 + (Math.random() * 150.0);
+
+    var tween = enemy.scene.tweens.add({
+        targets: enemy,
+        x: xDest,
+        y: yDest,
+        alpha: 0,
+        duration: duration,
+        onComplete: destroyBody,
+        ease: 'Cubic.easeOut'
+    });
+}
+
+function ProcessGroundEnemyKilled(enemy)
+{
+    playSound(1, null);
+
+    enemy.disableBody(true, false);
+
+    enemyEmitter.setPosition(enemy.x, enemy.y);
+    enemyEmitter.explode();
+
+    var xDest = enemy.x + (50 + Math.random() * 40.0);
+    var yDest = enemy.y - (10 + (Math.random() * 70.0));
+    var duration = 350 + (Math.random() * 150.0);
+
+    var tween = enemy.scene.tweens.add({
+        targets: enemy,
+        x: xDest,
+        y: yDest,
+        alpha: 0,
+        duration: duration,
+        onComplete: destroyBody,
+        ease: 'Cubic.easeOut'
+    });
+}
+
+function ProcessCollectableCollected(enemy)
+{
+    var soundNumber = Number(enemy.getData('enemy-data').SubType) + 9;
+    playSound(soundNumber, null);
+
+    enemy.disableBody(true, false);
+
+    collectableEmitter.setPosition(enemy.x, enemy.y);
+    collectableEmitter.explode();
+
+    var duration = 650 + (Math.random() * 250.0);
+
+    var tween = enemy.scene.tweens.add({
+        targets: enemy,
+        alpha: 0,
+        scale: 3,
+        duration: duration,
+        onComplete: destroyBody,
+        ease: 'Cubic.easeOut'
+    });
+}
+
+function destroyBody(tween)
+{
+    tween.targets[0].destroy();
 }
 
 function generateBeatLine()
@@ -419,16 +731,50 @@ function updateEnemies(moveAmount)
 {
     for (let i = enemies.length - 1; i >= 0; i--) {
         var enemy = enemies[i];
-        if(enemy.x < 0)
+        if (!enemy.isDead)
         {
-            enemy.destroy();
-            enemy = null;
-            enemies.splice(i,1);
+            if(enemy.x < 0)
+            {
+                enemy.destroy();
+                enemy = null;
+                enemies.splice(i,1);
+            }
+            else
+            {
+                enemy.x -= moveAmount;
+                if (enemy.x <= dude.x)
+                {
+                    ProcessMarkerReached(enemy);
+                }
+            }
         }
-        else
-        {        
-            enemy.x -= moveAmount;  
-        }
+    }
+}
+
+function ProcessMarkerReached(enemy)
+{
+    var enemyData = enemy.getData('enemy-data');
+    if (enemyData == null)
+        return;
+
+    if (enemyData.Type == "LoopRecordStart")
+    {
+    }
+    else if (enemyData.Type == "LoopRecordStop")
+    {
+    }
+    else if (enemyData.Type == "LoopPlayStart")
+    {
+    }
+    else if (enemyData.Type == "LoopPlayStop")
+    {
+    }
+    else if (enemyData.Type == "Palette")
+    {
+        var paletteNum = Number(enemyData.SubType);
+        SetupPalette(trackConfig, paletteNum);
+        enemy.isDead = true;
+
     }
 }
 
@@ -442,3 +788,63 @@ function getMove(delta)
     var bbpDelta = ppb * bpmsDelta;
     return bbpDelta
 }
+
+function playSound(soundNum, time) {
+    var soundIndex = currentPalette[soundNum];
+    var source = context.createBufferSource();
+    source.buffer = sounds[soundIndex];
+    source.connect(context.destination);
+    source.start(time);
+  }
+
+// =================================================================
+// AUDIO BUFFER LOADER
+// =================================================================
+
+function BufferLoader(context, urlList, callback) {
+    this.context = context;
+    this.urlList = urlList;
+    this.onload = callback;
+    this.bufferList = new Array();
+    this.loadCount = 0;
+  }
+  
+  BufferLoader.prototype.loadBuffer = function(url, index) {
+    // Load buffer asynchronously
+    var request = new XMLHttpRequest();
+    request.open("GET", url, true);
+    request.responseType = "arraybuffer";
+  
+    var loader = this;
+  
+    request.onload = function() {
+      // Asynchronously decode the audio file data in request.response
+      loader.context.decodeAudioData(
+        request.response,
+        function(buffer) {
+          if (!buffer) {
+            alert('error decoding file data: ' + url);
+            return;
+          }
+          loader.bufferList[index] = buffer;
+          console.log("loadCount: " + loader.loadCount);
+          if (++loader.loadCount == loader.urlList.length)
+            loader.onload(loader.bufferList);
+        },
+        function(error) {
+          console.error('decodeAudioData error', error);
+        }
+      );
+    }
+  
+    request.onerror = function() {
+      alert('BufferLoader: XHR error');
+    }
+  
+    request.send();
+  }
+  
+  BufferLoader.prototype.load = function() {
+    for (var i = 0; i < this.urlList.length; ++i)
+    this.loadBuffer(this.urlList[i], i);
+  }
