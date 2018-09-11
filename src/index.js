@@ -38,7 +38,7 @@ var dudes = {};
 var smallestBeatInterval = 999;
 var timeElapsed = 0;
 var timeInit = 0;
-var beatCount = 0;        // 160 = gems
+var beatCount = 0;        // 168 = gems
 
 // Keys
 var punchKey;
@@ -69,7 +69,7 @@ var sounds;
 var enemyDeathParticle;
 var enemyEmitter;
 var collectableParticle;
-var collectableEmitter;
+var collectableEmitters = [];
 
 // Text
 var currentTextEnd;
@@ -91,8 +91,10 @@ function preload()
     this.load.image('block', 'assets/block.png');
     this.load.image('particle1', 'assets/particle.png');
     this.load.image('particle2', 'assets/particle2.png');
+    this.load.image('particle3', 'assets/particle3.png');
     this.load.spritesheet('gems', 'assets/gems.png', { frameWidth: 30, frameHeight: 30 });
     this.load.spritesheet('markers', 'assets/markers.png', { frameWidth: 40, frameHeight: 40 });
+    this.load.bitmapFont('font', 'assets/font.png', 'assets/font.fnt');
 }
 
 function create()
@@ -127,20 +129,47 @@ function setupParticleEffects(game)
         on: false
     });
 
-    collectableParticle = game.add.particles('particle2');
-    collectableEmitter = collectableParticle.createEmitter( {
-        x: 0,
-        y: 0,
-        angle: { min: 0, max: 360 },
-        speed: { min: 30, max: 340 },
-        quantity: 150,
-        lifespan: 1200,
-        alpha: { start: 1, end: 0 },
-        gravityY: 140,
-        scale: { start: 0.4, end: 0.0 },
-        blendMode: 'ADD',
-        on: false
-    });
+    collectableParticle = game.add.particles('particle3');
+    for (var i = 1; i <= 8; i++)
+    {
+        var collectableEmitter = collectableParticle.createEmitter( {
+            x: 0,
+            y: 0,
+            angle: { min: 0, max: 360 },
+            speed: { min: 30, max: 340 },
+            quantity: 150,
+            lifespan: 1200,
+            alpha: { start: 1, end: 0 },
+            gravityY: 140,
+            tint: findTintForCollectable(i),
+            scale: { start: 0.4, end: 0.0 },
+            blendMode: 'ADD',
+            on: false
+        });
+        collectableEmitters[i] = collectableEmitter;
+    }
+}
+
+function findTintForCollectable(soundNumber)
+{
+    switch(soundNumber) {
+        case 1:
+            return 0xe6e6e6;
+        case 2:
+            return 0x942929;
+        case 3:
+            return 0xa4a121;
+        case 4:
+            return 0x26aa22;
+        case 5:
+            return 0x48daa7;
+        case 6:
+            return 0x46cad9;
+        case 7:
+            return 0x2223a7;
+        case 8:
+            return 0xa33fdb;
+    } 
 }
 
 function continueSetup(soundList)
@@ -476,20 +505,31 @@ function calculateBeatsElapsed(time, delta, game)
         // timeElapsed -= bDuration;        Seems as though it should be this instead, but it's (maybe?) causing issues
         timeElapsed = 0;
         
-        beatsElapsed();
+        beatElapsed(game);
     }
 }
 
-function beatsElapsed()
+function beatElapsed(game)
 {
     beatCount++;
     if (currentText != null && currentTextEnd <= beatCount)
     {
-        console.log("DESTROYED TEXT");
-        currentText.destroy();
-        currentText = null;
+        fadeOutText(game);
     }
     generateGameAsset();
+}
+
+function fadeOutText(game)
+{
+    var tween = game.tweens.add({
+        targets: currentText,
+        y: 48,
+        alpha: 0,
+        duration: 1000,
+        onComplete: destroyBody,
+        ease: 'Cubic.easeIn'
+    });
+    currentText = null;
 }
 
 function generateGameAsset()
@@ -554,40 +594,37 @@ function buildEnemy(enemyConfig, game)
     }
     else if (enemyConfig.Type === "LoopRecordStart")
     {
-        y = 22;
+        y = 30;
         graphic = "markers";
         frame = 23 + Number(enemyConfig.SubType);
     }
     else if (enemyConfig.Type === "LoopRecordStop")
     {
-        y = 22;
+        y = 30;
         graphic = "markers";
         frame = 15 + Number(enemyConfig.SubType);
     }
     else if (enemyConfig.Type === "LoopPlayStart")
     {
-        y = 44;
+        y = 55;
         graphic = "markers";
         frame = 7 + Number(enemyConfig.SubType);
     }
     else if (enemyConfig.Type === "LoopPlayStop")
     {
-        y = 22;
+        y = 30;
         graphic = "markers";
         frame = 7 + Number(enemyConfig.SubType);
     }
     else if (enemyConfig.Type === "Palette")
     {
-        y = 22;
+        y = 30;
         graphic = "markers";
         frame = Number(enemyConfig.SubType) - 1;
     }
     else if (enemyConfig.Type === "Text")
     {
-        var textString = enemyConfig.SubType;
-        currentTextEnd = beatCount + enemyConfig.Width;
-        currentText = game.add.text(50, 70, textString, { fontSize: '32px', color: '#FFFFFF' });
-        console.log("Added text: " + textString);
+        CreateText(game, enemyConfig.SubType, enemyConfig.Width);
     }
 
     if (graphic == "") return;
@@ -598,6 +635,22 @@ function buildEnemy(enemyConfig, game)
     enemy.setData('enemy-data', enemyConfig);   // enemy-type
     enemies.push(enemy);
     addEnemyCollisions(game, enemy);
+}
+
+function CreateText(game, textString, width)
+{
+    currentTextEnd = beatCount + width;
+    currentText = game.add.bitmapText(0, 93, 'font', textString);
+    currentText.x = (1366 - currentText.width) / 2;
+    currentText.alpha = 0;
+    var tween = game.tweens.add({
+        targets: currentText,
+        y: 70,
+        alpha: 1,
+        duration: 1700,
+        //onComplete: destroyBody,
+        ease: 'Cubic.easeOut'
+    });
 }
 
 function addEnemyCollisions(game, enemy)
@@ -674,20 +727,22 @@ function ProcessGroundEnemyKilled(enemy)
 
 function ProcessCollectableCollected(enemy)
 {
-    var soundNumber = Number(enemy.getData('enemy-data').SubType) + 9;
+    var gemType = Number(enemy.getData('enemy-data').SubType) + 1;
+    var soundNumber = gemType + 9;
     playSound(soundNumber, null);
 
     enemy.disableBody(true, false);
 
-    collectableEmitter.setPosition(enemy.x, enemy.y);
-    collectableEmitter.explode();
+    collectableEmitters[gemType].setPosition(enemy.x, enemy.y);
+    collectableEmitters[gemType].explode();
 
     var duration = 650 + (Math.random() * 250.0);
 
     var tween = enemy.scene.tweens.add({
         targets: enemy,
         alpha: 0,
-        scale: 3,
+        scaleX: 2,
+        scaleY: 2,
         duration: duration,
         onComplete: destroyBody,
         ease: 'Cubic.easeOut'
@@ -773,9 +828,23 @@ function ProcessMarkerReached(enemy)
     {
         var paletteNum = Number(enemyData.SubType);
         SetupPalette(trackConfig, paletteNum);
-        enemy.isDead = true;
-
     }
+    else
+    {
+        return;
+    }
+
+    var tween = enemy.scene.tweens.add({
+        targets: enemy,
+        scaleX: 2.5,
+        scaleY: 2.5,
+        alpha: 0,
+        duration: 1500,
+        onComplete: destroyBody,
+        ease: 'Cubic.easeIn'
+    });
+
+    enemy.isDead = true;
 }
 
 function getMove(delta)
