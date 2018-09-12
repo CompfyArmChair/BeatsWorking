@@ -205,6 +205,24 @@
       "Track": 0
     },
     {
+      "TimeStamp": 1.0,
+      "Type": "platform",
+      "SubType": null,
+      "YPos": 564,
+      "Width": 2.5,
+      "NoteNum": 0,
+      "Track": 0
+    },
+    {
+      "TimeStamp": 3.5,
+      "Type": "platform",
+      "SubType": null,
+      "YPos": 494,
+      "Width": 2.5,
+      "NoteNum": 0,
+      "Track": 0
+    },
+    {
       "TimeStamp": 7.0,
       "Type": "enemy",
       "SubType": "bird",
