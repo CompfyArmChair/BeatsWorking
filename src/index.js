@@ -35,7 +35,7 @@ var graphics;
 var nextEnemy;
 var dude;
 var dudes = {};
-var dudeStartingHeight = 500;
+var dudeStartingHeight = 499.5;
 
 // Beat calculations
 var smallestBeatInterval = 999;
@@ -114,6 +114,7 @@ function create()
     findSmallestInterval();
     initDude(this);
     buildDude(166, dudeStartingHeight, 'dude', 'none', 0);   
+    dude.setData('going-down', false);
     initKeys(this);
     setupInitialGroundPlatform(this);
     setupParticleEffects(this);
@@ -132,7 +133,7 @@ function buildPlatformBlock(x, y, width, game)
     var platformBlock = game.physics.add.image(x, y, 'ground-block');    
     platformBlock.setDisplaySize(width, 220);
     platformBlock.setOrigin(0,0);
-    platformBlock.setSize(width - 85, 1, false).setOffset(207, 180);
+    platformBlock.setSize(width - 85, 1, false).setOffset(207, 178);
     //platformBlock.setAlpha(0);
      platforms.push(platformBlock); 
      for (var key in dudes) {
@@ -144,13 +145,55 @@ function buildPlatformBlock(x, y, width, game)
 function stop(dude, platformBlock)
 {
     var lastY = dude.getData('last-y');  
-    var yRelativeToPlatform = platformBlock.y - dude.height/2 + 1;
-    debugger;
-    if(lastY < dude.y && lastY <= yRelativeToPlatform)
+    var bounds = platformBlock.getBounds();
+    var yRelativeToPlatform = bounds.y - dude.height/2;
+
+    if(dude.getData('going-down'))
+    {
+        if(!dude.getData('platform'))
+        {
+            dude.setData('platform', platformBlock);
+        }
+    }
+
+    if(!canJumpThroughPlatform(platformBlock))
+    {  
+        if(lastY < dude.y && lastY <= yRelativeToPlatform + 10) //10 gives are margin of error because update delta varies
+        {   
+            dude.setData('going-down', false);
+            dude.setData('platform', undefined);
+            buildDude(dude.x, yRelativeToPlatform, 'dude', 'none', 0);   
+            endJump(game, yRelativeToPlatform);   
+        }
+    }              
+    return true;
+}
+
+function canJumpThroughPlatform(platformBlock)
+{
+    if(dude.getData('platform'))
     {        
-        buildDude(dude.x, platformBlock.y - dude.height/2, 'dude', 'none', 0);   
-        endJump(game, yRelativeToPlatform);   
-    }        
+        return platformBlock === dude.getData('platform') && !isOnLowestPlatform(platformBlock);
+    }
+    else
+    {
+        return false;
+    }
+}
+
+function isOnLowestPlatform(platformBlock)
+{
+    for (let i = 0; i < platforms.length; i++) {
+        const platform = platforms[i];
+        if(platform.x + platform.width >= 166) //pos of dude
+        {
+            debugger;
+            if(platformBlock.y < platform.y)
+            {
+                return false;
+            }
+        }
+    }
     return true;
 }
 
@@ -286,13 +329,13 @@ function initDude(game)
 
 function buildDude(x, y, dudeInstance, action, actionInitiated)
 {   
+
     var yData = dudeStartingHeight;
     if(dude)
-    {        
+    {      
         yData = dude.getData('last-y') === undefined ? dudeStartingHeight : dude.getData('last-y');
         dude.disableBody(true, true);
-    }
-    debugger;
+    } 
     dude = dudes[dudeInstance];    
     dude.x = x;
     dude.y = y;
@@ -349,7 +392,7 @@ function updateDude(time, game, moveAmount)
     {
         processSlide(time, game);
     }
-    else if (dude.getData('action') === 'none' && running || dude.getData('action') === 'falling')
+    else if (dude.getData('action') === 'none' && running || dude.getData('action') === 'falling' || dude.getData('action') === 'fall')
     {
         processFall(moveAmount, game);
     }
@@ -369,7 +412,7 @@ function processSlide(time, game)
 
 function processFall(moveAmount, game)
 {
-    if(dude.getData('action') === 'none')    
+    if(dude.getData('action') === 'none' || dude.getData('action') === 'fall')    
     {
         initFall(); 
     }
@@ -445,7 +488,7 @@ function endJump(game, y)
 {
     if(dude.getData('action') !== 'falling')
     {
-        //ProcessLand();
+        ProcessLand();
     }
 
     startX = 0;
@@ -502,6 +545,10 @@ function processKey(time, game)
         { 
             ProcessDebug(time);
         }
+        else if (Phaser.Input.Keyboard.JustDown(downKey))
+        { 
+            ProcessDrop(time);
+        }
     } 
     else if(dude.getData('action') === 'jumping')
     {
@@ -510,6 +557,12 @@ function processKey(time, game)
             ProcessJumpKick(time);
         }
     }
+}
+
+function ProcessDrop(time)
+{
+    buildDude(dude.x, dude.y, 'jumping-dude', 'fall', time);
+    dude.setData('going-down', true);
 }
 
 function ProcessPunch(time)
@@ -980,10 +1033,13 @@ function getMove(delta)
 
 function playSound(soundNum, time) {
     var soundIndex = currentPalette[soundNum];
-    var source = context.createBufferSource();
-    source.buffer = sounds[soundIndex];
-    source.connect(context.destination);
-    source.start(time);
+    if(soundIndex)
+    {
+        var source = context.createBufferSource();
+        source.buffer = sounds[soundIndex];
+        source.connect(context.destination);
+        source.start(time);
+    }
   }
 
 // =================================================================
