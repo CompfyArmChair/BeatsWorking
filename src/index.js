@@ -11,7 +11,7 @@ var config = {
         default: 'arcade',  
         arcade: {
             gravity: { y: 0 },
-            debug: true
+            debug: false
         }      
     },
     scene: {
@@ -35,7 +35,7 @@ var graphics;
 var nextEnemy;
 var dude;
 var dudes = {};
-var dudeStartingHeight = 499.5;
+var dudeStartingHeight = 486.5;
 
 // Beat calculations
 var smallestBeatInterval = 999;
@@ -88,17 +88,18 @@ function preload()
     this.load.image('rat', 'assets/rat.png');
     this.load.image('bird', 'assets/bird.png');
     this.load.image('ground-block', 'assets/groundblock.png');
-    this.load.image('dude', 'assets/dude.png');
-    this.load.image('kicking-dude', 'assets/kickingDude.png');
-    this.load.image('punching-dude', 'assets/punchingDude.png');
-    this.load.image('jumping-dude', 'assets/jumpingDude.png');
-    this.load.image('sliding-dude', 'assets/slidingDude.png');
-    this.load.image('jump-kick-dude', 'assets/jumpKickDude.png');    
+    //this.load.image('dude', 'assets/dude.png');
+    this.load.image('kicking-dude', 'assets/Brian-Attack0002.png');
+    this.load.image('punching-dude', 'assets/Brian-Attack0001.png');
+    this.load.image('jumping-dude', 'assets/Brian-Jump0000.png');
+    this.load.image('sliding-dude', 'assets/Brian-Slide0000.png');
+    //this.load.image('jump-kick-dude', 'assets/jumpKickDude.png');    
     //this.load.image('lava', 'assets/lava.png');
     this.load.image('block', 'assets/block.png');
     this.load.image('particle1', 'assets/particle.png');
     this.load.image('particle2', 'assets/particle2.png');
     this.load.image('particle3', 'assets/particle3.png');
+    this.load.atlas('brians', 'assets/Briansheet.png', 'assets/Briansheet.json');
     this.load.spritesheet('gems', 'assets/gems.png', { frameWidth: 30, frameHeight: 30 });
     this.load.spritesheet('markers', 'assets/markers.png', { frameWidth: 40, frameHeight: 40 });
     this.load.bitmapFont('font', 'assets/font.png', 'assets/font.fnt');
@@ -106,6 +107,7 @@ function preload()
 
 function create()
 {    
+    this.anims.create({ key: 'brianRun', frames: this.anims.generateFrameNames('brians'), repeat: -1, frameRate: 10 });    
     platformGraphics = this.add.graphics({ fillStyle: { color: 0x696969 } });
     trackConfig = require("./Level 0.json");
     readLevelData(trackConfig);
@@ -146,8 +148,7 @@ function stop(dude, platformBlock)
 {
     var lastY = dude.getData('last-y');  
     var bounds = platformBlock.getBounds();
-    var yRelativeToPlatform = bounds.y - dude.height/2;
-
+    var yRelativeToPlatform = bounds.y - dude.getData('y-bounds')/2;
     if(dude.getData('going-down'))
     {
         if(!dude.getData('platform'))
@@ -161,8 +162,7 @@ function stop(dude, platformBlock)
         if(lastY < dude.y && lastY <= yRelativeToPlatform + 10) //10 gives are margin of error because update delta varies
         {   
             dude.setData('going-down', false);
-            dude.setData('platform', undefined);
-            buildDude(dude.x, yRelativeToPlatform, 'dude', 'none', 0);   
+            dude.setData('platform', undefined);            
             endJump(game, yRelativeToPlatform);   
         }
     }              
@@ -177,6 +177,7 @@ function canJumpThroughPlatform(platformBlock)
     }
     else
     {
+        debugger;
         return false;
     }
 }
@@ -313,16 +314,27 @@ function initKeys(game)
 
 function initDude(game)
 {    
-    dudes['dude'] = game.physics.add.image(166, dudeStartingHeight, 'dude');
+    dudes['dude'] = game.physics.add.sprite(166, dudeStartingHeight, 'brians');
+    dudes['dude'].play('brianRun');
+    dudes['dude'].setSize(166, 155, true);
+    dudes['dude'].setData('y-bounds', 155);
     dudes['dude'].disableBody(true, true);
     dudes['kicking-dude'] = game.physics.add.image(166, dudeStartingHeight, 'kicking-dude');
     dudes['kicking-dude'].disableBody(true, true);
+    dudes['kicking-dude'].setSize(166, 155, true);
+    dudes['kicking-dude'].setData('y-bounds', 155);
     dudes['punching-dude'] = game.physics.add.image(166, dudeStartingHeight, 'punching-dude');
     dudes['punching-dude'].disableBody(true, true);
+    dudes['punching-dude'].setSize(166, 155, true);
+    dudes['punching-dude'].setData('y-bounds', 155);
     dudes['jumping-dude'] = game.physics.add.image(166, dudeStartingHeight, 'jumping-dude');
     dudes['jumping-dude'].disableBody(true, true);
+    dudes['jumping-dude'].setSize(166, 155, true);
+    dudes['jumping-dude'].setData('y-bounds', 155);
     dudes['sliding-dude'] = game.physics.add.image(166, dudeStartingHeight, 'sliding-dude');
     dudes['sliding-dude'].disableBody(true, true);
+    dudes['sliding-dude'].setSize(166, 155, true);
+    dudes['sliding-dude'].setData('y-bounds', 155);
     // dudes['jump-kick-dude'] = game.physics.add.image(166, 499, 'jump-kick-dude');
     // dudes['jump-kick-dude'].disableBody(true, true);
 }
@@ -339,7 +351,7 @@ function buildDude(x, y, dudeInstance, action, actionInitiated)
     dude = dudes[dudeInstance];    
     dude.x = x;
     dude.y = y;
-    dude.enableBody(true, x, y, true, true);
+    dude.enableBody(false, x, y, true, true);
     setDude(dude, action, actionInitiated, yData);
 }
 
@@ -510,12 +522,12 @@ function processAttack(time, game)
 
     var smallestInterval = beatDuration * smallestBeatInterval;
 
-    if((delta) >= ((smallestInterval * 1000)/4) && dude.getData('action') !== 'returning')
+    if((delta) >= ((smallestInterval * 1000)) && dude.getData('action') !== 'returning')
     {
         var actionInitiated = dude.getData('action-initiated'); 
         buildDude(dude.x, dude.y, 'dude', 'returning', actionInitiated);
     } 
-    else if(delta >= (smallestInterval * 1000/2))
+    else if(delta >= (smallestInterval * 1000))
     {
         setDude(dude,'none', 0);
     }
@@ -594,7 +606,7 @@ function ProcessLand(time)
 
 function ProcessSlide(time)
 {
-    buildDude(dude.x, 550, 'sliding-dude', 'slide', time);
+    buildDude(dude.x, dude.y, 'sliding-dude', 'slide', time);
     playSound(5, null);
 }
 

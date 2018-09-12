@@ -1,0 +1,108 @@
+{"frames": [
+
+{
+	"filename": "Brian-Run0000.png",
+	"frame": {"x":209,"y":320,"w":132,"h":164},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":32,"w":132,"h":164},
+	"sourceSize": {"w":166,"h":235}
+},
+{
+	"filename": "Brian-Run0001.png",
+	"frame": {"x":130,"y":1,"w":120,"h":153},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":24,"y":43,"w":120,"h":153},
+	"sourceSize": {"w":166,"h":235}
+},
+{
+	"filename": "Brian-Run0002.png",
+	"frame": {"x":1,"y":155,"w":96,"h":156},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":42,"y":40,"w":96,"h":156},
+	"sourceSize": {"w":166,"h":235}
+},
+{
+	"filename": "Brian-Run0003.png",
+	"frame": {"x":1,"y":313,"w":96,"h":161},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":44,"y":35,"w":96,"h":161},
+	"sourceSize": {"w":166,"h":235}
+},
+{
+	"filename": "Brian-Run0004.png",
+	"frame": {"x":343,"y":320,"w":129,"h":167},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":29,"y":28,"w":129,"h":167},
+	"sourceSize": {"w":166,"h":235}
+},
+{
+	"filename": "Brian-Run0005.png",
+	"frame": {"x":252,"y":1,"w":139,"h":155},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":25,"y":30,"w":139,"h":155},
+	"sourceSize": {"w":166,"h":235}
+},
+{
+	"filename": "Brian-Run0006.png",
+	"frame": {"x":322,"y":158,"w":134,"h":160},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":35,"w":134,"h":160},
+	"sourceSize": {"w":166,"h":235}
+},
+{
+	"filename": "Brian-Run0007.png",
+	"frame": {"x":1,"y":1,"w":127,"h":152},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":30,"y":44,"w":127,"h":152},
+	"sourceSize": {"w":166,"h":235}
+},
+{
+	"filename": "Brian-Run0008.png",
+	"frame": {"x":393,"y":1,"w":97,"h":155},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":60,"y":41,"w":97,"h":155},
+	"sourceSize": {"w":166,"h":235}
+},
+{
+	"filename": "Brian-Run0009.png",
+	"frame": {"x":225,"y":158,"w":95,"h":158},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":46,"y":37,"w":95,"h":158},
+	"sourceSize": {"w":166,"h":235}
+},
+{
+	"filename": "Brian-Run0010.png",
+	"frame": {"x":99,"y":314,"w":108,"h":166},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":35,"y":29,"w":108,"h":166},
+	"sourceSize": {"w":166,"h":235}
+},
+{
+	"filename": "Brian-Run0011.png",
+	"frame": {"x":99,"y":156,"w":124,"h":156},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":19,"y":30,"w":124,"h":156},
+	"sourceSize": {"w":166,"h":235}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "Briansheet.png",
+	"format": "RGBA8888",
+	"size": {"w":491,"h":488},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:eee8ebee8cd932166f2f0c3a62ddc62c:5e02246ce4e37ef984bd20524a6cca94:8ccdec8724c51f9aaaedf0a9f2659b38$"
+}
+}
