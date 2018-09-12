@@ -133,7 +133,7 @@ function buildPlatformBlock(x, y, width, game)
     platformBlock.setDisplaySize(width, 220);
     platformBlock.setOrigin(0,0);
     platformBlock.setSize(width - 85, 1, false).setOffset(207, 180);
-    
+    //platformBlock.setAlpha(0);
      platforms.push(platformBlock); 
      for (var key in dudes) {
         var dude = dudes[key];
@@ -144,11 +144,12 @@ function buildPlatformBlock(x, y, width, game)
 function stop(dude, platformBlock)
 {
     var lastY = dude.getData('last-y');  
-    if(lastY < dude.y)
+    var yRelativeToPlatform = platformBlock.y - dude.height/2 + 1;
+    debugger;
+    if(lastY < dude.y && lastY <= yRelativeToPlatform)
     {        
-        debugger;
         buildDude(dude.x, platformBlock.y - dude.height/2, 'dude', 'none', 0);   
-        endJump(game, platformBlock.y - dude.height/2 + 1);   
+        endJump(game, yRelativeToPlatform);   
     }        
     return true;
 }
@@ -592,25 +593,12 @@ function calculateBeatsElapsed(time, delta, game)
         // timeElapsed -= bDuration;        Seems as though it should be this instead, but it's (maybe?) causing issues
         running = true;
         timeElapsed = 0;
-<<<<<<< Updated upstream
         
         beatElapsed(game);
     }
 }
 
 function beatElapsed(game)
-=======
-        beatsElapsed();;
-    }
-}
-
-// function isGapDuringNextBeat()
-// {
-//     return false;
-// }
-
-function beatsElapsed()
->>>>>>> Stashed changes
 {
     beatCount++;
     if (currentText != null && currentTextEnd <= beatCount)
@@ -620,7 +608,6 @@ function beatsElapsed()
     generateBeatLine(); 
 }
 
-<<<<<<< Updated upstream
 function fadeOutText(game)
 {
     var tween = game.tweens.add({
@@ -634,15 +621,7 @@ function fadeOutText(game)
     currentText = null;
 }
 
-function generateGameAsset()
-{
-    generateBeatLine();
-}
-
-function generateEnemy(game)
-=======
 function generateAsset(game)
->>>>>>> Stashed changes
 {
     var i = 0;
     for (i; i < trackConfig.GameEvents.length; i++) {
