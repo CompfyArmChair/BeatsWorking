@@ -11,7 +11,7 @@ var config = {
         default: 'arcade',  
         arcade: {
             gravity: { y: 0 },
-            debug: false
+            debug: true
         }      
     },
     scene: {
@@ -135,14 +135,17 @@ function buildPlatformBlock(x, y, width, game)
     var platformBlock = game.physics.add.image(x, y, 'ground-block');    
     platformBlock.setDisplaySize(width, 220);
     platformBlock.setOrigin(0,0);
-    platformBlock.setSize(width - 85, 1, false).setOffset(207, 178);
+    platformBlock.width = width;
+    platformBlock.setOffset(207, 178);
     //platformBlock.setAlpha(0);
-     platforms.push(platformBlock); 
-     for (var key in dudes) {
+    for (var key in dudes) {
         var dude = dudes[key];
         game.physics.add.overlap(dude, platformBlock, stop);
     }
+    platforms.push(platformBlock); 
 }
+
+var onDebug = false
 
 function stop(dude, platformBlock)
 {
@@ -150,13 +153,17 @@ function stop(dude, platformBlock)
     var bounds = platformBlock.getBounds();
     var yRelativeToPlatform = bounds.y - dude.getData('y-bounds')/2;
     if(dude.getData('going-down'))
-    {
+    { onDebug = true;
         if(!dude.getData('platform'))
         {
             dude.setData('platform', platformBlock);
         }
     }
 
+    if(onDebug)
+    {
+        debugger;
+    }
     if(!canJumpThroughPlatform(platformBlock))
     {  
         if(lastY < dude.y && lastY <= yRelativeToPlatform + 10) //10 gives are margin of error because update delta varies
@@ -177,7 +184,6 @@ function canJumpThroughPlatform(platformBlock)
     }
     else
     {
-        debugger;
         return false;
     }
 }
@@ -186,7 +192,7 @@ function isOnLowestPlatform(platformBlock)
 {
     for (let i = 0; i < platforms.length; i++) {
         const platform = platforms[i];
-        if(platform.x + platform.width >= 166) //pos of dude
+        if(platform.x + platform.width >= -166) //pos of dude
         {
             debugger;
             if(platformBlock.y < platform.y)
@@ -512,7 +518,7 @@ function endJump(game, y)
     jumpDestinationX = 0;
     jumpDestinationY = 0;
     
-    buildDude( dude.x, y, 'dude', 'none', 0);
+    buildDude(dude.x, y, 'dude', 'none', 0);
 }
 
 function processAttack(time, game)
@@ -716,6 +722,7 @@ function generateAsset(game)
 
 function buildPlatform(platformConfig, game)
 {
+    debugger;
     var y = platformConfig.YPos;
     var width = platformConfig.Width * ppb;
     buildPlatformBlock(levelWidth, y, width, game);
@@ -935,9 +942,10 @@ function updatePlatforms(moveAmount)
         platformGraphics.clear();        
         for (let i = 0; i < platforms.length; i++) {
             var platform = platforms[i];        
-            if(platform.x <= 0 - (platform.width * 4) + 200)
+            if(platform.x + platform.width * 4 <= 0)
             {
                 platform.destroy();
+                debugger;
                 platform = null;
                 platforms.splice(i, 1);
             }
