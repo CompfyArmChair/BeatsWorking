@@ -1,0 +1,307 @@
+{
+  "Name": "Tutorial",
+  "Tempo": 100.0,
+  "SampleList": [
+    "Sound/Tutorial/1.2 Snare.wav",
+    "Sound/Tutorial/1.1 Kick.wav",
+    "Sound/Tutorial/2.1 Bass 1.wav",
+    "Sound/Tutorial/2.2 Bass 2.wav",
+    "Sound/Tutorial/2.3 Bass 3.wav",
+    "Sound/Tutorial/2.4 Bass 4.wav",
+    "Sound/Tutorial/2.5 Bass 5.wav",
+    "Sound/Tutorial/3.1 Chime 1.wav",
+    "Sound/Tutorial/3.2 Chime 2.wav",
+    "Sound/Tutorial/3.3 Chime 3.wav",
+    "Sound/Tutorial/3.4 Chime 4.wav",
+    "Sound/Tutorial/3.5 Chime 5.wav",
+    "Sound/Tutorial/3.6 Chime 6.wav",
+    "Sound/Tutorial/3.7 Chime 7.wav"
+  ],
+  "TrackInfos": [
+    {
+      "TrackNumber": 1,
+      "TranslationInfos": [
+        {
+          "SourceNumber": 1,
+          "DestinationType": "enemy",
+          "DestinationSubType": "rat"
+        },
+        {
+          "SourceNumber": 2,
+          "DestinationType": "enemy",
+          "DestinationSubType": "bird"
+        }
+      ],
+      "SampleMaps": [
+        {
+          "SourceAction": "punch",
+          "SampleFile": "1.2 Snare.wav",
+          "SourceActionIndex": 2,
+          "SampleFileIndex": 0
+        },
+        {
+          "SourceAction": "kick",
+          "SampleFile": "1.1 Kick.wav",
+          "SourceActionIndex": 1,
+          "SampleFileIndex": 1
+        }
+      ]
+    },
+    {
+      "TrackNumber": 2,
+      "TranslationInfos": [
+        {
+          "SourceNumber": 1,
+          "DestinationType": "block",
+          "DestinationSubType": null
+        },
+        {
+          "SourceNumber": 2,
+          "DestinationType": null,
+          "DestinationSubType": null
+        },
+        {
+          "SourceNumber": 3,
+          "DestinationType": "enemy",
+          "DestinationSubType": "rat"
+        },
+        {
+          "SourceNumber": 4,
+          "DestinationType": "enemy",
+          "DestinationSubType": "bird"
+        },
+        {
+          "SourceNumber": 5,
+          "DestinationType": "lava",
+          "DestinationSubType": null
+        }
+      ],
+      "SampleMaps": [
+        {
+          "SourceAction": "slide",
+          "SampleFile": "2.1 Bass 1.wav",
+          "SourceActionIndex": 5,
+          "SampleFileIndex": 2
+        },
+        {
+          "SourceAction": "land",
+          "SampleFile": "2.2 Bass 2.wav",
+          "SourceActionIndex": 4,
+          "SampleFileIndex": 3
+        },
+        {
+          "SourceAction": "kick",
+          "SampleFile": "2.3 Bass 3.wav",
+          "SourceActionIndex": 1,
+          "SampleFileIndex": 4
+        },
+        {
+          "SourceAction": "punch",
+          "SampleFile": "2.4 Bass 4.wav",
+          "SourceActionIndex": 2,
+          "SampleFileIndex": 5
+        },
+        {
+          "SourceAction": "jump",
+          "SampleFile": "2.5 Bass 5.wav",
+          "SourceActionIndex": 3,
+          "SampleFileIndex": 6
+        }
+      ]
+    },
+    {
+      "TrackNumber": 3,
+      "TranslationInfos": [
+        {
+          "SourceNumber": 1,
+          "DestinationType": "gem",
+          "DestinationSubType": "1"
+        },
+        {
+          "SourceNumber": 2,
+          "DestinationType": "gem",
+          "DestinationSubType": "2"
+        },
+        {
+          "SourceNumber": 3,
+          "DestinationType": "gem",
+          "DestinationSubType": "3"
+        },
+        {
+          "SourceNumber": 4,
+          "DestinationType": "gem",
+          "DestinationSubType": "4"
+        },
+        {
+          "SourceNumber": 5,
+          "DestinationType": "gem",
+          "DestinationSubType": "5"
+        },
+        {
+          "SourceNumber": 6,
+          "DestinationType": "gem",
+          "DestinationSubType": "6"
+        },
+        {
+          "SourceNumber": 7,
+          "DestinationType": "gem",
+          "DestinationSubType": "7"
+        }
+      ],
+      "SampleMaps": [
+        {
+          "SourceAction": "gem1",
+          "SampleFile": "3.1 Chime 1.wav",
+          "SourceActionIndex": 10,
+          "SampleFileIndex": 7
+        },
+        {
+          "SourceAction": "gem2",
+          "SampleFile": "3.2 Chime 2.wav",
+          "SourceActionIndex": 11,
+          "SampleFileIndex": 8
+        },
+        {
+          "SourceAction": "gem3",
+          "SampleFile": "3.3 Chime 3.wav",
+          "SourceActionIndex": 12,
+          "SampleFileIndex": 9
+        },
+        {
+          "SourceAction": "gem4",
+          "SampleFile": "3.4 Chime 4.wav",
+          "SourceActionIndex": 13,
+          "SampleFileIndex": 10
+        },
+        {
+          "SourceAction": "gem5",
+          "SampleFile": "3.5 Chime 5.wav",
+          "SourceActionIndex": 14,
+          "SampleFileIndex": 11
+        },
+        {
+          "SourceAction": "gem6",
+          "SampleFile": "3.6 Chime 6.wav",
+          "SourceActionIndex": 15,
+          "SampleFileIndex": 12
+        },
+        {
+          "SourceAction": "gem7",
+          "SampleFile": "3.7 Chime 7.wav",
+          "SourceActionIndex": 16,
+          "SampleFileIndex": 13
+        }
+      ]
+    }
+  ],
+  "GameEvents": [
+    {
+      "TimeStamp": 5.0,
+      "Type": "Text",
+      "SubType": "Text at time 5.",
+      "YPos": 0,
+      "Width": 12.0,
+      "NoteNum": 0,
+      "Track": 0
+    },
+    {
+      "TimeStamp": 8.0,
+      "Type": "Palette",
+      "SubType": "3",
+      "YPos": 0,
+      "Width": 0.0,
+      "NoteNum": 0,
+      "Track": 0
+    },
+    {
+      "TimeStamp": 10.0,
+      "Type": "LoopRecordStart",
+      "SubType": "3",
+      "YPos": 0,
+      "Width": 8.0,
+      "NoteNum": 0,
+      "Track": 0
+    },
+    {
+      "TimeStamp": 10.0,
+      "Type": "gem",
+      "SubType": "3",
+      "YPos": 0,
+      "Width": 0.0,
+      "NoteNum": 54,
+      "Track": 3
+    },
+    {
+      "TimeStamp": 11.0,
+      "Type": "gem",
+      "SubType": "5",
+      "YPos": 0,
+      "Width": 0.0,
+      "NoteNum": 57,
+      "Track": 3
+    },
+    {
+      "TimeStamp": 12.0,
+      "Type": "gem",
+      "SubType": "4",
+      "YPos": 0,
+      "Width": 0.0,
+      "NoteNum": 56,
+      "Track": 3
+    },
+    {
+      "TimeStamp": 13.0,
+      "Type": "gem",
+      "SubType": "7",
+      "YPos": 0,
+      "Width": 0.0,
+      "NoteNum": 61,
+      "Track": 3
+    },
+    {
+      "TimeStamp": 14.0,
+      "Type": "gem",
+      "SubType": "1",
+      "YPos": 0,
+      "Width": 0.0,
+      "NoteNum": 61,
+      "Track": 3
+    },
+    {
+      "TimeStamp": 15.0,
+      "Type": "gem",
+      "SubType": "6",
+      "YPos": 0,
+      "Width": 0.0,
+      "NoteNum": 61,
+      "Track": 3
+    },
+    {
+      "TimeStamp": 16.0,
+      "Type": "gem",
+      "SubType": "1",
+      "YPos": 0,
+      "Width": 0.0,
+      "NoteNum": 61,
+      "Track": 3
+    },
+    {
+      "TimeStamp": 17.0,
+      "Type": "gem",
+      "SubType": "5",
+      "YPos": 0,
+      "Width": 0.0,
+      "NoteNum": 61,
+      "Track": 3
+    },
+    {
+      "TimeStamp": 18.0,
+      "Type": "LoopPlayStart",
+      "SubType": "3",
+      "YPos": 0,
+      "Width": 0.0,
+      "NoteNum": 0,
+      "Track": 0
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+    "enemies" : 
+    [
+        {
+            "type" : "ground",
+            "entry" : 1
+        },
+        {
+            "type" : "air",
+            "entry" : 1.5
+        },
+        {
+            "type" : "ground",
+            "entry" : 3
+        },
+        {
+            "type" : "ground",
+            "entry" : 3.5
+        },
+        {
+            "type" : "air",
+            "entry" : 4
+        },
+        {
+            "type" : "ground",
+            "entry" : 5
+        },
+        {
+            "type" : "air",
+            "entry" : 5.5
+        },
+        {
+            "type" : "ground",
+            "entry" : 7
+        },
+        {
+            "type" : "ground",
+            "entry" : 7.5
+        },
+        {
+            "type" : "air",
+            "entry" : 8
+        },
+        {
+            "type" : "ground",
+            "entry" : 9
+        },
+        {
+            "type" : "air",
+            "entry" : 9.5
+        },
+        {
+            "type" : "ground",
+            "entry" : 11
+        },
+        {
+            "type" : "ground",
+            "entry" : 11.5
+        },
+        {
+            "type" : "air",
+            "entry" : 12
+        }
+    ]
+}
