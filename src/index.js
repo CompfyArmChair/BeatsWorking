@@ -1,4 +1,220 @@
+  
+// =================================================================
+// AUDIO LOOPER
+// =================================================================
+
+var SequencePreCue = 0;
+var LoopState = Object.freeze({"stopped":1, "playing":2, "recording":3})
+
+class LooperManager
+{
+    constructor()
+    {
+        this.Loopers = [];
+    }
+
+    StartRecording(channel, currentBeat, loopLength)
+    {
+        console.log("Start recording: " + channel);
+        if (this.Loopers[channel] == null)
+        {
+            this.Loopers[channel] = new Looper(loopLength);
+        }
+        this.Loopers[channel].StartRecording(currentBeat - SequencePreCue);
+    }
+
+    StartPlayback(channel, currentBeat)
+    {
+        console.log("Start playback: " + channel);
+        if (this.Loopers[channel] == null)
+        {
+            this.Loopers[channel] = new Looper();
+        }
+        this.Loopers[channel].StartPlayback(currentBeat);
+    }
+
+    Stop(channel)
+    {
+        this.Loopers[channel].Stop();
+    }
+
+    Mute(channel)
+    {
+        this.Loopers[channel].Mute();
+    }
+
+    Unmute(channel)
+    {
+        this.Loopers[channel].Unmute();
+    }
+
+    SoundPlayed(currentBeat, channel, soundNumber)
+    {
+        //console.log("LooperManager tried to play sound");
+        if (this.Loopers[channel] != null)
+        {
+            this.Loopers[channel].SoundPlayed(currentBeat, soundNumber);
+        }
+    }
+
+    ProcessTick(currentBeat)
+    {
+        for (var key in this.Loopers)
+        {
+            var looper = this.Loopers[key];
+            looper.ProcessTick(currentBeat);
+        }
+    }
+}
+
+class Looper
+{
+    constructor(loopLength)
+    {
+        if (loopLength == 0)
+            this.LoopLength = 16;
+        else
+            this.LoopLength = loopLength;
+        this.State = LoopState.stopped;
+        this.Muted = false;
+        this.StartBeat = 0;
+        this.Events = [];
+        this.CurrentEventIndex = 0;
+        this.LastPosition = 0;
+        this.HasPassedLastNote = false;
+        this.QuantiseStrength = 0;
+        this.QuantiseResolution = 0.25;
+    }
+
+    StartRecording(currentBeat)
+    {
+        this.StartBeat = currentBeat;
+        this.State = LoopState.recording;
+    }
+
+    StartPlayback(currentBeat)
+    {
+        this.Events.sort(function(a, b) {
+            return parseFloat(a.Beat) - parseFloat(b.Beat);
+        });
+        this.StartBeat = currentBeat;
+        this.State = LoopState.playing;
+        this.CurrentEventIndex = 0;
+        this.LastPosition = 0;
+        this.HasPassedLastNote = false;
+        this.DebugOutputSequence();
+    }
+
+    DebugOutputSequence()
+    {
+        console.log ("SEQUENCE");
+        for (var i = 0; i < this.Events.length; i++)
+        {
+            var ev = this.Events[i];
+            console.log (i + ": " + ev.Beat + " - " + ev.Note);
+        }
+    }
+
+    Stop()
+    {
+        this.State = LoopState.stopped;
+    }
+
+    Mute()
+    {
+        this.Muted = true;
+    }
+
+    Unmute()
+    {
+        this.Muted = false;
+    }
+
+    CurrentPosition(currentBeat)
+    {
+        return (currentBeat - this.StartBeat) % this.LoopLength;
+    }
+
+    SoundPlayed(currentBeat, soundNumber)
+    {
+        if (this.State != LoopState.recording)
+            return;
+
+        var position = this.CurrentPosition(currentBeat)
+        position = this.QuantiseBeat(position);
+
+        this.Events.push(new LooperNote(position, soundNumber));
+    }
+
+    QuantiseBeat(beat)
+    {
+        //console.log("INPUT BEAT: " + beat)
+        if (this.QuantiseStrength > 0)
+        {
+            beat = beat / this.QuantiseResolution;
+            beat = Math.round(beat);
+            beat = beat * this.QuantiseResolution;
+        }
+        //console.log("QUANTISED BEAT: " + beat)
+        return beat;
+    }
+
+    ProcessTick(currentBeat)
+    {
+        if (this.State != LoopState.playing)
+            return;
+
+        if (this.Events.length == 0)
+            return;
+
+        var position = this.CurrentPosition(currentBeat);
+
+        //console.log("CurrentPosition: " + position);
+        //console.log("CurrentBeat: " + currentBeat);
+        //console.log("StartBeat: " + this.StartBeat);
+        //console.log("this.Events.length: " + this.Events.length);
+
+        if (this.LastPosition > position)
+            this.HasPassedLastNote = false;
+        else if (this.HasPassedLastNote)
+            return;
+
+        while (this.Events[this.CurrentEventIndex].Beat <= position)
+        {
+            if (!this.Muted)
+            {
+                playSoundFromLooper(this.Events[this.CurrentEventIndex].Note);
+                //console.log("Looper played: NOTE " + this.Events[this.CurrentEventIndex].Note + " (INDEX " + this.CurrentEventIndex + "/" + this.Events.length + ") @ " + position);
+            }
+            this.CurrentEventIndex++;
+            if (this.CurrentEventIndex == this.Events.length)
+            {
+                this.CurrentEventIndex = 0;
+                this.HasPassedLastNote = true;
+                break;
+            }
+        }
+
+        this.LastPosition = position;
+    }
+}
+
+class LooperNote
+{
+    constructor(beat, note)
+    {
+        this.Beat = beat;
+        this.Note = note;
+    }
+}
+  
+  
+// =================================================================
+// GAME
+// =================================================================
+
 import 'phaser';
+var levelsConfig;
 var trackConfig;
 
 var config = {
@@ -21,12 +237,23 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
+var storeThis;
+
 /*********Game control variables********/
 var bpm = 112;
 //pixels per beat
 var ppb = 200;
 /***************************************/
 
+// Game state
+var GameStateEnum = Object.freeze({"title":1, "playing":2, "gameover":3})
+var GameState = GameStateEnum.title;
+
+// Title screen
+var titleImage;
+var levelNames;
+
+// Game entities
 var beatlines = [];
 var enemies = [];
 var graphics;
@@ -39,6 +266,8 @@ var smallestBeatInterval = 999;
 var timeElapsed = 0;
 var timeInit = 0;
 var beatCount = 0;        // 168 = gems
+var totalTimeElapsed;
+var totalBeatCountElapsed;
 
 // Keys
 var punchKey;
@@ -64,6 +293,7 @@ var context;
 var bufferLoader;
 var timeoutID;
 var sounds;
+var looperManager;
 
 // Particle effects
 var enemyDeathParticle;
@@ -75,42 +305,110 @@ var collectableEmitters = [];
 var currentTextEnd;
 var currentText;
 
+// Background
+var backgroundImage;
+
 
 function preload()
 {
+    // Title screen
+    this.load.image('title', 'assets/title.png');
+
+    // Enemies
     this.load.image('rat', 'assets/rat.png');
     this.load.image('bird', 'assets/bird.png');
-    this.load.image('ground-block', 'assets/groundblock.png');
+
+    // Brian
     this.load.image('dude', 'assets/dude.png');
     this.load.image('kicking-dude', 'assets/kickingDude.png');
     this.load.image('punching-dude', 'assets/punchingDude.png');
     this.load.image('jumping-dude', 'assets/jumpingDude.png');
     this.load.image('sliding-dude', 'assets/slidingDude.png');
     this.load.image('jump-kick-dude', 'assets/jumpKickDude.png');    
+
+    // Misc
+    this.load.image('ground-block', 'assets/groundblock.png');
     this.load.image('lava', 'assets/lava.png');
     this.load.image('block', 'assets/block.png');
+
+    // Particles
     this.load.image('particle1', 'assets/particle.png');
     this.load.image('particle2', 'assets/particle2.png');
     this.load.image('particle3', 'assets/particle3.png');
+
+    // Backgrounds
+    this.load.image('background0', 'assets/Background 0.png');
+    this.load.image('background1', 'assets/Background 1.png');
+    this.load.image('background2', 'assets/Background 2.png');
+
+    // Sprites
     this.load.spritesheet('gems', 'assets/gems.png', { frameWidth: 30, frameHeight: 30 });
     this.load.spritesheet('markers', 'assets/markers.png', { frameWidth: 40, frameHeight: 40 });
+
+    // Fonts
     this.load.bitmapFont('font', 'assets/font.png', 'assets/font.fnt');
+    this.load.bitmapFont('font2', 'assets/font2.png', 'assets/font2.fnt');
 }
 
 function create()
 {    
-    trackConfig = require("./Level 0.json");
-    readLevelData(trackConfig);
-    nextEnemyEntry = trackConfig.GameEvents[0].TimeStamp;
-    graphics = this.add.graphics({ lineStyle: { width: 2, color: 0xaa0000 }, fillStyle: { color: 0x0000aa } });
-    findSmallestInterval();
-    initDude(this);
-    buildDude(166, 500, 'dude', 'none', 0);    
-    initKeys(this);
-    setupParticleEffects(this);
-    setupSound(trackConfig);
-    debugLogLevelInfo();
+    storeThis = this;
+    levelsConfig = require("./levels.json");
+    setupTitleScreen(this);
 }
+
+function setupTitleScreen(game)
+{
+    var argh = this;
+    levelNames = [];
+    titleImage = game.add.image(0, 0, "title").setOrigin(0);
+    for (var i = 0; i < levelsConfig.Levels.length; i++)
+    {
+        var level = levelsConfig.Levels[i];
+        var text = game.add.bitmapText(930, 130 + (i * 44), 'font2', level.Name);
+        text.LevelNum = i;
+        text.LevelName = level.Name;
+        text.setInteractive();
+        text.on('pointerover', function () {
+            this.text = this.LevelName + " *";
+        }); 
+        text.on('pointerout', function () {
+            this.text = this.LevelName;
+        });
+        text.on('pointerdown', function () {
+            levelNames.push(titleImage);
+            var tween = game.tweens.add({
+                targets: levelNames,
+                alpha: 0,
+                duration: 1000,
+                //onComplete: function() { startLevel(); }, this,
+                //onComplete: startLevel,
+                //onCompleteScope: argh,
+                //onCompleteParams: i,
+                ease: 'Cubic.easeIn'
+            });
+            //tween.callbacks.onComplete = startLevel();
+            //setTimeout(startLevel, 1100);
+            setupLevel(this.LevelNum, game);
+            //titleImage.destroy();
+        });
+        levelNames.push(text);
+    }
+}
+
+
+function startLevel(levelNum, game)
+{
+    setupLevel.call(levelNum, game);
+}
+
+/*
+function startLevel(newThis, targets, levelNum)
+{
+    setupLevel.call(newThis, levelNum);
+    //setupLevel(newThis, levelNum);
+}
+*/
 
 function setupParticleEffects(game)
 {
@@ -148,6 +446,8 @@ function setupParticleEffects(game)
         });
         collectableEmitters[i] = collectableEmitter;
     }
+
+    console.log("Set up particles");
 }
 
 function findTintForCollectable(soundNumber)
@@ -178,9 +478,50 @@ function continueSetup(soundList)
     console.log("Set up " + sounds.length + " sounds.")
 }
 
-function readLevelData(trackConfig)
+function setupLevel(levelNum, game)
 {
+    trackConfig = levelsConfig.Levels[levelNum];
     bpm = trackConfig.Tempo;
+
+    beatlines = [];
+    enemies = [];
+    smallestBeatInterval = 999;
+    timeElapsed = 0;
+    timeInit = 0;
+    beatCount = 0;        // 168 = gems
+    totalTimeElapsed = 0;
+    totalBeatCountElapsed = 0;
+    
+    startX = 0;
+    startY = 0;
+    jumpX = 0;
+    jumpY = 400;
+    jumpDestinationX = 0;
+    jumpDestinationY = 0;
+    jumpProgressX = 0;
+    
+    currentTextEnd = 0;
+    currentText = null;
+
+    setupBackgroundImage(game, trackConfig);
+
+    initKeys(game);
+    setupParticleEffects(game);
+    graphics = game.add.graphics({ lineStyle: { width: 2, color: 0xaa0000 }, fillStyle: { color: 0x0000aa } });
+
+    nextEnemyEntry = trackConfig.GameEvents[0].TimeStamp;
+    findSmallestInterval();
+    initDude(game);
+    buildDude(166, 500, 'dude', 'none', 0);    
+    setupSound(trackConfig);
+    debugLogLevelInfo();
+
+    GameState = GameStateEnum.playing;
+}
+
+function setupBackgroundImage(game, trackConfig)
+{
+    backgroundImage = game.add.image(0, 0, trackConfig.Background).setOrigin(0);
 }
 
 function setupSound(trackConfig)
@@ -196,6 +537,8 @@ function setupSound(trackConfig)
         );
     
     bufferLoader.load();
+
+    looperManager = new LooperManager();
 }
 
 function SetupPalette(trackConfig, trackNumber)
@@ -278,13 +621,22 @@ function setDude(dude, action, actionInitiated)
 }
 
 function update(time, delta)
-{       
-    processKey(time, this);
-    var moveAmount = getMove(delta);
-    calculateBeatsElapsed(time, delta, this);
-    updateBeatLines(moveAmount);
-    updateEnemies(moveAmount);
-    updateDude(time, this, moveAmount);
+{
+    var GameStateEnum = Object.freeze({"title":1, "playing":2, "gameover":3})
+
+    if (GameState == GameStateEnum.playing)
+        processKey(time, this);
+
+    if (GameState != GameStateEnum.title)
+    {
+        var moveAmount = getMove(delta);
+        calculateBeatsElapsed(time, delta, this);
+        updateBeatLines(moveAmount);
+        updateEnemies(moveAmount);
+    }
+
+    if (GameState == GameStateEnum.playing)
+        updateDude(time, this, moveAmount);
 }
 
 function updateDude(time, game, moveAmount)
@@ -493,9 +845,14 @@ function calculateBeatsElapsed(time, delta, game)
 
     var bDuration = (60/bpm) * 1000
     
-    var totalBeatCountElapsed = (beatCount * bDuration) + timeElapsed;
+    totalTimeElapsed = (beatCount * bDuration) + timeElapsed;
+    totalBeatCountElapsed = beatCount + (timeElapsed / bDuration);
     
-    if (totalBeatCountElapsed >= (nextEnemyEntry * bDuration))
+    backgroundImage.x = -((backgroundImage.width - 1366) * (totalBeatCountElapsed / trackConfig.LevelEnd));
+
+    looperManager.ProcessTick(totalBeatCountElapsed);
+    
+    if (totalTimeElapsed >= (nextEnemyEntry * bDuration))
     {
         generateEnemy(game);
     }
@@ -614,7 +971,7 @@ function buildEnemy(enemyConfig, game)
     {
         y = 30;
         graphic = "markers";
-        frame = 7 + Number(enemyConfig.SubType);
+        frame = 15 + Number(enemyConfig.SubType);
     }
     else if (enemyConfig.Type === "Palette")
     {
@@ -648,7 +1005,6 @@ function CreateText(game, textString, width)
         y: 70,
         alpha: 1,
         duration: 1700,
-        //onComplete: destroyBody,
         ease: 'Cubic.easeOut'
     });
 }
@@ -728,7 +1084,7 @@ function ProcessGroundEnemyKilled(enemy)
 function ProcessCollectableCollected(enemy)
 {
     var gemType = Number(enemy.getData('enemy-data').SubType) + 1;
-    var soundNumber = gemType + 9;
+    var soundNumber = gemType + 8;      // 9? 10?
     playSound(soundNumber, null);
 
     enemy.disableBody(true, false);
@@ -799,14 +1155,14 @@ function updateEnemies(moveAmount)
                 enemy.x -= moveAmount;
                 if (enemy.x <= dude.x)
                 {
-                    ProcessMarkerReached(enemy);
+                    ProcessMarkerReached(enemy, totalBeatCountElapsed);
                 }
             }
         }
     }
 }
 
-function ProcessMarkerReached(enemy)
+function ProcessMarkerReached(enemy, currentBeat)
 {
     var enemyData = enemy.getData('enemy-data');
     if (enemyData == null)
@@ -814,15 +1170,23 @@ function ProcessMarkerReached(enemy)
 
     if (enemyData.Type == "LoopRecordStart")
     {
+        var paletteNum = Number(enemyData.SubType);
+        looperManager.StartRecording(paletteNum, currentBeat, enemyData.Width);
     }
     else if (enemyData.Type == "LoopRecordStop")
     {
+        var paletteNum = Number(enemyData.SubType);
+        looperManager.Stop(paletteNum);
     }
     else if (enemyData.Type == "LoopPlayStart")
     {
+        var paletteNum = Number(enemyData.SubType);
+        looperManager.StartPlayback(paletteNum, currentBeat);
     }
     else if (enemyData.Type == "LoopPlayStop")
     {
+        var paletteNum = Number(enemyData.SubType);
+        looperManager.Stop(paletteNum);
     }
     else if (enemyData.Type == "Palette")
     {
@@ -858,14 +1222,26 @@ function getMove(delta)
     return bbpDelta
 }
 
-function playSound(soundNum, time) {
+function playSound(soundNum, time)
+{
     var soundIndex = currentPalette[soundNum];
     var source = context.createBufferSource();
     source.buffer = sounds[soundIndex];
     source.connect(context.destination);
     source.start(time);
-  }
+    looperManager.SoundPlayed(totalBeatCountElapsed, currentPaletteNum, soundIndex);
+}
 
+function playSoundFromLooper(soundNum)
+{
+    var source = context.createBufferSource();
+    source.buffer = sounds[soundNum];
+    source.connect(context.destination);
+    source.start(null);
+}
+
+
+  
 // =================================================================
 // AUDIO BUFFER LOADER
 // =================================================================
