@@ -27,8 +27,8 @@ var bpm = 112;
 //pixels per beat
 var ppb = 200;
 var levelWidth = 1366;
-var punchContantPoint = [440, 180];
-var kickContantPoint = [480, 20];
+var punchContantPoint = [230, 470];
+var kickContantPoint = [215, 520];
 /***************************************/
 
 var beatlines = [];
@@ -134,6 +134,8 @@ function setupHitPoints(game)
 {
     punchCollider =  game.physics.add.image(punchContantPoint[0], punchContantPoint[1], 'hit-block');
     kickCollider =  game.physics.add.image(kickContantPoint[0], kickContantPoint[1], 'hit-block');    
+    punchCollider.disableBody(true, true);
+    kickCollider.disableBody(true, true);
 }
 
 function setupInitialGroundPlatform(game)
@@ -534,7 +536,15 @@ function endJump(game, y)
 }
 
 function processAttack(time, game)
-{
+{   
+    if(dude.getData('action') === 'punch')
+    {
+        punchCollider.enableBody(false, punchContantPoint[0], punchContantPoint[1], true, false);
+    }
+    else if(dude.getData('action') === 'kick')
+    {
+        kickCollider.enableBody(false, kickContantPoint[0], kickContantPoint[1], true, false);
+    }
     var delta = time - dude.getData('action-initiated');
     var beatDuration = (60 / bpm);
 
@@ -542,11 +552,15 @@ function processAttack(time, game)
 
     if((delta) >= ((smallestInterval * 1000)) && dude.getData('action') !== 'returning')
     {
+        punchCollider.disableBody(true, true);
+        kickCollider.disableBody(true, true);
         var actionInitiated = dude.getData('action-initiated'); 
         buildDude(dude.x, dude.y, 'dude', 'returning', actionInitiated);
     } 
     else if(delta >= (smallestInterval * 1000))
     {
+        punchCollider.disableBody(true, true);
+        kickCollider.disableBody(true, true);
         setDude(dude,'none', 0);
     }
 }
@@ -839,28 +853,46 @@ function addEnemyCollisions(game, enemy)
 {
     for (var key in dudes) {
         var dude = dudes[key];
-        game.physics.add.overlap(dude, enemy, hitEnemy);
+        game.physics.add.overlap(dude, enemy, playerEnemyCollide);
+    }
+    var enemyConfig = enemy.getData('enemy-data');
+    debugger;
+    if (enemyConfig.SubType === "rat")
+    {
+        game.physics.add.overlap(kickCollider, enemy, playerRatAttack);
+    }
+    else if (enemyConfig.SubType === "bird")
+    {
+        game.physics.add.overlap(punchCollider, enemy, playerBirdAttack);
     }
 }
 
-function hitEnemy(dude, enemy)
+function playerBirdAttack(dude, enemy)
 {
-    if((dude.getData('action') === 'punch' || dude.getData('action') === 'jump-kick') && enemy.getData('enemy-data').SubType === 'bird')
-    {
-        ProcessAirEnemyKilled(enemy);
-    }
-    else if((dude.getData('action') === 'kick' || dude.getData('action') === 'jump-kick') && enemy.getData('enemy-data').SubType === 'rat')
-    {
-        ProcessGroundEnemyKilled(enemy);
-    }
-    else if (enemy.getData('enemy-data').Type === 'gem')
+    ProcessAirEnemyKilled(enemy);
+}
+
+function playerRatAttack(dude, enemy)
+{
+    ProcessGroundEnemyKilled(enemy)
+}
+
+function playerEnemyCollide(dude, enemy)
+{
+    debugger;
+     if (enemy.getData('enemy-data').Type === 'gem')
     {
         ProcessCollectableCollected(enemy);
+    }
+    else
+    {
+        // dead
     }
 }
 
 function ProcessAirEnemyKilled(enemy)
 {
+    debugger;
     playSound(2, null);
 
     enemy.disableBody(true, false);
