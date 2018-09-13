@@ -27,6 +27,8 @@ var bpm = 112;
 //pixels per beat
 var ppb = 200;
 var levelWidth = 1366;
+var punchContantPoint = [440, 180];
+var kickContantPoint = [480, 20];
 /***************************************/
 
 var beatlines = [];
@@ -36,6 +38,8 @@ var nextEnemy;
 var dude;
 var dudes = {};
 var dudeStartingHeight = 486.5;
+var punchCollider;
+var kickCollider;
 
 // Beat calculations
 var smallestBeatInterval = 999;
@@ -88,6 +92,7 @@ function preload()
     this.load.image('rat', 'assets/rat.png');
     this.load.image('bird', 'assets/bird.png');
     this.load.image('ground-block', 'assets/groundblock.png');
+    this.load.image('hit-block', 'assets/hitblock.png');
     //this.load.image('dude', 'assets/dude.png');
     this.load.image('kicking-dude', 'assets/Brian-Attack0002.png');
     this.load.image('punching-dude', 'assets/Brian-Attack0001.png');
@@ -115,6 +120,7 @@ function create()
     graphics = this.add.graphics({ lineStyle: { width: 2, color: 0xaa0000 }, fillStyle: { color: 0x0000aa } });
     findSmallestInterval();
     initDude(this);
+    setupHitPoints(this);
     buildDude(166, dudeStartingHeight, 'dude', 'none', 0);   
     dude.setData('going-down', false);
     initKeys(this);
@@ -122,6 +128,12 @@ function create()
     setupParticleEffects(this);
     setupSound(trackConfig);
     debugLogLevelInfo();
+}
+
+function setupHitPoints(game)
+{
+    punchCollider =  game.physics.add.image(punchContantPoint[0], punchContantPoint[1], 'hit-block');
+    kickCollider =  game.physics.add.image(kickContantPoint[0], kickContantPoint[1], 'hit-block');    
 }
 
 function setupInitialGroundPlatform(game)
@@ -1053,7 +1065,7 @@ function getMove(delta)
 
 function playSound(soundNum, time) {
     var soundIndex = currentPalette[soundNum];
-    if(soundIndex)
+    if(soundIndex !== null && soundIndex !== undefined)
     {
         var source = context.createBufferSource();
         source.buffer = sounds[soundIndex];

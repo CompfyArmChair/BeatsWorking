@@ -12,7 +12,7 @@ module.exports = {
     },
 
     output: {
-        path: path.resolve(__dirname, 'build'),
+        path: path.resolve(__dirname, 'dist'),
         publicPath: '/',
         filename: 'project.bundle.js'
     },
@@ -48,8 +48,8 @@ module.exports = {
         }),        
         new CopyWebpackPlugin([
             {
-                from: path.resolve(__dirname, 'index.html'),
-                to: path.resolve(__dirname, 'build')
+                from: path.resolve(__dirname, 'main.html'),
+                to: path.resolve(__dirname, 'dist')
             },
             { from: 'Sound', to: 'Sound' },
             { from: 'assets', to: 'assets' }

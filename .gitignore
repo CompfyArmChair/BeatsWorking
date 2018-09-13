@@ -62,3 +62,4 @@ typings/
 
 # all build files
 build/*
+dist/*
