@@ -227,7 +227,7 @@ var config = {
         default: 'arcade',  
         arcade: {
             gravity: { y: 0 },
-            debug: false
+            debug: true
         }      
     },
     scene: {
@@ -245,6 +245,7 @@ var bpm = 112;
 //pixels per beat
 var ppb = 200;
 var levelWidth = 1366;
+var levelHeight = 768;
 var punchContantPoint = [230, 470];
 var kickContantPoint = [215, 520];
 var jumpContantPoint = [225, 560];
@@ -685,27 +686,29 @@ function initKeys(game)
 
 function initDude(game)
 {    
+    var colX = 40;
+    var colY = 155;
     dudes['dude'] = game.physics.add.sprite(166, dudeStartingHeight, 'brians');
     dudes['dude'].play('brianRun');
-    dudes['dude'].setSize(166, 155, true);
-    dudes['dude'].setData('y-bounds', 155);
+    dudes['dude'].setSize(colX, colY, true);
+    dudes['dude'].setData('y-bounds', colY);
     dudes['dude'].disableBody(true, true);
     dudes['kicking-dude'] = game.physics.add.image(166, dudeStartingHeight, 'kicking-dude');
     dudes['kicking-dude'].disableBody(true, true);
-    dudes['kicking-dude'].setSize(166, 155, true);
-    dudes['kicking-dude'].setData('y-bounds', 155);
+    dudes['kicking-dude'].setSize(colX, colY, true);
+    dudes['kicking-dude'].setData('y-bounds', colY);
     dudes['punching-dude'] = game.physics.add.image(166, dudeStartingHeight, 'punching-dude');
     dudes['punching-dude'].disableBody(true, true);
-    dudes['punching-dude'].setSize(166, 155, true);
-    dudes['punching-dude'].setData('y-bounds', 155);
+    dudes['punching-dude'].setSize(colX, colY, true);
+    dudes['punching-dude'].setData('y-bounds', colY);
     dudes['jumping-dude'] = game.physics.add.image(166, dudeStartingHeight, 'jumping-dude');
     dudes['jumping-dude'].disableBody(true, true);
-    dudes['jumping-dude'].setSize(166, 155, true);
-    dudes['jumping-dude'].setData('y-bounds', 155);
+    dudes['jumping-dude'].setSize(colX, colY, true);
+    dudes['jumping-dude'].setData('y-bounds', colY);
     dudes['sliding-dude'] = game.physics.add.image(166, dudeStartingHeight, 'sliding-dude');
     dudes['sliding-dude'].disableBody(true, true);
-    dudes['sliding-dude'].setSize(166, 155, true);
-    dudes['sliding-dude'].setData('y-bounds', 155);
+    dudes['sliding-dude'].setSize(colX, colY, true);
+    dudes['sliding-dude'].setData('y-bounds', colY);
     // dudes['jump-kick-dude'] = game.physics.add.image(166, 499, 'jump-kick-dude');
     // dudes['jump-kick-dude'].disableBody(true, true);
 }
@@ -812,6 +815,10 @@ function processFall(moveAmount, game)
     }
     
     dude.y = getCurrentJumpHeight(moveAmount);
+    if(dude.y > levelHeight)
+    {
+        ProcessPlayerDrop();
+    }
 }
 
 function initFall()
@@ -837,6 +844,10 @@ function processJump(moveAmount, game)
     }
     
     dude.y = getCurrentJumpHeight(moveAmount);
+    if(dude.y > levelHeight)
+    {
+        ProcessPlayerDrop();
+    }
 }
 
 function getCurrentJumpHeight(moveAmount)
@@ -933,7 +944,6 @@ function processKey(time, game)
     {
         if (Phaser.Input.Keyboard.JustDown(punchKey))
         {
-            debugger;
             ProcessPunch(time);
         }
         else if (Phaser.Input.Keyboard.JustDown(kickKey))
@@ -1194,6 +1204,7 @@ function buildEnemy(enemyConfig, game)
 
     var x = getAssetPlacement(speed, contactPoint);
     var enemy = game.physics.add.image(x, y, graphic);
+    enemy.x += enemy.width/2; 
     if (frame > -1)
         enemy.setFrame(frame);
     enemy.setData('enemy-data', enemyConfig);   // enemy-type
@@ -1259,7 +1270,12 @@ function playerEnemyCollide(dude, enemy)
 
 function ProcessPlayerCollision(enemy)
 {
+    debugger;
+}
 
+function ProcessPlayerDrop()
+{
+    debugger;
 }
 
 function ProcessAirEnemyKilled(enemy)
