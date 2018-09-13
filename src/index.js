@@ -247,6 +247,8 @@ var ppb = 200;
 var levelWidth = 1366;
 var punchContantPoint = [230, 470];
 var kickContantPoint = [215, 520];
+var jumpContantPoint = [225, 560];
+var dudeConstantPointX = 0;
 /***************************************/
 
 // Game state
@@ -275,6 +277,7 @@ var timeInit = 0;
 var beatCount = 0;        // 168 = gems
 var totalTimeElapsed;
 var totalBeatCountElapsed;
+var enemyGenerationBeatOffset;
 
 // Keys
 var punchKey;
@@ -377,7 +380,7 @@ function setupHitPoints(game)
 
 function setupInitialGroundPlatform(game)
 {
-    var totalWidth = levelWidth;
+    var totalWidth = getAssetPlacement(ppb, jumpContantPoint[0]); 
     buildPlatformBlock(0, 564, totalWidth, game);
 }
 
@@ -396,8 +399,6 @@ function buildPlatformBlock(x, y, width, game)
     platforms.push(platformBlock); 
 }
 
-var onDebug = false
-
 function stop(dude, platformBlock)
 {
     var lastY = dude.getData('last-y');  
@@ -405,19 +406,12 @@ function stop(dude, platformBlock)
     var yRelativeToPlatform = bounds.y - dude.getData('y-bounds')/2;
     if(dude.getData('going-down'))
     { 
-        onDebug = true;
         if(!dude.getData('platform'))
         {
             dude.setData('platform', platformBlock);
         }
     }
 
-    debugger;
-
-    if(onDebug)
-    {
-        debugger;
-    }
     if(!canJumpThroughPlatform(platformBlock))
     {  
         if(lastY < dude.y && lastY <= yRelativeToPlatform + 10) //10 gives are margin of error because update delta varies
@@ -617,12 +611,26 @@ function setupLevel(levelNum, game)
     initDude(game);
     buildDude(166, dudeStartingHeight, 'dude', 'none', 0);    
     dude.setData('going-down', false);
+    dudeConstantPointX = dude.x;
     setupSound(trackConfig);
     debugLogLevelInfo();
-    
+    enemyGenerationBeatOffset = calculateGenerationBeatOffset();
     setupHitPoints(game);
     setupInitialGroundPlatform(game);
     GameState = GameStateEnum.playing;
+}
+
+function calculateGenerationBeatOffset()
+{
+    var jumpPointX = jumpContantPoint[0];
+    var offSetX = 0;
+    var beatOffset = 0;
+    while(offSetX <= levelWidth)
+    {
+        beatOffset++;
+        offSetX += ppb;
+    }
+    return beatOffset;
 }
 
 function setupBackgroundImage(game, trackConfig)
@@ -753,19 +761,19 @@ function update(time, delta)
 
     if (GameState != GameStateEnum.title)
     {
-        var moveAmount = getMove(delta);
         calculateBeatsElapsed(time, delta, this);
-        updateBeatLines(moveAmount);
-        updateEnemies(moveAmount);
-        updatePlatforms(moveAmount);    
+        updateBeatLines(delta);
+        updateEnemies(delta);
+        updatePlatforms(delta);    
     }
 
     if (GameState == GameStateEnum.playing)
-        updateDude(time, this, moveAmount);
+        updateDude(time, this, delta);
 }
 
-function updateDude(time, game, moveAmount)
+function updateDude(time, game, delta)
 {    
+    var moveAmount = getMove(delta, ppb);
     if(dude.getData('action') === 'punch' || dude.getData('action') === 'kick' || dude.getData('action') === 'returning')
     {
         processAttack(time, game);
@@ -925,6 +933,7 @@ function processKey(time, game)
     {
         if (Phaser.Input.Keyboard.JustDown(punchKey))
         {
+            debugger;
             ProcessPunch(time);
         }
         else if (Phaser.Input.Keyboard.JustDown(kickKey))
@@ -1097,25 +1106,37 @@ function buildPlatform(platformConfig, game)
 {
     var y = platformConfig.YPos;
     var width = platformConfig.Width * ppb;
-    buildPlatformBlock(levelWidth, y, width, game);
+    var x = getAssetPlacement(ppb, jumpContantPoint[0]);
+    buildPlatformBlock(x, y, width, game);
+}
+
+function getAssetPlacement(speed, meetingPoint)
+{
+    return speed * enemyGenerationBeatOffset + meetingPoint;
 }
 
 function buildEnemy(enemyConfig, game)
 {
+    var speed = ppb;
     var y = 0;
     var graphic = "";
     var frame = -1;
+    var contactPoint = dudeConstantPointX;
     if (enemyConfig.Type === "enemy")
     {
         if (enemyConfig.SubType == "rat")
         {
             y = 535;
             graphic = "rat";
+            speed = ppb + 100;
+            contactPoint = kickContantPoint[0];
         }
         else if (enemyConfig.SubType == "bird")
         {
             y = 450;
             graphic = "bird";
+            speed = ppb + 200;
+            contactPoint = punchContantPoint[0];
         }
     }
     else if (enemyConfig.Type === "gem")
@@ -1170,11 +1191,13 @@ function buildEnemy(enemyConfig, game)
     }
 
     if (graphic == "") return;
-    
-    var enemy = game.physics.add.image(levelWidth, y, graphic);
+
+    var x = getAssetPlacement(speed, contactPoint);
+    var enemy = game.physics.add.image(x, y, graphic);
     if (frame > -1)
         enemy.setFrame(frame);
     enemy.setData('enemy-data', enemyConfig);   // enemy-type
+    enemy.setData('enemy-speed', speed);
     enemies.push(enemy);
     addEnemyCollisions(game, enemy);
 }
@@ -1230,8 +1253,13 @@ function playerEnemyCollide(dude, enemy)
     }
     else
     {
-        // dead
+        ProcessPlayerCollision(enemy);
     }
+}
+
+function ProcessPlayerCollision(enemy)
+{
+
 }
 
 function ProcessAirEnemyKilled(enemy)
@@ -1322,7 +1350,7 @@ function generateBeatLine()
 }
 
 var running = false;
-function updatePlatforms(moveAmount)
+function updatePlatforms(delta)
 {
     if(running)
     {
@@ -1337,14 +1365,16 @@ function updatePlatforms(moveAmount)
             }
             else
             {
+                var moveAmount = getMove(delta, ppb);
                 platform.x -= moveAmount;           
             }
         }
     }
 }
 
-function updateBeatLines(moveAmount)
+function updateBeatLines(delta)
 {
+    var moveAmount = getMove(delta, ppb);
     graphics.clear();
     for (let i = beatlines.length - 1; i >= 0; i--) {
         var line = beatlines[i];
@@ -1361,7 +1391,7 @@ function updateBeatLines(moveAmount)
     }
 }
 
-function updateEnemies(moveAmount)
+function updateEnemies(delta)
 {
     for (let i = enemies.length - 1; i >= 0; i--) {
         var enemy = enemies[i];
@@ -1375,6 +1405,7 @@ function updateEnemies(moveAmount)
             }
             else
             {
+                var moveAmount = getMove(delta, enemy.getData('enemy-speed'));
                 enemy.x -= moveAmount;
                 if (enemy.x <= dude.x)
                 {
@@ -1434,14 +1465,14 @@ function ProcessMarkerReached(enemy, currentBeat)
     enemy.isDead = true;
 }
 
-function getMove(delta)
+function getMove(delta, speed)
 {
     //Beats per second
     var beatDuration = (60 / bpm);
     //beats per millisecond delta percent
     var bpmsDelta =   delta / (beatDuration * 1000);
     //pixels per beat delta
-    var bbpDelta = ppb * bpmsDelta;
+    var bbpDelta = speed * bpmsDelta;
     return bbpDelta
 }
 

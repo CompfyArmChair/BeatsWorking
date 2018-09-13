@@ -204,7 +204,16 @@
           "Type": "platform",
           "SubType": null,
           "YPos": 564,
-          "Width": 500.0,
+          "Width": 2.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 3.0,
+          "Type": "platform",
+          "SubType": null,
+          "YPos": 564,
+          "Width": 4.0,
           "NoteNum": 0,
           "Track": 0
         },
@@ -214,6 +223,15 @@
           "SubType": "Attack ground enemies with 'S'.",
           "YPos": 0,
           "Width": 12.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 7.0,
+          "Type": "platform",
+          "SubType": null,
+          "YPos": 564,
+          "Width": 2000.0,
           "NoteNum": 0,
           "Track": 0
         },
@@ -1975,7 +1993,7 @@
           "Type": "Platform",
           "SubType": null,
           "YPos": 0,
-          "Width": 500.0,
+          "Width": 2.0,
           "NoteNum": 0,
           "Track": 0
         },
