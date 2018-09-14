@@ -406,7 +406,6 @@ function setupHitPoints(game)
 
 function getModifiedHitPointY(hitPoint)
 {
-  debugger;
   var yModifier =  startYHeightBaseForConstantPoint - hitPoint;
   return dude.y - yModifier;
 }
@@ -665,8 +664,7 @@ function setupLevel(levelNum, game)
     nextEnemy = trackConfig.GameEvents[0];
     findSmallestInterval();
     initDude(game);
-    buildDude(166, dudeStartingHeight, 'dude', 'none', 0);
-    debugger;    
+    buildDude(166, dudeStartingHeight, 'dude', 'none', 0); 
     dude.setData('going-down', false);
     dudeConstantPointX = dude.x;
     setupSound(trackConfig);
@@ -975,7 +973,7 @@ function initFall()
     jumpDestinationX = dude.x + ppb;
     jumpDestinationY = dude.y + 100;
 
-    jumpProgressX = startX;
+    jumpProgressX = startX;    
     dude.setData('action', 'falling');
 }
 
@@ -989,7 +987,7 @@ function processJump(moveAmount, game)
     dude.y = getCurrentJumpHeight(moveAmount);
     if(jumpProgressX > jumpX)
     {
-      buildDude(dude.x, dude.y, 'falling-dude', 'fall', 0);
+      buildDude(dude.x, dude.y, 'falling-dude', 'jumping', 0);
     }
 
 
@@ -1040,7 +1038,11 @@ function initJump()
 
 function endJump(game, y)
 {
+  if(dude.getData('action') === 'jumping')
+  {
+    debugger;
     ProcessLand();
+  }
 
     startX = 0;
     startY = 0;
