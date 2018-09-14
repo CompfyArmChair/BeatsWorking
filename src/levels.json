@@ -76,7 +76,7 @@
             },
             {
               "SourceNumber": 5,
-              "DestinationType": "lava",
+              "DestinationType": "aircon",
               "DestinationSubType": null
             }
           ],
@@ -200,11 +200,11 @@
       ],
       "GameEvents": [
         {
-          "TimeStamp": 1.0,
+          "TimeStamp": 0.0,
           "Type": "platform",
-          "SubType": null,
+          "SubType": "3",
           "YPos": 564,
-          "Width": 500.0,
+          "Width": 7.0,
           "NoteNum": 0,
           "Track": 0
         },
@@ -214,6 +214,15 @@
           "SubType": "Attack ground enemies with 'S'.",
           "YPos": 0,
           "Width": 12.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 7.0,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 8.0,
           "NoteNum": 0,
           "Track": 0
         },
@@ -234,6 +243,15 @@
           "Width": 0.0,
           "NoteNum": 36,
           "Track": 1
+        },
+        {
+          "TimeStamp": 15.0,
+          "Type": "platform",
+          "SubType": "1",
+          "YPos": 564,
+          "Width": 8.0,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 18.0,
@@ -263,6 +281,15 @@
           "Track": 1
         },
         {
+          "TimeStamp": 23.0,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 8.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
           "TimeStamp": 30.0,
           "Type": "enemy",
           "SubType": "rat",
@@ -277,6 +304,15 @@
           "SubType": "Now try both at once.",
           "YPos": 0,
           "Width": 12.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 31.0,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 11.0,
           "NoteNum": 0,
           "Track": 0
         },
@@ -408,6 +444,15 @@
         },
         {
           "TimeStamp": 42.0,
+          "Type": "platform",
+          "SubType": "4",
+          "YPos": 564,
+          "Width": 11.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 42.0,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 0,
@@ -495,6 +540,15 @@
           "Width": 0.0,
           "NoteNum": 36,
           "Track": 1
+        },
+        {
+          "TimeStamp": 53.0,
+          "Type": "platform",
+          "SubType": "1",
+          "YPos": 564,
+          "Width": 9.0,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 53.0,
@@ -606,6 +660,15 @@
         },
         {
           "TimeStamp": 62.0,
+          "Type": "platform",
+          "SubType": "1",
+          "YPos": 564,
+          "Width": 7.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 62.0,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 0,
@@ -695,11 +758,29 @@
           "Track": 0
         },
         {
+          "TimeStamp": 69.0,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 11.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
           "TimeStamp": 72.0,
           "Type": "Text",
           "SubType": "Now your recording is playing back.",
           "YPos": 0,
           "Width": 12.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 80.0,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 7.0,
           "NoteNum": 0,
           "Track": 0
         },
@@ -758,6 +839,15 @@
           "Track": 2
         },
         {
+          "TimeStamp": 87.0,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 9.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
           "TimeStamp": 88.0,
           "Type": "enemy",
           "SubType": "rat",
@@ -794,9 +884,18 @@
           "Track": 2
         },
         {
+          "TimeStamp": 96.0,
+          "Type": "platform",
+          "SubType": "5",
+          "YPos": 564,
+          "Width": 11.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
           "TimeStamp": 97.0,
           "Type": "Text",
-          "SubType": "Jump over lava pits with 'UP'.",
+          "SubType": "Jump over low obstacles with 'UP'.",
           "YPos": 0,
           "Width": 12.0,
           "NoteNum": 0,
@@ -840,7 +939,7 @@
         },
         {
           "TimeStamp": 102.5,
-          "Type": "lava",
+          "Type": "aircon",
           "SubType": null,
           "YPos": 0,
           "Width": 0.0,
@@ -894,12 +993,21 @@
         },
         {
           "TimeStamp": 106.5,
-          "Type": "lava",
+          "Type": "aircon",
           "SubType": null,
           "YPos": 0,
           "Width": 0.0,
           "NoteNum": 59,
           "Track": 2
+        },
+        {
+          "TimeStamp": 107.0,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 10.0,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 107.5,
@@ -948,7 +1056,7 @@
         },
         {
           "TimeStamp": 110.5,
-          "Type": "lava",
+          "Type": "aircon",
           "SubType": null,
           "YPos": 0,
           "Width": 0.0,
@@ -1002,7 +1110,7 @@
         },
         {
           "TimeStamp": 114.5,
-          "Type": "lava",
+          "Type": "aircon",
           "SubType": null,
           "YPos": 0,
           "Width": 0.0,
@@ -1019,11 +1127,29 @@
           "Track": 2
         },
         {
+          "TimeStamp": 117.0,
+          "Type": "platform",
+          "SubType": "4",
+          "YPos": 564,
+          "Width": 7.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
           "TimeStamp": 121.0,
           "Type": "Text",
-          "SubType": "Duck under obstacles with 'X'.",
+          "SubType": "Slide under high obstacles with 'X'.",
           "YPos": 0,
           "Width": 12.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 124.0,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 8.0,
           "NoteNum": 0,
           "Track": 0
         },
@@ -1035,6 +1161,15 @@
           "Width": 0.0,
           "NoteNum": 50,
           "Track": 2
+        },
+        {
+          "TimeStamp": 132.0,
+          "Type": "platform",
+          "SubType": "4",
+          "YPos": 564,
+          "Width": 9.0,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 132.0,
@@ -1083,7 +1218,7 @@
         },
         {
           "TimeStamp": 134.5,
-          "Type": "lava",
+          "Type": "aircon",
           "SubType": null,
           "YPos": 0,
           "Width": 0.0,
@@ -1172,6 +1307,15 @@
           "Track": 2
         },
         {
+          "TimeStamp": 141.0,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 8.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
           "TimeStamp": 141.5,
           "Type": "enemy",
           "SubType": "bird",
@@ -1191,7 +1335,7 @@
         },
         {
           "TimeStamp": 142.5,
-          "Type": "lava",
+          "Type": "aircon",
           "SubType": null,
           "YPos": 0,
           "Width": 0.0,
@@ -1271,6 +1415,15 @@
           "Track": 2
         },
         {
+          "TimeStamp": 149.0,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 8.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
           "TimeStamp": 149.5,
           "Type": "enemy",
           "SubType": "bird",
@@ -1290,7 +1443,7 @@
         },
         {
           "TimeStamp": 150.5,
-          "Type": "lava",
+          "Type": "aircon",
           "SubType": null,
           "YPos": 0,
           "Width": 0.0,
@@ -1361,6 +1514,15 @@
           "Track": 0
         },
         {
+          "TimeStamp": 157.0,
+          "Type": "platform",
+          "SubType": "4",
+          "YPos": 564,
+          "Width": 9.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
           "TimeStamp": 159.0,
           "Type": "Palette",
           "SubType": "3",
@@ -1372,9 +1534,36 @@
         {
           "TimeStamp": 161.0,
           "Type": "Text",
-          "SubType": "Jump to higher platforms with 'UP', and drop down with 'DOWN'.",
+          "SubType": "Jump to higher buildings with 'UP', and drop down with 'DOWN'.",
           "YPos": 0,
           "Width": 12.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 161.0,
+          "Type": "platform",
+          "SubType": "6",
+          "YPos": 494,
+          "Width": 7.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 166.0,
+          "Type": "platform",
+          "SubType": "5",
+          "YPos": 564,
+          "Width": 11.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 169.0,
+          "Type": "platform",
+          "SubType": "4",
+          "YPos": 494,
+          "Width": 15.0,
           "NoteNum": 0,
           "Track": 0
         },
@@ -1413,6 +1602,15 @@
           "Width": 0.0,
           "NoteNum": 50,
           "Track": 3
+        },
+        {
+          "TimeStamp": 177.0,
+          "Type": "platform",
+          "SubType": "4",
+          "YPos": 564,
+          "Width": 8.0,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 177.5,
@@ -1467,6 +1665,15 @@
           "Width": 0.0,
           "NoteNum": 50,
           "Track": 3
+        },
+        {
+          "TimeStamp": 185.0,
+          "Type": "platform",
+          "SubType": "4",
+          "YPos": 564,
+          "Width": 11.0,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 185.5,
@@ -1602,6 +1809,15 @@
           "Width": 0.0,
           "NoteNum": 57,
           "Track": 3
+        },
+        {
+          "TimeStamp": 196.0,
+          "Type": "platform",
+          "SubType": "5",
+          "YPos": 564,
+          "Width": 11.0,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 196.0,
@@ -1785,6 +2001,15 @@
         },
         {
           "TimeStamp": 207.0,
+          "Type": "platform",
+          "SubType": "2",
+          "YPos": 564,
+          "Width": 10.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 207.0,
           "Type": "gem",
           "SubType": "5",
           "YPos": 0,
@@ -1856,6 +2081,24 @@
           "Track": 0
         },
         {
+          "TimeStamp": 217.0,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 10.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 227.0,
+          "Type": "platform",
+          "SubType": "5",
+          "YPos": 564,
+          "Width": 9.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
           "TimeStamp": 236.0,
           "Type": "LoopPlayStop",
           "SubType": "1",
@@ -1874,11 +2117,47 @@
           "Track": 0
         },
         {
+          "TimeStamp": 236.0,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 11.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
           "TimeStamp": 244.0,
           "Type": "LoopPlayStop",
           "SubType": "3",
           "YPos": 0,
           "Width": 0.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 247.0,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 11.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 258.0,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 10.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 268.0,
+          "Type": "platform",
+          "SubType": "5",
+          "YPos": 564,
+          "Width": 11.0,
           "NoteNum": 0,
           "Track": 0
         }

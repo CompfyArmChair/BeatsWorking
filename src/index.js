@@ -257,6 +257,12 @@ var GameState = GameStateEnum.title;
 var titleImage;
 var levelNames;
 
+// Player data
+var playerScore;
+var playerLives;
+var playerScoreText;
+var playerLifeIndicators;
+
 // Game entities
 var beatlines = [];
 var enemies = [];
@@ -264,15 +270,15 @@ var graphics;
 var nextEnemy;
 var dude;
 var dudes = {};
-var dudeStartingHeight = 486.5;
+var dudeStartingHeight = 390;
 var punchCollider;
 var kickCollider;
 
 // Beat calculations
-var smallestBeatInterval = 999;
-var timeElapsed = 0;
-var timeInit = 0;
-var beatCount = 0;        // 168 = gems
+var smallestBeatInterval;
+var timeElapsed;
+var timeInit;
+var beatCount;
 var totalTimeElapsed;
 var totalBeatCountElapsed;
 
@@ -324,10 +330,6 @@ function preload()
     // Title screen
     this.load.image('title', 'assets/title.png');
 
-    // Enemies
-    this.load.image('rat', 'assets/rat.png');
-    this.load.image('bird', 'assets/bird.png');
-    
     // Brian
     this.load.atlas('brians', 'assets/Briansheet.png', 'assets/Briansheet.json');
     this.load.image('kicking-dude', 'assets/Brian-Attack0002.png');
@@ -335,11 +337,24 @@ function preload()
     this.load.image('jumping-dude', 'assets/Brian-Jump0000.png');
     this.load.image('sliding-dude', 'assets/Brian-Slide0000.png'); 
 
+    // Enemies
+    this.load.image('rat', 'assets/rat.png');
+    this.load.image('bird', 'assets/bird.png');
+    
+    // Buildings
+    this.load.image('building1', 'assets/building 1.png');
+    this.load.image('building2', 'assets/building 2.png');
+    this.load.image('building3', 'assets/building 3.png');
+    this.load.image('building4', 'assets/building 4.png');
+    this.load.image('building5', 'assets/building 5.png');
+    this.load.image('building6', 'assets/building 6.png');
+
     // Misc
     this.load.image('ground-block', 'assets/groundblock.png');
     this.load.image('hit-block', 'assets/hitblock.png');
-    this.load.image('lava', 'assets/lava.png');
     this.load.image('block', 'assets/block.png');
+    this.load.image('aircon', 'assets/AirCon.png');
+    this.load.image('life', 'assets/life.png');
 
     // Particles
     this.load.image('particle1', 'assets/particle.png');
@@ -377,22 +392,26 @@ function setupHitPoints(game)
 
 function setupInitialGroundPlatform(game)
 {
-    var totalWidth = levelWidth;
-    buildPlatformBlock(0, 564, totalWidth, game);
+    //var totalWidth = levelWidth;
+    //buildPlatformBlock(0, 564, totalWidth, game);
+    buildPlatformBlock(0, 464, 1400, "building1", game);
 }
 
-function buildPlatformBlock(x, y, width, game)
+function buildPlatformBlock(x, y, width, buildingType, game)
 {
-    var platformBlock = game.physics.add.image(x, y, 'ground-block');    
-    platformBlock.setDisplaySize(width, 220);
+    var platformBlock = game.physics.add.image(x, y, buildingType); 
     platformBlock.setOrigin(0,0);
-    platformBlock.width = width;
-    platformBlock.setOffset(207, 178);
-    //platformBlock.setAlpha(0);
+    var scaleFactor = width / platformBlock.width;
+    platformBlock.setDisplaySize(width, platformBlock.height * scaleFactor);
+    platformBlock.setOffset(platformBlock.width / 2, platformBlock.height / 2);
+
     for (var key in dudes) {
         var dude = dudes[key];
         game.physics.add.overlap(dude, platformBlock, stop);
     }
+
+    platformBlock.depth = -50;
+
     platforms.push(platformBlock); 
 }
 
@@ -412,11 +431,9 @@ function stop(dude, platformBlock)
         }
     }
 
-    debugger;
-
     if(onDebug)
     {
-        debugger;
+        //debugger;
     }
     if(!canJumpThroughPlatform(platformBlock))
     {  
@@ -462,10 +479,12 @@ function setupTitleScreen(game)
     var argh = this;
     levelNames = [];
     titleImage = game.add.image(0, 0, "title").setOrigin(0);
+    titleImage.depth = 100;
     for (var i = 0; i < levelsConfig.Levels.length; i++)
     {
         var level = levelsConfig.Levels[i];
         var text = game.add.bitmapText(930, 130 + (i * 44), 'font2', level.Name);
+        text.depth = 101;
         text.LevelNum = i;
         text.LevelName = level.Name;
         text.setInteractive();
@@ -481,6 +500,7 @@ function setupTitleScreen(game)
                 targets: levelNames,
                 alpha: 0,
                 duration: 1000,
+                onComplete: destroyTitleScreen,
                 //onComplete: function() { startLevel(); }, this,
                 //onComplete: startLevel,
                 //onCompleteScope: argh,
@@ -496,19 +516,19 @@ function setupTitleScreen(game)
     }
 }
 
+function destroyTitleScreen(thingsToNuke)
+{
+    for (var i = 0; i < thingsToNuke.targets.length; i++)
+    {
+        var thingToNuke = thingsToNuke.targets[i];
+        thingToNuke.destroy();
+    }
+}
 
 function startLevel(levelNum, game)
 {
     setupLevel.call(levelNum, game);
 }
-
-/*
-function startLevel(newThis, targets, levelNum)
-{
-setupLevel.call(newThis, levelNum);
-//setupLevel(newThis, levelNum);
-}
-*/
 
 function setupParticleEffects(game)
 {
@@ -583,6 +603,9 @@ function setupLevel(levelNum, game)
     trackConfig = levelsConfig.Levels[levelNum];
     bpm = trackConfig.Tempo;
 
+    playerScore = 0;
+    playerLives = 0;
+
     beatlines = [];
     enemies = [];
     smallestBeatInterval = 999;
@@ -622,12 +645,30 @@ function setupLevel(levelNum, game)
     
     setupHitPoints(game);
     setupInitialGroundPlatform(game);
+
+    playerScoreText = game.add.bitmapText(0, 10, 'font', "");
+    
+    playerLifeIndicators = [];
+    for (var i = 0; i < 3; i++)
+    {
+        playerLifeIndicators.push(game.add.image(40 + i * 45, 30, "life"));
+    }
+    addPlayerScore(0);
+
     GameState = GameStateEnum.playing;
+}
+
+function addPlayerScore(scoreDelta)
+{
+    playerScore += scoreDelta;
+    playerScoreText.text = playerScore;
+    playerScoreText.x = 1366 - (20 + playerScoreText.width);
 }
 
 function setupBackgroundImage(game, trackConfig)
 {
     backgroundImage = game.add.image(0, 0, trackConfig.Background).setOrigin(0);
+    backgroundImage.depth = -100;
 }
 
 function setupSound(trackConfig)
@@ -1097,7 +1138,8 @@ function buildPlatform(platformConfig, game)
 {
     var y = platformConfig.YPos;
     var width = platformConfig.Width * ppb;
-    buildPlatformBlock(levelWidth, y, width, game);
+    var buildingType = "building" + platformConfig.SubType;
+    buildPlatformBlock(levelWidth, y, width, buildingType, game);
 }
 
 function buildEnemy(enemyConfig, game)
@@ -1126,14 +1168,14 @@ function buildEnemy(enemyConfig, game)
     }
     else if (enemyConfig.Type === "block")
     {
-        y = 470;
+        y = 455;
         graphic = "block";
     }
-    // else if (enemyConfig.Type === "lava")
-    // {
-    //     y = 580;
-    //     graphic = "lava";
-    // }
+    else if (enemyConfig.Type === "aircon")
+    {
+        y = 536;
+        graphic = "aircon";
+    }
     else if (enemyConfig.Type === "LoopRecordStart")
     {
         y = 30;
@@ -1256,6 +1298,8 @@ function ProcessAirEnemyKilled(enemy)
         onComplete: destroyBody,
         ease: 'Cubic.easeOut'
     });
+
+    addPlayerScore(200);
 }
 
 function ProcessGroundEnemyKilled(enemy)
@@ -1280,6 +1324,8 @@ function ProcessGroundEnemyKilled(enemy)
         onComplete: destroyBody,
         ease: 'Cubic.easeOut'
     });
+
+    addPlayerScore(200);
 }
 
 function ProcessCollectableCollected(enemy)
@@ -1304,6 +1350,8 @@ function ProcessCollectableCollected(enemy)
         onComplete: destroyBody,
         ease: 'Cubic.easeOut'
     });
+
+    addPlayerScore(gemType * 50);
 }
 
 function destroyBody(tween)
@@ -1367,7 +1415,7 @@ function updateEnemies(moveAmount)
         var enemy = enemies[i];
         if (!enemy.isDead)
         {
-            if(enemy.x < 0)
+            if(enemy.x < -(enemy.width / 2))
             {
                 enemy.destroy();
                 enemy = null;
