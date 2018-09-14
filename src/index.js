@@ -1311,7 +1311,7 @@ function buildEnemy(enemyConfig, game)
     var y = 0;
     var graphic = "";
     var frame = -1;
-    var contactPoint = dudeConstantPointX;
+    var contactPoint = dudeConstantPointX; // change these when resizing enemy hit boxes ********
     if (enemyConfig.Type === "enemy")
     {
         if (enemyConfig.SubType == "rat")
@@ -1319,14 +1319,14 @@ function buildEnemy(enemyConfig, game)
             y = 535;
             graphic = "rat";
             speed = ppb + 100;
-            contactPoint = kickContantPoint[0];
+            contactPoint = kickContantPoint[0];// change these when resizing enemy hit boxes ********
         }
         else if (enemyConfig.SubType == "bird")
         {
             y = 450;
             graphic = "bird";
             speed = ppb + 200;
-            contactPoint = punchContantPoint[0];
+            contactPoint = punchContantPoint[0]; // change these when resizing enemy hit boxes ********
         }
     }
     else if (enemyConfig.Type === "gem")
@@ -1334,17 +1334,17 @@ function buildEnemy(enemyConfig, game)
         y = 510;
         graphic = "gems";
         frame = Number(enemyConfig.SubType);
-        contactPoint = dudeConstantPointX + dude.width / 2;
+        contactPoint = dudeConstantPointX + dude.width / 2;// change these when resizing enemy hit boxes ********
     }
     else if (enemyConfig.Type === "block")
     {
-        contactPoint = jumpContantPoint[0];
+        contactPoint = jumpContantPoint[0];// change these when resizing enemy hit boxes ********
         y = 455;
         graphic = "block";
     }
     else if (enemyConfig.Type === "aircon")
     {
-        contactPoint = jumpContantPoint[0];
+        contactPoint = jumpContantPoint[0];// change these when resizing enemy hit boxes ********
         y = 536;
         graphic = "aircon";
     }
