@@ -338,7 +338,8 @@ function preload()
     this.load.atlas('brians', 'assets/Briansheet.png', 'assets/Briansheet.json');
     this.load.image('kicking-dude', 'assets/Brian-Attack0002.png');
     this.load.image('punching-dude', 'assets/Brian-Attack0001.png');
-    this.load.image('jumping-dude', 'assets/Brian-Jump0000.png');
+    this.load.image('jumping-dude', 'assets/Brian-Jump0001.png');
+    this.load.image('falling-dude', 'assets/Brian-Jump0000.png');
     this.load.image('sliding-dude', 'assets/Brian-Slide0000.png'); 
 
     // Enemies
@@ -396,10 +397,6 @@ function setupHitPoints(game)
 
 function setupInitialGroundPlatform(game)
 {
-    //var totalWidth = levelWidth;
-    //buildPlatformBlock(0, 564, totalWidth, game);
-    //buildPlatformBlock(0, 464, 1400, "building1", game);
-
     var totalWidth = getAssetPlacement(ppb, jumpContantPoint[0]); 
     buildPlatformBlock(0, 464, totalWidth, "building1", game);
 }
@@ -463,7 +460,7 @@ function isOnLowestPlatform(platformBlock)
 {
     for (let i = 0; i < platforms.length; i++) {
         const platform = platforms[i];
-        if(platform.x + platform.width >= -166) //pos of dude
+        if(platform.x + platform.width >= dude.x) //pos of dude
         {
             if(platformBlock.y < platform.y)
             {
@@ -638,7 +635,8 @@ function setupLevel(levelNum, game)
     nextEnemy = trackConfig.GameEvents[0];
     findSmallestInterval();
     initDude(game);
-    buildDude(166, dudeStartingHeight, 'dude', 'none', 0);    
+    buildDude(166, dudeStartingHeight, 'dude', 'none', 0);
+    debugger;    
     dude.setData('going-down', false);
     dudeConstantPointX = dude.x;
     setupSound(trackConfig);
@@ -668,7 +666,6 @@ function addPlayerScore(scoreDelta)
 
 function calculateGenerationBeatOffset()
 {
-    var jumpPointX = jumpContantPoint[0];
     var offSetX = 0;
     var beatOffset = 0;
     while(offSetX <= levelWidth)
@@ -737,23 +734,33 @@ function initDude(game)
     dudes['dude'] = game.physics.add.sprite(166, dudeStartingHeight, 'brians');
     dudes['dude'].play('brianRun');
     dudes['dude'].setSize(colX, colY, true);
+    dudes['dude'].width = colX;
     dudes['dude'].setData('y-bounds', colY);
     dudes['dude'].disableBody(true, true);
     dudes['kicking-dude'] = game.physics.add.image(166, dudeStartingHeight, 'kicking-dude');
     dudes['kicking-dude'].disableBody(true, true);
     dudes['kicking-dude'].setSize(colX, colY, true);
+    dudes['kicking-dude'].width = colX;
     dudes['kicking-dude'].setData('y-bounds', colY);
     dudes['punching-dude'] = game.physics.add.image(166, dudeStartingHeight, 'punching-dude');
     dudes['punching-dude'].disableBody(true, true);
     dudes['punching-dude'].setSize(colX, colY, true);
+    dudes['punching-dude'].width = colX;
     dudes['punching-dude'].setData('y-bounds', colY);
     dudes['jumping-dude'] = game.physics.add.image(166, dudeStartingHeight, 'jumping-dude');
     dudes['jumping-dude'].disableBody(true, true);
     dudes['jumping-dude'].setSize(colX, colY, true);
+    dudes['jumping-dude'].width = colX;
     dudes['jumping-dude'].setData('y-bounds', colY);
+    dudes['falling-dude'] = game.physics.add.image(166, dudeStartingHeight, 'falling-dude');
+    dudes['falling-dude'].setSize(colX, colY, true);
+    dudes['falling-dude'].disableBody(true, true);
+    dudes['falling-dude'].width = colX;
+    dudes['falling-dude'].setData('y-bounds', colY);
     dudes['sliding-dude'] = game.physics.add.image(166, dudeStartingHeight, 'sliding-dude');
     dudes['sliding-dude'].disableBody(true, true);
     dudes['sliding-dude'].setSize(colX, colY, true);
+    dudes['sliding-dude'].width = colX;
     dudes['sliding-dude'].setData('y-bounds', colY);
     // dudes['jump-kick-dude'] = game.physics.add.image(166, 499, 'jump-kick-dude');
     // dudes['jump-kick-dude'].disableBody(true, true);
@@ -811,7 +818,7 @@ function update(time, delta)
     if (GameState != GameStateEnum.title)
     {
         calculateBeatsElapsed(time, delta, this);
-        updateBeatLines(delta);
+        //updateBeatLines(delta);
         updateEnemies(delta);
         updatePlatforms(delta);    
     }
@@ -849,7 +856,7 @@ function processSlide(time, game)
 
     if(delta >= bpms)
     {
-        buildDude(dude.x, dudeStartingHeight, 'dude', 'none', 0);
+        buildDude(dude.x, dude.y, 'dude', 'none', 0);
     }
 }
 
@@ -857,7 +864,7 @@ function processFall(moveAmount, game)
 {
     if(dude.getData('action') === 'none' || dude.getData('action') === 'fall')    
     {
-        initFall(); 
+        initFall();         
     }
     
     dude.y = getCurrentJumpHeight(moveAmount);
@@ -890,6 +897,12 @@ function processJump(moveAmount, game)
     }
     
     dude.y = getCurrentJumpHeight(moveAmount);
+    if(jumpProgressX > jumpX)
+    {
+      buildDude(dude.x, dude.y, 'falling-dude', 'fall', 0);
+    }
+
+
     if(dude.y > levelHeight)
     {
         ProcessPlayerDrop();
@@ -937,10 +950,7 @@ function initJump()
 
 function endJump(game, y)
 {
-    if(dude.getData('action') !== 'falling')
-    {
-        ProcessLand();
-    }
+    ProcessLand();
 
     startX = 0;
     startY = 0;
@@ -1024,7 +1034,7 @@ function processKey(time, game)
 
 function ProcessDrop(time)
 {
-    buildDude(dude.x, dude.y, 'jumping-dude', 'fall', time);
+    buildDude(dude.x, dude.y, 'falling-dude', 'fall', time);
     dude.setData('going-down', true);
 }
 
@@ -1091,19 +1101,18 @@ function calculateBeatsElapsed(time, delta, game)
 
     looperManager.ProcessTick(totalBeatCountElapsed);
     
-     if (totalTimeElapsed >= (nextEnemy.TimeStamp * bDuration))
+    if (totalTimeElapsed >= (nextEnemy.TimeStamp * bDuration))
     {       
-        generateAsset(game); 
-               
+      generateAsset(game);                   
     }
     
     if (timeElapsed >= bDuration)
     {
-        // timeElapsed -= bDuration;        Seems as though it should be this instead, but it's (maybe?) causing issues
-        running = true;
-        timeElapsed = 0;
-        
-        beatElapsed(game);
+      // timeElapsed -= bDuration;        Seems as though it should be this instead, but it's (maybe?) causing issues
+      running = true;
+      timeElapsed = 0;
+      
+      beatElapsed(game);
     }
 }
 
@@ -1201,14 +1210,17 @@ function buildEnemy(enemyConfig, game)
         y = 510;
         graphic = "gems";
         frame = Number(enemyConfig.SubType);
+        contactPoint = dudeConstantPointX + dude.width / 2;
     }
     else if (enemyConfig.Type === "block")
     {
+        contactPoint = jumpContantPoint[0];
         y = 455;
         graphic = "block";
     }
     else if (enemyConfig.Type === "aircon")
     {
+        contactPoint = jumpContantPoint[0];
         y = 536;
         graphic = "aircon";
     }
@@ -1322,7 +1334,18 @@ function ProcessPlayerCollision(enemy)
 
 function ProcessPlayerDrop()
 {
-    debugger;
+    placeDudeBackOnPlatform();
+}
+
+function placeDudeBackOnPlatform()
+{
+  for (let i = 0; i < platforms.length; i++) {
+    const platform = platforms[i];
+    if(platform.x + platform.width >= dude.x)
+    {
+      buildDude(dude.x, platform.y - dude.height / 2, 'dude', 'none', 0);      
+    }
+  }
 }
 
 function ProcessAirEnemyKilled(enemy)
