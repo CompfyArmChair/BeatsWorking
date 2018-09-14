@@ -82,7 +82,7 @@ class Looper
         this.CurrentEventIndex = 0;
         this.LastPosition = 0;
         this.HasPassedLastNote = false;
-        this.QuantiseStrength = 1;
+        this.QuantiseStrength = 0;
         this.QuantiseResolution = 0.25;
     }
 
@@ -292,10 +292,13 @@ var enemyGenerationBeatOffset;
 
 // Keys
 var punchKey;
+var punchKey2;
 var kickKey;
+var kickKey2;
 var jumpKey;
 var slideKey;
 var downKey;
+var downKey2;
 var debugKey;
 
 // Jumping
@@ -647,7 +650,7 @@ function setupLevel(levelNum, game)
     bpm = trackConfig.Tempo;
 
     playerScore = 0;
-    playerLives = 1;
+    playerLives = 5;
     invulnerable = false;
 
     beatlines = [];
@@ -824,11 +827,14 @@ function debugLogLevelInfo()
 
 function initKeys(game)
 {    
-    punchKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-    kickKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    punchKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    punchKey2 = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+    kickKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    kickKey2 = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
     jumpKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    slideKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
-    downKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    slideKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    downKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    downKey2 = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
     debugKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 }
 
@@ -1112,11 +1118,11 @@ function processKey(time, game)
 {
     if(dude.getData('action') === 'none')
     {
-        if (Phaser.Input.Keyboard.JustDown(punchKey))
+        if (Phaser.Input.Keyboard.JustDown(punchKey) || Phaser.Input.Keyboard.JustDown(punchKey2))
         {
             ProcessPunch(time);
         }
-        else if (Phaser.Input.Keyboard.JustDown(kickKey))
+        else if (Phaser.Input.Keyboard.JustDown(kickKey) || Phaser.Input.Keyboard.JustDown(kickKey2))
         {
             ProcessKick(time);
         }
@@ -1128,13 +1134,13 @@ function processKey(time, game)
         { 
             ProcessSlide(time);
         }
+        else if (Phaser.Input.Keyboard.JustDown(downKey) || Phaser.Input.Keyboard.JustDown(downKey2))
+        { 
+            ProcessDrop(time);
+        }
         else if (Phaser.Input.Keyboard.JustDown(debugKey))
         { 
             ProcessDebug(time);
-        }
-        else if (Phaser.Input.Keyboard.JustDown(downKey))
-        { 
-            ProcessDrop(time);
         }
     } 
     else if(dude.getData('action') === 'jumping')
@@ -1312,6 +1318,7 @@ function buildEnemy(enemyConfig, game)
     var graphic = "";
     var frame = -1;
     var contactPoint = dudeConstantPointX; // change these when resizing enemy hit boxes ********
+    var specialYPosTween = 0;
     if (enemyConfig.Type === "enemy")
     {
         if (enemyConfig.SubType == "rat")
@@ -1319,7 +1326,8 @@ function buildEnemy(enemyConfig, game)
             y = 535;
             graphic = "rat";
             speed = ppb + 100;
-            contactPoint = kickContantPoint[0];// change these when resizing enemy hit boxes ********
+            contactPoint = kickContantPoint[0]; // change these when resizing enemy hit boxes ********
+            specialYPosTween = 1;
         }
         else if (enemyConfig.SubType == "bird")
         {
@@ -1327,6 +1335,7 @@ function buildEnemy(enemyConfig, game)
             graphic = "bird";
             speed = ppb + 200;
             contactPoint = punchContantPoint[0]; // change these when resizing enemy hit boxes ********
+            specialYPosTween = 2;
         }
     }
     else if (enemyConfig.Type === "gem")
@@ -1390,7 +1399,7 @@ function buildEnemy(enemyConfig, game)
     enemy.x += enemy.width/2; 
     if (frame > -1)
         enemy.setFrame(frame);
-    enemy.setData('enemy-data', enemyConfig);   // enemy-type
+    enemy.setData('enemy-data', enemyConfig);
     enemy.setData('enemy-speed', speed);
     enemies.push(enemy);
     addEnemyCollisions(game, enemy);

@@ -211,7 +211,7 @@
         {
           "TimeStamp": 5.0,
           "Type": "Text",
-          "SubType": "Attack ground enemies with 'S'.",
+          "SubType": "Attack ground enemies with 'D'.",
           "YPos": 0,
           "Width": 12.0,
           "NoteNum": 0,
@@ -256,7 +256,7 @@
         {
           "TimeStamp": 18.0,
           "Type": "Text",
-          "SubType": "Attack flying enemies with 'Q'.",
+          "SubType": "Attack flying enemies with 'W'.",
           "YPos": 0,
           "Width": 12.0,
           "NoteNum": 0,
@@ -1138,7 +1138,7 @@
         {
           "TimeStamp": 121.0,
           "Type": "Text",
-          "SubType": "Slide under high obstacles with 'X'.",
+          "SubType": "Slide under high obstacles with 'DOWN'.",
           "YPos": 0,
           "Width": 12.0,
           "NoteNum": 0,
@@ -1534,7 +1534,7 @@
         {
           "TimeStamp": 161.0,
           "Type": "Text",
-          "SubType": "Jump to higher buildings with 'UP', and drop down with 'DOWN'.",
+          "SubType": "Jump to higher buildings with 'UP', and drop down with 'SPACE'.",
           "YPos": 0,
           "Width": 12.0,
           "NoteNum": 0,
