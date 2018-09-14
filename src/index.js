@@ -265,6 +265,9 @@ var playerScore;
 var playerLives;
 var playerScoreText;
 var playerLifeIndicators;
+var invulnerable;
+var invulnerableUntil;
+
 
 // Game entities
 var beatlines = [];
@@ -273,6 +276,7 @@ var graphics;
 var nextEnemy;
 var dude;
 var dudes = {};
+var dudesNumeric;
 var dudeStartingHeight = 390;
 var punchCollider;
 var kickCollider;
@@ -317,6 +321,7 @@ var enemyDeathParticle;
 var enemyEmitter;
 var collectableParticle;
 var collectableEmitters = [];
+var lifeLostEmitter;
 
 // Text
 var currentTextEnd;
@@ -564,6 +569,20 @@ function setupParticleEffects(game)
         collectableEmitters[i] = collectableEmitter;
     }
 
+    lifeLostEmitter = collectableParticle.createEmitter( {
+        x: 0,
+        y: 0,
+        angle: { min: 0, max: 360 },
+        speed: { min: 10, max: 130 },
+        quantity: 150,
+        lifespan: 1100,
+        alpha: { start: 1, end: 0 },
+        gravityY: 380,
+        scale: { start: 0.4, end: 0.0 },
+        blendMode: 'ADD',
+        on: false
+    });
+
     console.log("Set up particles");
 }
 
@@ -601,7 +620,7 @@ function setupLevel(levelNum, game)
     bpm = trackConfig.Tempo;
 
     playerScore = 0;
-    playerLives = 0;
+    playerLives = 3;
 
     beatlines = [];
     enemies = [];
@@ -648,7 +667,7 @@ function setupLevel(levelNum, game)
     playerScoreText = game.add.bitmapText(0, 10, 'font', "");
     
     playerLifeIndicators = [];
-    for (var i = 0; i < 3; i++)
+    for (var i = 0; i < playerLives; i++)
     {
         playerLifeIndicators.push(game.add.image(40 + i * 45, 30, "life"));
     }
@@ -662,6 +681,59 @@ function addPlayerScore(scoreDelta)
     playerScore += scoreDelta;
     playerScoreText.text = playerScore;
     playerScoreText.x = 1366 - (20 + playerScoreText.width);
+}
+
+function losePlayerLife()
+{
+    if (invulnerable) return;
+
+    playerLives--;
+    var lostLifeIndicator = playerLifeIndicators[playerLives];
+
+    if (playerLives < 0) return;
+
+    lifeLostEmitter.setPosition(lostLifeIndicator.x, lostLifeIndicator.y);
+    lifeLostEmitter.explode();
+
+    var tween = lostLifeIndicator.scene.tweens.add({
+        targets: lostLifeIndicator,
+        alpha: 0,
+        duration: 500,
+        onComplete: destroyBody
+    });
+
+    dude.alpha = 0.5;
+    invulnerable = true;
+    invulnerableUntil = 0;
+
+    tween = dude.scene.tweens.add({
+        targets: dudesNumeric,
+        alpha: 0,
+        duration: 500,
+        repeat: 2,
+        yoyo: true,
+        onComplete: invulnerabilityExpired
+    });
+
+    if (playerLives == 0)
+        poorBrianIsDeceasedRIPBrian();
+}
+
+function poorBrianIsDeceasedRIPBrian()
+{
+    // Game over
+}
+
+function invulnerabilityExpired()
+{
+    this.targets[0].alpha = 1;
+    for (var i = 0; i < this.targets; i++)
+    {
+        var target = this.targets[i];
+        target.alpha = 1;
+    }
+    
+    invulnerable = false;
 }
 
 function calculateGenerationBeatOffset()
@@ -762,6 +834,13 @@ function initDude(game)
     dudes['sliding-dude'].setSize(colX, colY, true);
     dudes['sliding-dude'].width = colX;
     dudes['sliding-dude'].setData('y-bounds', colY);
+
+    dudesNumeric = [];
+    dudesNumeric.push(dudes['dude']);
+    dudesNumeric.push(dudes['kicking-dude']);
+    dudesNumeric.push(dudes['punching-dude']);
+    dudesNumeric.push(dudes['jumping-dude']);
+    dudesNumeric.push(dudes['sliding-dude']);
     // dudes['jump-kick-dude'] = game.physics.add.image(166, 499, 'jump-kick-dude');
     // dudes['jump-kick-dude'].disableBody(true, true);
 }
@@ -1329,7 +1408,7 @@ function playerEnemyCollide(dude, enemy)
 
 function ProcessPlayerCollision(enemy)
 {
-    debugger;
+    losePlayerLife();
 }
 
 function ProcessPlayerDrop()
