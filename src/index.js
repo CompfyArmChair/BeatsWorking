@@ -82,7 +82,7 @@ class Looper
         this.CurrentEventIndex = 0;
         this.LastPosition = 0;
         this.HasPassedLastNote = false;
-        this.QuantiseStrength = 0;
+        this.QuantiseStrength = 1;
         this.QuantiseResolution = 0.25;
     }
 
@@ -227,7 +227,7 @@ var config = {
         default: 'arcade',  
         arcade: {
             gravity: { y: 0 },
-            debug: true
+            debug: false
         }      
     },
     scene: {
@@ -421,8 +421,13 @@ function buildPlatformBlock(x, y, width, buildingType, game)
     var platformBlock = game.physics.add.image(x, y, buildingType); 
     platformBlock.setOrigin(0,0);
     var scaleFactor = width / platformBlock.width;
-    platformBlock.setDisplaySize(width, platformBlock.height * scaleFactor);
+    platformBlock.setScale(scaleFactor);
+    //platformBlock.setDisplaySize(width, platformBlock.height * scaleFactor);
     platformBlock.setOffset(platformBlock.width / 2, platformBlock.height / 2);
+
+    console.log("platform start: " + platformBlock.x);
+    console.log("platform end: " + (platformBlock.x + platformBlock.width));
+    console.log("platform width: " +  platformBlock.width);
 
     for (var key in dudes) {
         var dude = dudes[key];
@@ -475,7 +480,7 @@ function isOnLowestPlatform(platformBlock)
 {
     for (let i = 0; i < platforms.length; i++) {
         const platform = platforms[i];
-        if(platform.x + platform.width >= dude.x) //pos of dude
+        if(platform.x + platform.width >= dude.x && platform.x <= dude.x) //pos of dude
         {
             if(platformBlock.y < platform.y)
             {
@@ -1040,7 +1045,6 @@ function endJump(game, y)
 {
   if(dude.getData('action') === 'jumping')
   {
-    debugger;
     ProcessLand();
   }
 
@@ -1262,9 +1266,10 @@ function generateAsset(game)
 function buildPlatform(platformConfig, game)
 {
     var y = platformConfig.YPos;
-    var width = platformConfig.Width * ppb;
+    var width = platformConfig.Width * ppb + 25;
     var buildingType = "building" + platformConfig.SubType;
     var x = getAssetPlacement(ppb, jumpContantPoint[0]);
+
     buildPlatformBlock(x, y, width, buildingType, game);
 }
 
@@ -1399,12 +1404,20 @@ function addEnemyCollisions(game, enemy)
 
 function playerBirdAttack(dude, enemy)
 {
+    var expected = enemy.getData('enemy-data');
+    console.log("BIRD HIT: " + totalBeatCountElapsed);
+    console.log("BIRD EXPECT: " + (Number(expected.TimeStamp) + enemyGenerationBeatOffset));
+
     ProcessAirEnemyKilled(enemy);
 }
 
 function playerRatAttack(dude, enemy)
 {
-    ProcessGroundEnemyKilled(enemy)
+  var expected = enemy.getData('enemy-data');
+  console.log("RAT HIT: " + totalBeatCountElapsed);
+  console.log("RAT EXPECT: " + (Number(expected.TimeStamp) + enemyGenerationBeatOffset));
+
+  ProcessGroundEnemyKilled(enemy)
 }
 
 function playerEnemyCollide(dude, enemy)
@@ -1537,8 +1550,7 @@ var running = false;
 function updatePlatforms(delta)
 {
     if(running)
-    {
-        platformGraphics.clear();        
+    {    
         for (let i = 0; i < platforms.length; i++) {
             var platform = platforms[i];        
             if(platform.x + platform.width * 4 <= 0)
