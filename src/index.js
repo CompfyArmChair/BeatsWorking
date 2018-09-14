@@ -216,6 +216,7 @@ class LooperNote
 import 'phaser';
 var levelsConfig;
 var trackConfig;
+var levelEventPosition;
 
 var config = {
     type: Phaser.AUTO,
@@ -238,7 +239,6 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
-var storeThis;
 
 /*********Game control variables********/
 var bpm = 112;
@@ -255,7 +255,7 @@ var startYHeightBaseForConstantPoint = 486.5;
 
 // Game state
 var GameStateEnum = Object.freeze({"title":1, "playing":2, "gameover":3})
-var GameState = GameStateEnum.title;
+var GameState;
 
 // Title screen
 var titleImage;
@@ -267,8 +267,7 @@ var playerLives;
 var playerScoreText;
 var playerLifeIndicators;
 var invulnerable;
-var invulnerableUntil;
-
+var gameOverSlowdown;
 
 // Game entities
 var beatlines = [];
@@ -388,7 +387,6 @@ function preload()
 
 function create()
 {    
-    storeThis = this;
     levelsConfig = require("./levels.json");
     setupTitleScreen(this);
 }
@@ -493,7 +491,32 @@ function isOnLowestPlatform(platformBlock)
 
 function setupTitleScreen(game)
 {
-    var argh = this;
+    game.input.keyboard.on('keydown', function (event) {
+        if (GameState == GameStateEnum.gameover && gameOverSlowdown < 0.4)
+        {
+            console.log(game);
+            console.log("length: " + game.children.list.length);
+            console.log("game.children: " + game.children.list)
+            while (game.children.list.length > 0)
+            {
+                var child = game.children.list[0];
+                console.log("Destroying " + child);
+                child.destroy();
+                game.children.list.splice(0, 1);
+            }
+            /*
+            for (var i = 0; i < game.children; i++)
+            {
+                var child = game.children[i];
+                child.destroy();
+            }
+            */
+            //game = new Phaser.Game(config);
+            setupTitleScreen(game);
+        }
+    });
+    
+    GameState = GameStateEnum.title;
     levelNames = [];
     titleImage = game.add.image(0, 0, "title").setOrigin(0);
     titleImage.depth = 100;
@@ -518,16 +541,9 @@ function setupTitleScreen(game)
                 alpha: 0,
                 duration: 1000,
                 onComplete: destroyTitleScreen,
-                //onComplete: function() { startLevel(); }, this,
-                //onComplete: startLevel,
-                //onCompleteScope: argh,
-                //onCompleteParams: i,
                 ease: 'Cubic.easeIn'
             });
-            //tween.callbacks.onComplete = startLevel();
-            //setTimeout(startLevel, 1100);
             setupLevel(this.LevelNum, game);
-            //titleImage.destroy();
         });
         levelNames.push(text);
     }
@@ -540,11 +556,6 @@ function destroyTitleScreen(thingsToNuke)
         var thingToNuke = thingsToNuke.targets[i];
         thingToNuke.destroy();
     }
-}
-
-function startLevel(levelNum, game)
-{
-    setupLevel.call(levelNum, game);
 }
 
 function setupParticleEffects(game)
@@ -632,10 +643,12 @@ function continueSetup(soundList)
 function setupLevel(levelNum, game)
 {
     trackConfig = levelsConfig.Levels[levelNum];
+    levelEventPosition = 0;
     bpm = trackConfig.Tempo;
 
     playerScore = 0;
-    playerLives = 3;
+    playerLives = 1;
+    invulnerable = false;
 
     beatlines = [];
     enemies = [];
@@ -669,7 +682,8 @@ function setupLevel(levelNum, game)
     nextEnemy = trackConfig.GameEvents[0];
     findSmallestInterval();
     initDude(game);
-    buildDude(166, dudeStartingHeight, 'dude', 'none', 0); 
+    buildDude(166, dudeStartingHeight, 'dude', 'none', 0);
+   
     dude.setData('going-down', false);
     dudeConstantPointX = dude.x;
     setupSound(trackConfig);
@@ -704,8 +718,6 @@ function losePlayerLife()
     playerLives--;
     var lostLifeIndicator = playerLifeIndicators[playerLives];
 
-    if (playerLives < 0) return;
-
     lifeLostEmitter.setPosition(lostLifeIndicator.x, lostLifeIndicator.y);
     lifeLostEmitter.explode();
 
@@ -716,9 +728,15 @@ function losePlayerLife()
         onComplete: destroyBody
     });
 
-    dude.alpha = 0.5;
     invulnerable = true;
-    invulnerableUntil = 0;
+
+    if (playerLives == 0)
+    {
+        poorBrianIsDeceasedRIPBrian();
+        return;
+    }
+
+    dude.alpha = 0.5;
 
     tween = dude.scene.tweens.add({
         targets: dudesNumeric,
@@ -728,14 +746,15 @@ function losePlayerLife()
         yoyo: true,
         onComplete: invulnerabilityExpired
     });
-
-    if (playerLives == 0)
-        poorBrianIsDeceasedRIPBrian();
 }
 
 function poorBrianIsDeceasedRIPBrian()
 {
-    // Game over
+    GameState = GameStateEnum.gameover;
+    gameOverSlowdown = 1.0;
+    buildDude(dude.x, dude.y, 'sliding-dude', 'slide', 1000000);
+    if (currentText != null) fadeOutText(dude.scene);
+    CreateText(dude.scene, "GAME OVER", 4, 375);
 }
 
 function invulnerabilityExpired()
@@ -861,9 +880,8 @@ function initDude(game)
 
 function buildDude(x, y, dudeInstance, action, actionInitiated)
 {   
-
     var yData = dudeStartingHeight;
-    if(dude)
+    if (dude)
     {      
         yData = dude.getData('last-y') === undefined ? dudeStartingHeight : dude.getData('last-y');
         dude.disableBody(true, true);
@@ -900,7 +918,8 @@ function setDude(dude, action, actionInitiated, yData)
 
 function update(time, delta)
 {
-    var GameStateEnum = Object.freeze({"title":1, "playing":2, "gameover":3})
+    if (GameState == GameStateEnum.gameover && gameOverSlowdown > 0)
+        gameOverSlowdown -= 0.01;
 
     if (GameState == GameStateEnum.playing)
     {
@@ -947,7 +966,7 @@ function processSlide(time, game)
     var delta = time - actionInitiated;    
     var bpms = (60 / bpm) * 1000;
 
-    if(delta >= bpms)
+    if (delta >= bpms)
     {
         buildDude(dude.x, dude.y, 'dude', 'none', 0);
     }
@@ -955,13 +974,13 @@ function processSlide(time, game)
 
 function processFall(moveAmount, game)
 {
-    if(dude.getData('action') === 'none' || dude.getData('action') === 'fall')    
+    if (dude.getData('action') === 'none' || dude.getData('action') === 'fall')    
     {
         initFall();         
     }
     
     dude.y = getCurrentJumpHeight(moveAmount);
-    if(dude.y > levelHeight)
+    if (dude.y - (dude.height / 2) > levelHeight)
     {
         ProcessPlayerDrop();
     }
@@ -994,7 +1013,6 @@ function processJump(moveAmount, game)
     {
       buildDude(dude.x, dude.y, 'falling-dude', 'jumping', 0);
     }
-
 
     if(dude.y > levelHeight)
     {
@@ -1193,6 +1211,9 @@ function calculateBeatsElapsed(time, delta, game)
     totalTimeElapsed = (beatCount * bDuration) + timeElapsed;
     totalBeatCountElapsed = beatCount + (timeElapsed / bDuration);
     
+    if (GameState == GameStateEnum.gameover)
+        return;
+
     backgroundImage.x = -((backgroundImage.width - 1366) * (totalBeatCountElapsed / trackConfig.LevelEnd));
 
     looperManager.ProcessTick(totalBeatCountElapsed);
@@ -1237,7 +1258,7 @@ function fadeOutText(game)
 
 function generateAsset(game)
 {
-    var i = 0;
+    var i = levelEventPosition;
     for (i; i < trackConfig.GameEvents.length; i++) {
         const enemy = trackConfig.GameEvents[i];
         if(enemy.TimeStamp === nextEnemy.TimeStamp)
@@ -1250,17 +1271,23 @@ function generateAsset(game)
             {
                 buildEnemy(enemy, game);
             }
+            levelEventPosition++;
         }
         else
         {
             break;
         }
     }
+
+    if (levelEventPosition < trackConfig.GameEvents.length)
+        nextEnemy = trackConfig.GameEvents[levelEventPosition];
+    /*
     trackConfig.GameEvents.splice(0, i);
     if(trackConfig.GameEvents.length > 0)
     {
         nextEnemy = trackConfig.GameEvents[0];
     }
+    */
 }
 
 function buildPlatform(platformConfig, game)
@@ -1369,15 +1396,16 @@ function buildEnemy(enemyConfig, game)
     addEnemyCollisions(game, enemy);
 }
 
-function CreateText(game, textString, width)
+function CreateText(game, textString, width, y)
 {
+    if (y == null) y = 70;
     currentTextEnd = beatCount + width;
-    currentText = game.add.bitmapText(0, 93, 'font', textString);
+    currentText = game.add.bitmapText(0, y + 23, 'font', textString);
     currentText.x = (1366 - currentText.width) / 2;
     currentText.alpha = 0;
     var tween = game.tweens.add({
         targets: currentText,
-        y: 70,
+        y: y,
         alpha: 1,
         duration: 1700,
         ease: 'Cubic.easeOut'
@@ -1439,6 +1467,7 @@ function ProcessPlayerCollision(enemy)
 
 function ProcessPlayerDrop()
 {
+    losePlayerLife();
     placeDudeBackOnPlatform();
 }
 
@@ -1669,6 +1698,12 @@ function getMove(delta, speed)
     var bpmsDelta =   delta / (beatDuration * 1000);
     //pixels per beat delta
     var bbpDelta = speed * bpmsDelta;
+
+    if (GameState == GameStateEnum.gameover)
+    {
+        bbpDelta *= gameOverSlowdown;
+    }
+
     return bbpDelta
 }
 
