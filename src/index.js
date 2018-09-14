@@ -1401,6 +1401,29 @@ function buildEnemy(enemyConfig, game)
         enemy.setFrame(frame);
     enemy.setData('enemy-data', enemyConfig);
     enemy.setData('enemy-speed', speed);
+
+    if (specialYPosTween == 1)
+    {
+        game.tweens.add({
+            targets: enemy,
+            duration: 35,
+            y: y + 3,
+            repeat: -1,
+            yoyo: true
+        });
+    }
+    else if (specialYPosTween == 2)
+    {
+        game.tweens.add({
+            targets: enemy,
+            duration: 350,
+            y: y + 24,
+            repeat: -1,
+            ease: 'Sine.easeInOut',
+            yoyo: true
+        });
+    }
+
     enemies.push(enemy);
     addEnemyCollisions(game, enemy);
 }
