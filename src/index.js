@@ -250,6 +250,7 @@ var punchContantPoint = [230, 470];
 var kickContantPoint = [215, 520];
 var jumpContantPoint = [225, 560];
 var dudeConstantPointX = 0;
+var startYHeightBaseForConstantPoint = 486.5;
 /***************************************/
 
 // Game state
@@ -392,10 +393,19 @@ function create()
 
 function setupHitPoints(game)
 {
-    punchCollider =  game.physics.add.image(punchContantPoint[0], punchContantPoint[1], 'hit-block');
-    kickCollider =  game.physics.add.image(kickContantPoint[0], kickContantPoint[1], 'hit-block');    
+    var punchPoint = getModifiedHitPointY(punchContantPoint[1]);
+    var kickPoint = getModifiedHitPointY(kickContantPoint[1]);
+
+    punchCollider =  game.physics.add.image(punchContantPoint[0], punchPoint, 'hit-block');
+    kickCollider =  game.physics.add.image(kickContantPoint[0], kickPoint, 'hit-block');    
     punchCollider.disableBody(true, true);
     kickCollider.disableBody(true, true);
+}
+
+function getModifiedHitPointY(hitPoint)
+{
+  var yModifier =  startYHeightBaseForConstantPoint - hitPoint;
+  return dude.y - yModifier;
 }
 
 function setupInitialGroundPlatform(game)
@@ -982,7 +992,7 @@ function initFall()
     jumpDestinationX = dude.x + ppb;
     jumpDestinationY = dude.y + 100;
 
-    jumpProgressX = startX;
+    jumpProgressX = startX;    
     dude.setData('action', 'falling');
 }
 
@@ -996,7 +1006,7 @@ function processJump(moveAmount, game)
     dude.y = getCurrentJumpHeight(moveAmount);
     if(jumpProgressX > jumpX)
     {
-      buildDude(dude.x, dude.y, 'falling-dude', 'fall', 0);
+      buildDude(dude.x, dude.y, 'falling-dude', 'jumping', 0);
     }
 
     if(dude.y > levelHeight)
@@ -1046,7 +1056,11 @@ function initJump()
 
 function endJump(game, y)
 {
+  if(dude.getData('action') === 'jumping')
+  {
+    debugger;
     ProcessLand();
+  }
 
     startX = 0;
     startY = 0;
@@ -1064,11 +1078,11 @@ function processAttack(time, game)
 {   
     if(dude.getData('action') === 'punch')
     {
-        punchCollider.enableBody(false, punchContantPoint[0], punchContantPoint[1], true, false);
+        punchCollider.enableBody(true, punchContantPoint[0], getModifiedHitPointY(punchContantPoint[1]), true, false);
     }
     else if(dude.getData('action') === 'kick')
     {
-        kickCollider.enableBody(false, kickContantPoint[0], kickContantPoint[1], true, false);
+        kickCollider.enableBody(true, kickContantPoint[0], getModifiedHitPointY(kickContantPoint[1]), true, false);
     }
     var delta = time - dude.getData('action-initiated');
     var beatDuration = (60 / bpm);
