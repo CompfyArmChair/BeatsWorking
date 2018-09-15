@@ -735,7 +735,7 @@ function losePlayerLife()
 
     if (playerLives == 0)
     {
-        poorBrianIsDeceasedRIPBrian();
+        poorBrianIsDeceasedRIPBrian("GAME OVER");
         return;
     }
 
@@ -751,22 +751,22 @@ function losePlayerLife()
     });
 }
 
-function poorBrianIsDeceasedRIPBrian()
+function poorBrianIsDeceasedRIPBrian(endMessage)
 {
     GameState = GameStateEnum.gameover;
     gameOverSlowdown = 1.0;
     buildDude(dude.x, dude.y, 'sliding-dude', 'slide', 1000000);
     if (currentText != null) fadeOutText(dude.scene);
-    CreateText(dude.scene, "GAME OVER", 4, 375);
+    CreateText(dude.scene, endMessage, 4, 375);
 }
 
 function invulnerabilityExpired()
 {
-    this.targets[0].alpha = 1;
-    for (var i = 0; i < this.targets; i++)
+    for (var i = 0; i < this.targets.length; i++)
     {
         var target = this.targets[i];
         target.alpha = 1;
+        console.log(target);
     }
     
     invulnerable = false;
@@ -895,12 +895,13 @@ function buildDude(x, y, dudeInstance, action, actionInitiated)
     dude = dudes[dudeInstance];    
     dude.x = x;
     dude.y = y;
-    dude.enableBody(false, x, y, true, true);
+    dude.enableBody(false, x, y, true, true);           // Maybe first param true?
     setDude(dude, action, actionInitiated, yData);
 }
 
 function findSmallestInterval()
-{    
+{   
+    /* 
     for (var i = 0; i < trackConfig.GameEvents.length - 1; i++) {
         const enemy = trackConfig.GameEvents[i];
         const nextEnemy = trackConfig.GameEvents[i+1];  
@@ -913,6 +914,8 @@ function findSmallestInterval()
             }
         }
     }
+    */
+   smallestBeatInterval = 0.25;
 }
 
 function setDude(dude, action, actionInitiated, yData)
@@ -1216,9 +1219,15 @@ function calculateBeatsElapsed(time, delta, game)
     
     totalTimeElapsed = (beatCount * bDuration) + timeElapsed;
     totalBeatCountElapsed = beatCount + (timeElapsed / bDuration);
-    
+
     if (GameState == GameStateEnum.gameover)
         return;
+
+    if (totalBeatCountElapsed > trackConfig.LevelEnd)
+    {
+        addPlayerScore(1000 * playerLives);
+        poorBrianIsDeceasedRIPBrian("LEVEL COMPLETE");
+    }
 
     backgroundImage.x = -((backgroundImage.width - 1366) * (totalBeatCountElapsed / trackConfig.LevelEnd));
 
@@ -1318,7 +1327,7 @@ function buildEnemy(enemyConfig, game)
     var graphic = "";
     var frame = -1;
     var contactPoint = dudeConstantPointX; // change these when resizing enemy hit boxes ********
-    var specialYPosTween = 0;
+    var special = 0;
     if (enemyConfig.Type === "enemy")
     {
         if (enemyConfig.SubType == "rat")
@@ -1327,7 +1336,7 @@ function buildEnemy(enemyConfig, game)
             graphic = "rat";
             speed = ppb + 100;
             contactPoint = kickContantPoint[0]; // change these when resizing enemy hit boxes ********
-            specialYPosTween = 1;
+            special = 1;
         }
         else if (enemyConfig.SubType == "bird")
         {
@@ -1335,27 +1344,28 @@ function buildEnemy(enemyConfig, game)
             graphic = "bird";
             speed = ppb + 200;
             contactPoint = punchContantPoint[0]; // change these when resizing enemy hit boxes ********
-            specialYPosTween = 2;
+            special = 2;
         }
     }
     else if (enemyConfig.Type === "gem")
     {
-        y = 510;
+        y = enemyConfig.YPos;
         graphic = "gems";
         frame = Number(enemyConfig.SubType);
-        contactPoint = dudeConstantPointX + dude.width / 2;// change these when resizing enemy hit boxes ********
+        contactPoint = dudeConstantPointX; // change these when resizing enemy hit boxes ********
     }
     else if (enemyConfig.Type === "block")
     {
-        contactPoint = jumpContantPoint[0];// change these when resizing enemy hit boxes ********
-        y = 455;
+        contactPoint = jumpContantPoint[0]; // change these when resizing enemy hit boxes ********
+        y = 435;
         graphic = "block";
     }
     else if (enemyConfig.Type === "aircon")
     {
-        contactPoint = jumpContantPoint[0];// change these when resizing enemy hit boxes ********
+        contactPoint = jumpContantPoint[0]; // change these when resizing enemy hit boxes ********
         y = 536;
         graphic = "aircon";
+        special = 3;
     }
     else if (enemyConfig.Type === "LoopRecordStart")
     {
@@ -1402,7 +1412,7 @@ function buildEnemy(enemyConfig, game)
     enemy.setData('enemy-data', enemyConfig);
     enemy.setData('enemy-speed', speed);
 
-    if (specialYPosTween == 1)
+    if (special == 1)
     {
         game.tweens.add({
             targets: enemy,
@@ -1412,7 +1422,7 @@ function buildEnemy(enemyConfig, game)
             yoyo: true
         });
     }
-    else if (specialYPosTween == 2)
+    else if (special == 2)
     {
         game.tweens.add({
             targets: enemy,
@@ -1422,6 +1432,10 @@ function buildEnemy(enemyConfig, game)
             ease: 'Sine.easeInOut',
             yoyo: true
         });
+    }
+    else if (special == 3)
+    {
+        enemy.setSize(50, 50, false);
     }
 
     enemies.push(enemy);
@@ -1485,6 +1499,12 @@ function playerEnemyCollide(dude, enemy)
      if (enemy.getData('enemy-data').Type === 'gem')
     {
         ProcessCollectableCollected(enemy);
+    }
+    else if (enemy.getData('enemy-data').Type === "block")
+    {
+        console.log(dude.getData('action'));
+        if (dude.getData('action') != 'slide')
+            ProcessPlayerCollision(enemy);
     }
     else
     {
