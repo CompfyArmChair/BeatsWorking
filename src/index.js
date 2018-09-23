@@ -15,7 +15,7 @@ class LooperManager
 
     StartRecording(channel, currentBeat, loopLength)
     {
-        console.log("Start recording: " + channel);
+        //console.log("Start recording: " + channel);
         if (this.Loopers[channel] == null)
         {
             this.Loopers[channel] = new Looper(loopLength);
@@ -25,7 +25,7 @@ class LooperManager
 
     StartPlayback(channel, currentBeat)
     {
-        console.log("Start playback: " + channel);
+        //console.log("Start playback: " + channel);
         if (this.Loopers[channel] == null)
         {
             this.Loopers[channel] = new Looper();
@@ -36,6 +36,11 @@ class LooperManager
     Stop(channel)
     {
         this.Loopers[channel].Stop();
+    }
+
+    Clear(channel)
+    {
+        this.Loopers[channel].Clear();
     }
 
     Mute(channel)
@@ -82,8 +87,8 @@ class Looper
         this.CurrentEventIndex = 0;
         this.LastPosition = 0;
         this.HasPassedLastNote = false;
-        this.QuantiseStrength = 0;
-        this.QuantiseResolution = 0.25;
+        this.QuantiseStrength = 1;
+        this.QuantiseResolution = 0.125;
     }
 
     StartRecording(currentBeat)
@@ -107,17 +112,22 @@ class Looper
 
     DebugOutputSequence()
     {
-        console.log ("SEQUENCE");
+        //console.log("SEQUENCE");
         for (var i = 0; i < this.Events.length; i++)
         {
             var ev = this.Events[i];
-            console.log (i + ": " + ev.Beat + " - " + ev.Note);
+            //console.log(i + ": " + ev.Beat + " - " + ev.Note);
         }
     }
 
     Stop()
     {
         this.State = LoopState.stopped;
+    }
+
+    Clear()
+    {
+        this.Events = [];
     }
 
     Mute()
@@ -217,6 +227,7 @@ import 'phaser';
 var levelsConfig;
 var trackConfig;
 var levelEventPosition;
+var countRestarts = 0;
 
 var config = {
     type: Phaser.AUTO,
@@ -244,6 +255,7 @@ var game = new Phaser.Game(config);
 var bpm = 112;
 //pixels per beat
 var ppb = 200;
+var jumpXDistance;
 var levelWidth = 1366;
 var levelHeight = 768;
 var punchContantPoint = [230, 470];
@@ -318,12 +330,15 @@ var bufferLoader;
 var timeoutID;
 var sounds;
 var looperManager;
+var playerDamageSoundIndex;
 
 // Particle effects
 var enemyDeathParticle;
 var enemyEmitter;
+var bigEnemyEmitter;
 var collectableParticle;
 var collectableEmitters = [];
+var damageTakenEmitter;
 var lifeLostEmitter;
 
 // Text
@@ -352,7 +367,9 @@ function preload()
 
     // Enemies
     this.load.image('rat', 'assets/rat.png');
+    this.load.image('honeybadger', 'assets/rat.png');
     this.load.image('bird', 'assets/bird.png');
+    this.load.image('missile', 'assets/missile.png');
     
     // Buildings
     this.load.image('building1', 'assets/building 1.png');
@@ -426,9 +443,9 @@ function buildPlatformBlock(x, y, width, buildingType, game)
     //platformBlock.setDisplaySize(width, platformBlock.height * scaleFactor);
     platformBlock.setOffset(platformBlock.width / 2, platformBlock.height / 2);
 
-    console.log("platform start: " + platformBlock.x);
-    console.log("platform end: " + (platformBlock.x + platformBlock.width));
-    console.log("platform width: " +  platformBlock.width);
+    //console.log("platform start: " + platformBlock.x);
+    //console.log("platform end: " + (platformBlock.x + platformBlock.width));
+    //console.log("platform width: " +  platformBlock.width);
 
     for (var key in dudes) {
         var dude = dudes[key];
@@ -497,13 +514,13 @@ function setupTitleScreen(game)
     game.input.keyboard.on('keydown', function (event) {
         if (GameState == GameStateEnum.gameover && gameOverSlowdown < 0.4)
         {
-            console.log(game);
-            console.log("length: " + game.children.list.length);
-            console.log("game.children: " + game.children.list)
+            //console.log(game);
+            //console.log("length: " + game.children.list.length);
+            //console.log("game.children: " + game.children.list)
             while (game.children.list.length > 0)
             {
                 var child = game.children.list[0];
-                console.log("Destroying " + child);
+                //console.log("Destroying " + child);
                 child.destroy();
                 game.children.list.splice(0, 1);
             }
@@ -578,6 +595,20 @@ function setupParticleEffects(game)
         on: false
     });
 
+    bigEnemyEmitter = enemyDeathParticle.createEmitter( {
+        x: 0,
+        y: 0,
+        angle: { min: -60, max: 40 },
+        speed: { min: 0, max: 340 },
+        quantity: 190,
+        lifespan: 900,
+        alpha: { start: 1, end: 0 },
+        gravityY: 250,
+        scale: { start: 0.4, end: 0.0 },
+        blendMode: 'ADD',
+        on: false
+    });
+
     collectableParticle = game.add.particles('particle3');
     for (var i = 1; i <= 8; i++)
     {
@@ -598,6 +629,20 @@ function setupParticleEffects(game)
         collectableEmitters[i] = collectableEmitter;
     }
 
+    damageTakenEmitter = collectableParticle.createEmitter( {
+        x: 0,
+        y: 0,
+        angle: { min: 130, max: 210 },
+        speed: { min: 30, max: 250 },
+        quantity: 120,
+        lifespan: 1200,
+        alpha: { start: 1, end: 0 },
+        gravityY: 380,
+        tint: 0xCC1118,
+        scale: { start: 0.4, end: 0.0 },
+        on: false
+    });
+
     lifeLostEmitter = collectableParticle.createEmitter( {
         x: 0,
         y: 0,
@@ -611,8 +656,7 @@ function setupParticleEffects(game)
         blendMode: 'ADD',
         on: false
     });
-
-    console.log("Set up particles");
+    //console.log("Set up particles");
 }
 
 function findTintForCollectable(soundNumber)
@@ -640,17 +684,20 @@ function findTintForCollectable(soundNumber)
 function continueSetup(soundList)
 {
     sounds = soundList;
-    console.log("Set up " + sounds.length + " sounds.")
+    //console.log("Set up " + sounds.length + " sounds.")
 }
 
 function setupLevel(levelNum, game)
 {
+    //console.log("SETUP LEVEL");
+    countRestarts++;
     trackConfig = levelsConfig.Levels[levelNum];
     levelEventPosition = 0;
     bpm = trackConfig.Tempo;
+    jumpXDistance = ppb * trackConfig.JumpMultiplier;
 
     playerScore = 0;
-    playerLives = 5;
+    playerLives = 7;        // 7
     invulnerable = false;
 
     beatlines = [];
@@ -672,6 +719,8 @@ function setupLevel(levelNum, game)
     
     currentTextEnd = 0;
     currentText = null;
+
+    //console.log("SETUP LEVEL MIDDLE");
 
     game.anims.create({ key: 'brianRun', frames: game.anims.generateFrameNames('brians'), repeat: -1, frameRate: 10 });    
     platformGraphics = game.add.graphics({ fillStyle: { color: 0x696969 } });
@@ -705,6 +754,8 @@ function setupLevel(levelNum, game)
     addPlayerScore(0);
 
     GameState = GameStateEnum.playing;
+    
+    //console.log("SETUP LEVEL END");
 }
 
 function addPlayerScore(scoreDelta)
@@ -714,7 +765,7 @@ function addPlayerScore(scoreDelta)
     playerScoreText.x = 1366 - (20 + playerScoreText.width);
 }
 
-function losePlayerLife()
+function losePlayerLife(enemy)
 {
     if (invulnerable) return;
 
@@ -723,6 +774,16 @@ function losePlayerLife()
 
     lifeLostEmitter.setPosition(lostLifeIndicator.x, lostLifeIndicator.y);
     lifeLostEmitter.explode();
+
+    var yPos;
+    if (enemy != null)
+        yPos = enemy.y;
+    else
+        yPos = dude.y;
+    damageTakenEmitter.setPosition(dude.x, yPos);
+    damageTakenEmitter.explode();
+
+    playSoundFromLooper(playerDamageSoundIndex);
 
     var tween = lostLifeIndicator.scene.tweens.add({
         targets: lostLifeIndicator,
@@ -739,11 +800,13 @@ function losePlayerLife()
         return;
     }
 
-    dude.alpha = 0.5;
+    dude.tint = 0xBB5555;
+    dude.alpha = 0.8;
 
     tween = dude.scene.tweens.add({
         targets: dudesNumeric,
-        alpha: 0,
+        alpha: 0.4,
+        tint: 0x882222,
         duration: 500,
         repeat: 2,
         yoyo: true,
@@ -766,7 +829,8 @@ function invulnerabilityExpired()
     {
         var target = this.targets[i];
         target.alpha = 1;
-        console.log(target);
+        target.tint = 0xFFFFFF;
+        //console.log(target);
     }
     
     invulnerable = false;
@@ -796,9 +860,13 @@ function setupSound(trackConfig)
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     context = new AudioContext();
     
+    var soundArray = trackConfig.SampleList.slice(0);
+    playerDamageSoundIndex = soundArray.length;
+    soundArray.push("Sound/Dissonant.wav");
+
     bufferLoader = new BufferLoader(
         context,
-        trackConfig.SampleList,
+        soundArray,     // trackConfig.SampleList
         continueSetup
         );
     
@@ -815,14 +883,15 @@ function SetupPalette(trackConfig, trackNumber)
     for (var i = 0; i < trackInfo.SampleMaps.length; i++)
     {
         var sampleMap = trackInfo.SampleMaps[i];
-        currentPalette[sampleMap.SourceActionIndex] = sampleMap.SampleFileIndex;
+        //currentPalette[sampleMap.SourceActionIndex] = sampleMap.SampleFileIndex;
+        currentPalette[sampleMap.SourceActionIndex] = sampleMap;
     }
 }
 
 function debugLogLevelInfo()
 {
-    console.log("BPM: " + bpm);
-    console.log("Smallest interval: " + smallestBeatInterval);
+    //console.log("BPM: " + bpm);
+    //console.log("Smallest interval: " + smallestBeatInterval);
 }
 
 function initKeys(game)
@@ -890,7 +959,8 @@ function buildDude(x, y, dudeInstance, action, actionInitiated)
     if (dude)
     {      
         yData = dude.getData('last-y') === undefined ? dudeStartingHeight : dude.getData('last-y');
-        dude.disableBody(true, true);
+        if (dude != null && dude.body != null)
+            dude.disableBody(true, true);
     } 
     dude = dudes[dudeInstance];    
     dude.x = x;
@@ -927,6 +997,9 @@ function setDude(dude, action, actionInitiated, yData)
 
 function update(time, delta)
 {
+    //if (GameState == GameStateEnum.playing)
+        //console.log("pos: " + levelEventPosition + " / time: " + time + " / delta: " + delta);
+
     if (GameState == GameStateEnum.gameover && gameOverSlowdown > 0)
         gameOverSlowdown -= 0.01;
 
@@ -1061,7 +1134,7 @@ function initJump()
     jumpX = startX + (ppb/2);
     jumpY = dude.y - 100;
     
-    jumpDestinationX = startX + ppb;
+    jumpDestinationX = startX + jumpXDistance;
     jumpDestinationY = startY;
 
     jumpProgressX = startX;
@@ -1200,19 +1273,21 @@ function ProcessSlideEnd(time)
 
 function ProcessDebug()
 {
-    console.log("smallestBeatInterval: " + smallestBeatInterval);
-    console.log("timeElapsed: " + timeElapsed);
-    console.log("timeInit: " + timeInit);
-    console.log("beatCount: " + beatCount);
+    //console.log("smallestBeatInterval: " + smallestBeatInterval);
+    //console.log("timeElapsed: " + timeElapsed);
+    //console.log("timeInit: " + timeInit);
+    //console.log("beatCount: " + beatCount);
 }
 
 function calculateBeatsElapsed(time, delta, game)
 {
-    if(timeInit === 0)
+    /*
+    if (timeInit === 0)
     {
         timeInit = time;
         timeElapsed = time;
     }
+    */
     timeElapsed += delta;
 
     var bDuration = (60/bpm) * 1000
@@ -1232,19 +1307,21 @@ function calculateBeatsElapsed(time, delta, game)
     backgroundImage.x = -((backgroundImage.width - 1366) * (totalBeatCountElapsed / trackConfig.LevelEnd));
 
     looperManager.ProcessTick(totalBeatCountElapsed);
-    
+
+    generateDueAssets(game, bDuration);
+    /*
     if (totalTimeElapsed >= (nextEnemy.TimeStamp * bDuration))
     {       
-      generateAsset(game);                   
+        generateAsset(game);                   
     }
+    */
     
     if (timeElapsed >= bDuration)
     {
-      // timeElapsed -= bDuration;        Seems as though it should be this instead, but it's (maybe?) causing issues
-      running = true;
-      timeElapsed = 0;
-      
-      beatElapsed(game);
+        timeElapsed -= bDuration;
+        running = true;
+        //timeElapsed = 0;
+        beatElapsed(game);
     }
 }
 
@@ -1271,10 +1348,40 @@ function fadeOutText(game)
     currentText = null;
 }
 
+function generateDueAssets(game, bDuration)
+{
+    if (countRestarts > 1)
+        debugger;
+
+    var count = 0;
+    while (levelEventPosition < trackConfig.GameEvents.length && totalTimeElapsed >= (trackConfig.GameEvents[levelEventPosition].TimeStamp * bDuration))
+    {
+        generateDueAsset(trackConfig.GameEvents[levelEventPosition], game);
+        levelEventPosition++;
+        count++;
+    }
+
+    //console.log("bDuration: " + bDuration + " / Generated assets: " + count);
+}
+
+function generateDueAsset(asset, game)
+{
+    if(asset.Type === "platform")
+    {
+        buildPlatform(asset, game);
+    }
+    else
+    {
+        buildEnemy(asset, game);
+    }
+}
+
+/*
 function generateAsset(game)
 {
-    var i = levelEventPosition;
-    for (i; i < trackConfig.GameEvents.length; i++) {
+    var i;
+    for (i = levelEventPosition; i < trackConfig.GameEvents.length; i++) {
+        console.log("LOOP" + i);
         const enemy = trackConfig.GameEvents[i];
         if(enemy.TimeStamp === nextEnemy.TimeStamp)
         {
@@ -1296,14 +1403,14 @@ function generateAsset(game)
 
     if (levelEventPosition < trackConfig.GameEvents.length)
         nextEnemy = trackConfig.GameEvents[levelEventPosition];
-    /*
-    trackConfig.GameEvents.splice(0, i);
-    if(trackConfig.GameEvents.length > 0)
-    {
-        nextEnemy = trackConfig.GameEvents[0];
-    }
-    */
+
+//    trackConfig.GameEvents.splice(0, i);
+//    if(trackConfig.GameEvents.length > 0)
+//    {
+//        nextEnemy = trackConfig.GameEvents[0];
+//    }
 }
+*/
 
 function buildPlatform(platformConfig, game)
 {
@@ -1338,6 +1445,14 @@ function buildEnemy(enemyConfig, game)
             contactPoint = kickContantPoint[0]; // change these when resizing enemy hit boxes ********
             special = 1;
         }
+        if (enemyConfig.SubType == "honeybadger")
+        {
+            y = 535;
+            graphic = "honeybadger";
+            speed = ppb + 150;
+            contactPoint = kickContantPoint[0]; // change these when resizing enemy hit boxes ********
+            special = 1;
+        }
         else if (enemyConfig.SubType == "bird")
         {
             y = 450;
@@ -1345,6 +1460,14 @@ function buildEnemy(enemyConfig, game)
             speed = ppb + 200;
             contactPoint = punchContantPoint[0]; // change these when resizing enemy hit boxes ********
             special = 2;
+        }
+        else if (enemyConfig.SubType == "missile")
+        {
+            y = -100;
+            graphic = "missile";
+            speed = ppb + 300;
+            contactPoint = punchContantPoint[0]; // change these when resizing enemy hit boxes ********
+            special = 3;
         }
     }
     else if (enemyConfig.Type === "gem")
@@ -1365,7 +1488,7 @@ function buildEnemy(enemyConfig, game)
         contactPoint = jumpContantPoint[0]; // change these when resizing enemy hit boxes ********
         y = 536;
         graphic = "aircon";
-        special = 3;
+        special = 4;
     }
     else if (enemyConfig.Type === "LoopRecordStart")
     {
@@ -1386,6 +1509,12 @@ function buildEnemy(enemyConfig, game)
         frame = 7 + Number(enemyConfig.SubType);
     }
     else if (enemyConfig.Type === "LoopPlayStop")
+    {
+        y = 30;
+        graphic = "markers";
+        frame = 15 + Number(enemyConfig.SubType);
+    }
+    else if (enemyConfig.Type === "LoopClear")
     {
         y = 30;
         graphic = "markers";
@@ -1435,9 +1564,34 @@ function buildEnemy(enemyConfig, game)
     }
     else if (special == 3)
     {
+        game.tweens.add({
+            targets: enemy,
+            duration: 3600,
+            ease: 'Sine.easeInOut',
+            y: 450,
+        });
+
+        var missileEmitter = collectableParticle.createEmitter( {
+            x: 20,
+            y: { min: -5, max: 5 },
+            angle: { min: 85, max: 95 },
+            speed: { min: 0, max: 130 },
+            quantity: 10,
+            lifespan: 200,
+            alpha: { start: 1, end: 0 },
+            gravityY: 250,
+            scale: { start: 0.2, end: 0.0 },
+            blendMode: 'ADD',
+            on: true
+        });
+
+        enemy.missileEmitter = missileEmitter;
+        missileEmitter.startFollow(enemy);
+    }
+    else if (special == 4)
+    {
         enemy.setSize(50, 50, false);
     }
-
     enemies.push(enemy);
     addEnemyCollisions(game, enemy);
 }
@@ -1470,28 +1624,38 @@ function addEnemyCollisions(game, enemy)
     {
         game.physics.add.overlap(kickCollider, enemy, playerRatAttack);
     }
+    else if (enemyConfig.SubType === "honeybadger")
+    {
+        game.physics.add.overlap(kickCollider, enemy, playerHoneybadgerAttack);
+    }
     else if (enemyConfig.SubType === "bird")
     {
         game.physics.add.overlap(punchCollider, enemy, playerBirdAttack);
     }
-}
-
-function playerBirdAttack(dude, enemy)
-{
-    var expected = enemy.getData('enemy-data');
-    console.log("BIRD HIT: " + totalBeatCountElapsed);
-    console.log("BIRD EXPECT: " + (Number(expected.TimeStamp) + enemyGenerationBeatOffset));
-
-    ProcessAirEnemyKilled(enemy);
+    else if (enemyConfig.SubType === "missile")
+    {
+        game.physics.add.overlap(punchCollider, enemy, playerMissileAttack);
+    }
 }
 
 function playerRatAttack(dude, enemy)
 {
-  var expected = enemy.getData('enemy-data');
-  console.log("RAT HIT: " + totalBeatCountElapsed);
-  console.log("RAT EXPECT: " + (Number(expected.TimeStamp) + enemyGenerationBeatOffset));
+  ProcessGroundEnemyKilled(enemy, 21)
+}
 
-  ProcessGroundEnemyKilled(enemy)
+function playerHoneybadgerAttack(dude, enemy)
+{
+  ProcessGroundEnemyKilled(enemy, 22)
+}
+
+function playerBirdAttack(dude, enemy)
+{
+    ProcessAirEnemyKilled(enemy, 23);
+}
+
+function playerMissileAttack(dude, enemy)
+{
+    ProcessMissileEnemyKilled(enemy, 24);
 }
 
 function playerEnemyCollide(dude, enemy)
@@ -1502,7 +1666,7 @@ function playerEnemyCollide(dude, enemy)
     }
     else if (enemy.getData('enemy-data').Type === "block")
     {
-        console.log(dude.getData('action'));
+        //console.log(dude.getData('action'));
         if (dude.getData('action') != 'slide')
             ProcessPlayerCollision(enemy);
     }
@@ -1514,7 +1678,7 @@ function playerEnemyCollide(dude, enemy)
 
 function ProcessPlayerCollision(enemy)
 {
-    losePlayerLife();
+    losePlayerLife(enemy);
 }
 
 function ProcessPlayerDrop()
@@ -1534,9 +1698,10 @@ function placeDudeBackOnPlatform()
   }
 }
 
-function ProcessAirEnemyKilled(enemy)
+function ProcessAirEnemyKilled(enemy, enemySoundNum)
 {
     playSound(2, null);
+    playSound(enemySoundNum, null);
 
     enemy.disableBody(true, false);
 
@@ -1560,9 +1725,10 @@ function ProcessAirEnemyKilled(enemy)
     addPlayerScore(200);
 }
 
-function ProcessGroundEnemyKilled(enemy)
+function ProcessGroundEnemyKilled(enemy, enemySoundNum)
 {
     playSound(1, null);
+    playSound(enemySoundNum, null);
 
     enemy.disableBody(true, false);
 
@@ -1586,10 +1752,42 @@ function ProcessGroundEnemyKilled(enemy)
     addPlayerScore(200);
 }
 
+
+function ProcessMissileEnemyKilled(enemy, enemySoundNum)
+{
+    playSound(2, null);
+    playSound(enemySoundNum, null);
+
+    enemy.disableBody(true, false);
+
+    bigEnemyEmitter.setPosition(enemy.x, enemy.y);
+    bigEnemyEmitter.explode();
+
+    var xDest = enemy.x + (50 + Math.random() * 40.0);
+    var yDest = enemy.y + (-60 + (Math.random() * 120.0));
+    var duration = 350 + (Math.random() * 150.0);
+
+    var tween = enemy.scene.tweens.add({
+        targets: enemy,
+        x: xDest,
+        y: yDest,
+        alpha: 0,
+        duration: duration,
+        onComplete: destroyBody,
+        ease: 'Cubic.easeOut'
+    });
+
+    //console.log(enemy.missileEmitter);
+    if (enemy.missileEmitter != null)
+        enemy.missileEmitter.stop();
+
+    addPlayerScore(200);
+}
+
 function ProcessCollectableCollected(enemy)
 {
     var gemType = Number(enemy.getData('enemy-data').SubType) + 1;
-    var soundNumber = gemType + 8;      // 9? 10?
+    var soundNumber = gemType + 8;
     playSound(soundNumber, null);
 
     enemy.disableBody(true, false);
@@ -1719,6 +1917,11 @@ function ProcessMarkerReached(enemy, currentBeat)
         var paletteNum = Number(enemyData.SubType);
         looperManager.Stop(paletteNum);
     }
+    else if (enemyData.Type == "LoopClear")
+    {
+        var paletteNum = Number(enemyData.SubType);
+        looperManager.Clear(paletteNum);
+    }
     else if (enemyData.Type == "Palette")
     {
         var paletteNum = Number(enemyData.SubType);
@@ -1761,14 +1964,28 @@ function getMove(delta, speed)
 
 function playSound(soundNum, time)
 {
-    var soundIndex = currentPalette[soundNum];
-    if(soundIndex !== null && soundIndex !== undefined)
+    if (sounds == null)
+        return;
+
+    var soundItem = currentPalette[soundNum];
+    if(soundItem !== null && soundItem !== undefined)
     {        
+        var soundIndex = soundItem.SampleFileIndex;
         var source = context.createBufferSource();
         source.buffer = sounds[soundIndex];
         source.connect(context.destination);
+        if (soundItem.LoopStart != null && soundItem.LoopStart > 0)
+        {
+            source.loop = true;
+            source.loopStart = soundItem.LoopStart;
+            source.loopEnd = soundItem.LoopEnd;
+            console.log("LOOP: " + source.loop);
+            console.log("LOOP START: " + source.loopStart);
+            console.log("LOOP END: " + source.loopEnd);
+        }
         source.start(time);
-        looperManager.SoundPlayed(totalBeatCountElapsed, currentPaletteNum, soundIndex);
+        if (!soundItem.ExcludeFromLooping)
+            looperManager.SoundPlayed(totalBeatCountElapsed, currentPaletteNum, soundIndex);
     }
 }
 
@@ -1812,7 +2029,7 @@ function BufferLoader(context, urlList, callback) {
             return;
           }
           loader.bufferList[index] = buffer;
-          console.log("loadCount: " + loader.loadCount);
+          //console.log("loadCount: " + loader.loadCount);
           if (++loader.loadCount == loader.urlList.length)
             loader.onload(loader.bufferList);
         },
@@ -1831,5 +2048,8 @@ function BufferLoader(context, urlList, callback) {
   
   BufferLoader.prototype.load = function() {
     for (var i = 0; i < this.urlList.length; ++i)
-    this.loadBuffer(this.urlList[i], i);
+    {
+        //console.log(this.urlList[i]);
+        this.loadBuffer(this.urlList[i], i);
+    }
   }
