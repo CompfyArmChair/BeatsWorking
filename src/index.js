@@ -35,22 +35,26 @@ class LooperManager
 
     Stop(channel)
     {
-        this.Loopers[channel].Stop();
+        if (this.Loopers[channel] != null)
+            this.Loopers[channel].Stop();
     }
 
     Clear(channel)
     {
-        this.Loopers[channel].Clear();
+        if (this.Loopers[channel] != null)
+            this.Loopers[channel].Clear();
     }
 
     Mute(channel)
     {
-        this.Loopers[channel].Mute();
+        if (this.Loopers[channel] != null)
+            this.Loopers[channel].Mute();
     }
 
     Unmute(channel)
     {
-        this.Loopers[channel].Unmute();
+        if (this.Loopers[channel] != null)
+            this.Loopers[channel].Unmute();
     }
 
     SoundPlayed(currentBeat, channel, soundNumber)
@@ -331,6 +335,7 @@ var timeoutID;
 var sounds;
 var looperManager;
 var playerDamageSoundIndex;
+var loopsToStopOnEnd;
 
 // Particle effects
 var enemyDeathParticle;
@@ -697,7 +702,7 @@ function setupLevel(levelNum, game)
     jumpXDistance = ppb * trackConfig.JumpMultiplier;
 
     playerScore = 0;
-    playerLives = 7;        // 7
+    playerLives = 7;
     invulnerable = false;
 
     beatlines = [];
@@ -705,7 +710,7 @@ function setupLevel(levelNum, game)
     smallestBeatInterval = 999;
     timeElapsed = 0;
     timeInit = 0;
-    beatCount = 0;        // 168 = gems
+    beatCount = 0;
     totalTimeElapsed = 0;
     totalBeatCountElapsed = 0;
     
@@ -817,6 +822,11 @@ function losePlayerLife(enemy)
 function poorBrianIsDeceasedRIPBrian(endMessage)
 {
     GameState = GameStateEnum.gameover;
+    for (var i = 0; i < loopsToStopOnEnd.length; i++)
+    {
+        var sound = loopsToStopOnEnd[i];
+        sound.stop();        
+    }
     gameOverSlowdown = 1.0;
     buildDude(dude.x, dude.y, 'sliding-dude', 'slide', 1000000);
     if (currentText != null) fadeOutText(dude.scene);
@@ -856,6 +866,7 @@ function setupBackgroundImage(game, trackConfig)
 
 function setupSound(trackConfig)
 {
+    loopsToStopOnEnd = [];
     SetupPalette(trackConfig, 1);
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     context = new AudioContext();
@@ -897,13 +908,13 @@ function debugLogLevelInfo()
 function initKeys(game)
 {    
     punchKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    punchKey2 = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+    punchKey2 = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
     kickKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    kickKey2 = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+    kickKey2 = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
     jumpKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
     slideKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
     downKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-    downKey2 = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
+    downKey2 = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
     debugKey = game.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 }
 
@@ -1274,9 +1285,9 @@ function ProcessSlideEnd(time)
 function ProcessDebug()
 {
     //console.log("smallestBeatInterval: " + smallestBeatInterval);
-    //console.log("timeElapsed: " + timeElapsed);
-    //console.log("timeInit: " + timeInit);
-    //console.log("beatCount: " + beatCount);
+    console.log("timeElapsed: " + timeElapsed);
+    console.log("timeInit: " + timeInit);
+    console.log("beatCount: " + beatCount);
 }
 
 function calculateBeatsElapsed(time, delta, game)
@@ -1350,8 +1361,8 @@ function fadeOutText(game)
 
 function generateDueAssets(game, bDuration)
 {
-    if (countRestarts > 1)
-        debugger;
+    //if (countRestarts > 1)
+        //debugger;
 
     var count = 0;
     while (levelEventPosition < trackConfig.GameEvents.length && totalTimeElapsed >= (trackConfig.GameEvents[levelEventPosition].TimeStamp * bDuration))
@@ -1979,9 +1990,10 @@ function playSound(soundNum, time)
             source.loop = true;
             source.loopStart = soundItem.LoopStart;
             source.loopEnd = soundItem.LoopEnd;
-            console.log("LOOP: " + source.loop);
-            console.log("LOOP START: " + source.loopStart);
-            console.log("LOOP END: " + source.loopEnd);
+            //console.log("LOOP: " + source.loop);
+            //console.log("LOOP START: " + source.loopStart);
+            //console.log("LOOP END: " + source.loopEnd);
+            loopsToStopOnEnd.push(source);
         }
         source.start(time);
         if (!soundItem.ExcludeFromLooping)

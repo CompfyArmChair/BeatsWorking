@@ -5,7 +5,7 @@
       "Tempo": 100.0,
       "JumpMultiplier": 1.0,
       "Background": "background0",
-      "LevelEnd": 260.0,
+      "LevelEnd": 252.0,
       "SampleDirectory": "Level 1",
       "SampleList": [
         "Sound/Level 1/1.2 Snare.wav",
@@ -255,7 +255,7 @@
         {
           "TimeStamp": 5.0,
           "Type": "Text",
-          "SubType": "Attack ground enemies with 'D'.",
+          "SubType": "Attack ground enemies with 'Z'.",
           "YPos": 0,
           "Width": 12.0,
           "NoteNum": 0,
@@ -300,7 +300,7 @@
         {
           "TimeStamp": 18.0,
           "Type": "Text",
-          "SubType": "Attack flying enemies with 'W'.",
+          "SubType": "Attack flying enemies with 'X'.",
           "YPos": 0,
           "Width": 12.0,
           "NoteNum": 0,
@@ -831,7 +831,7 @@
         {
           "TimeStamp": 83.0,
           "Type": "Palette",
-          "SubType": "3",
+          "SubType": "2",
           "YPos": 0,
           "Width": 0.0,
           "NoteNum": 0,
@@ -7212,7 +7212,7 @@
       "Tempo": 112.0,
       "JumpMultiplier": 1.0,
       "Background": "background2",
-      "LevelEnd": 700.0,
+      "LevelEnd": 578.0,
       "SampleDirectory": "Level 3",
       "SampleList": [
         "Sound/Level 3/1.1 - Bass 1.wav",
@@ -7222,8 +7222,9 @@
         "Sound/Level 3/1.4 - Bass 4.wav",
         "Sound/Level 3/1.2 - Bass 2.wav",
         "Sound/Level 3/1.4 - Bass 4.wav",
+        "Sound/Level 3/1.2 - Bass 2.wav",
         "Sound/Level 3/2.1 - Hats.wav",
-        "Sound/Level 3/5.1 - drone.wav",
+        "Sound/Level 3/5.1 - Drone.wav",
         "Sound/Level 3/2.1 - Hats.wav",
         "Sound/Level 3/3.1 - Kick double.wav",
         "Sound/Level 3/3.2 - Snare.wav",
@@ -7235,20 +7236,29 @@
         "Sound/Level 3/4.3 - Lead A 3.wav",
         "Sound/Level 3/4.4 - Lead A 4.wav",
         "Sound/Level 3/4.5 - Lead A 5.wav",
-        "Sound/Level 3/4.6 - Lead A 6.wav",
         "Sound/Level 3/2.1 - Hats.wav",
-        "Sound/Level 3/5.1 - drone.wav",
-        "Sound/Level 3/6.1 - claps.wav",
-        "Sound/Level 3/6.2 - claps combo.wav",
+        "Sound/Level 3/5.1 - Drone.wav",
+        "Sound/Level 3/6.1 - Claps.wav",
+        "Sound/Level 3/6.2 - Claps combo.wav",
         "Sound/Level 3/2.1 - Hats.wav",
         "Sound/Level 3/7.1 - Lead B 1.wav",
-        "Sound/Level 3/7.2 - Lead B 2.wav",
-        "Sound/Level 3/7.3 - Lead B 3.wav",
-        "Sound/Level 3/7.4 - Lead B 4.wav",
         "Sound/Level 3/7.5 - Lead B 5.wav",
         "Sound/Level 3/7.6 - Lead B 6.wav",
+        "Sound/Level 3/7.4 - Lead B 4.wav",
+        "Sound/Level 3/7.3 - Lead B 3.wav",
         "Sound/Level 3/7.7 - Lead B 7.wav",
         "Sound/Level 3/7.8 - Lead B 8.wav",
+        "Sound/Level 3/7.2 - Lead B 2.wav",
+        "Sound/Level 3/2.1 - Hats.wav",
+        "Sound/Level 3/8.1 - Solo 1.wav",
+        "Sound/Level 3/8.2 - Solo 2.wav",
+        "Sound/Level 3/8.6 - Solo 6.wav",
+        "Sound/Level 3/8.3 - Solo 3.wav",
+        "Sound/Level 3/8.4 - Solo 4.wav",
+        "Sound/Level 3/8.5 - Solo 5.wav",
+        "Sound/Level 3/8.6 - Solo 6.wav",
+        "Sound/Level 3/8.7 - Solo 7.wav",
+        "Sound/Level 3/8.8 - Solo 8.wav",
         "Sound/Level 3/2.1 - Hats.wav"
       ],
       "TrackInfos": [
@@ -7351,19 +7361,28 @@
               "ExcludeFromLooping": false
             },
             {
+              "SourceAction": "gem4",
+              "SampleFile": "1.2 - Bass 2.wav",
+              "SourceActionIndex": 13,
+              "SampleFileIndex": 1,
+              "LoopStart": 0.0,
+              "LoopEnd": 0.0,
+              "ExcludeFromLooping": false
+            },
+            {
               "SourceAction": "gem1",
               "SampleFile": "2.1 - Hats.wav",
               "SourceActionIndex": 10,
-              "SampleFileIndex": 7,
+              "SampleFileIndex": 8,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": true
             },
             {
               "SourceAction": "gem7",
-              "SampleFile": "5.1 - drone.wav",
+              "SampleFile": "5.1 - Drone.wav",
               "SourceActionIndex": 16,
-              "SampleFileIndex": 8,
+              "SampleFileIndex": 9,
               "LoopStart": 3.11823129,
               "LoopEnd": 11.54730158,
               "ExcludeFromLooping": false
@@ -7384,7 +7403,7 @@
               "SourceAction": "gem1",
               "SampleFile": "2.1 - Hats.wav",
               "SourceActionIndex": 10,
-              "SampleFileIndex": 7,
+              "SampleFileIndex": 8,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": true
@@ -7402,7 +7421,7 @@
             {
               "SourceNumber": 2,
               "DestinationType": "enemy",
-              "DestinationSubType": "bird"
+              "DestinationSubType": "missile"
             },
             {
               "SourceNumber": 3,
@@ -7412,7 +7431,7 @@
             {
               "SourceNumber": 4,
               "DestinationType": "enemy",
-              "DestinationSubType": "missile"
+              "DestinationSubType": "bird"
             }
           ],
           "SampleMaps": [
@@ -7420,7 +7439,7 @@
               "SourceAction": "honeybadger",
               "SampleFile": "3.1 - Kick double.wav",
               "SourceActionIndex": 22,
-              "SampleFileIndex": 10,
+              "SampleFileIndex": 11,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": false
@@ -7429,7 +7448,7 @@
               "SourceAction": "bird",
               "SampleFile": "3.2 - Snare.wav",
               "SourceActionIndex": 23,
-              "SampleFileIndex": 11,
+              "SampleFileIndex": 12,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": false
@@ -7438,7 +7457,7 @@
               "SourceAction": "rat",
               "SampleFile": "3.3 - Kick single.wav",
               "SourceActionIndex": 21,
-              "SampleFileIndex": 12,
+              "SampleFileIndex": 13,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": false
@@ -7447,7 +7466,7 @@
               "SourceAction": "missile",
               "SampleFile": "3.4 - Kick + snare.wav",
               "SourceActionIndex": 24,
-              "SampleFileIndex": 13,
+              "SampleFileIndex": 14,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": false
@@ -7456,7 +7475,7 @@
               "SourceAction": "gem1",
               "SampleFile": "2.1 - Hats.wav",
               "SourceActionIndex": 10,
-              "SampleFileIndex": 7,
+              "SampleFileIndex": 8,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": true
@@ -7469,47 +7488,28 @@
             {
               "SourceNumber": 1,
               "DestinationType": "enemy",
-              "DestinationSubType": "bird"
+              "DestinationSubType": "rat"
             },
             {
               "SourceNumber": 2,
               "DestinationType": "enemy",
-              "DestinationSubType": "rat"
+              "DestinationSubType": "bird"
             },
             {
               "SourceNumber": 3,
-              "DestinationType": "aircon",
-              "DestinationSubType": null
-            },
-            {
-              "SourceNumber": 4,
-              "DestinationType": null,
+              "DestinationType": "block",
               "DestinationSubType": null
             },
             {
               "SourceNumber": 5,
-              "DestinationType": "enemy",
-              "DestinationSubType": "missile"
-            },
-            {
-              "SourceNumber": 6,
-              "DestinationType": "block",
+              "DestinationType": "aircon",
               "DestinationSubType": null
             }
           ],
           "SampleMaps": [
             {
-              "SourceAction": "bird",
-              "SampleFile": "4.1 - Lead A 1.wav",
-              "SourceActionIndex": 23,
-              "SampleFileIndex": 15,
-              "LoopStart": 0.0,
-              "LoopEnd": 0.0,
-              "ExcludeFromLooping": false
-            },
-            {
               "SourceAction": "kick",
-              "SampleFile": "4.2 - Lead A 2.wav",
+              "SampleFile": "4.1 - Lead A 1.wav",
               "SourceActionIndex": 1,
               "SampleFileIndex": 16,
               "LoopStart": 0.0,
@@ -7517,10 +7517,19 @@
               "ExcludeFromLooping": false
             },
             {
-              "SourceAction": "jump",
-              "SampleFile": "4.3 - Lead A 3.wav",
-              "SourceActionIndex": 3,
+              "SourceAction": "punch",
+              "SampleFile": "4.2 - Lead A 2.wav",
+              "SourceActionIndex": 2,
               "SampleFileIndex": 17,
+              "LoopStart": 0.0,
+              "LoopEnd": 0.0,
+              "ExcludeFromLooping": false
+            },
+            {
+              "SourceAction": "slide",
+              "SampleFile": "4.3 - Lead A 3.wav",
+              "SourceActionIndex": 5,
+              "SampleFileIndex": 18,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": false
@@ -7529,24 +7538,15 @@
               "SourceAction": "land",
               "SampleFile": "4.4 - Lead A 4.wav",
               "SourceActionIndex": 4,
-              "SampleFileIndex": 18,
-              "LoopStart": 0.0,
-              "LoopEnd": 0.0,
-              "ExcludeFromLooping": false
-            },
-            {
-              "SourceAction": "missile",
-              "SampleFile": "4.5 - Lead A 5.wav",
-              "SourceActionIndex": 24,
               "SampleFileIndex": 19,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": false
             },
             {
-              "SourceAction": "slide",
-              "SampleFile": "4.6 - Lead A 6.wav",
-              "SourceActionIndex": 5,
+              "SourceAction": "jump",
+              "SampleFile": "4.5 - Lead A 5.wav",
+              "SourceActionIndex": 3,
               "SampleFileIndex": 20,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
@@ -7556,7 +7556,7 @@
               "SourceAction": "gem1",
               "SampleFile": "2.1 - Hats.wav",
               "SourceActionIndex": 10,
-              "SampleFileIndex": 7,
+              "SampleFileIndex": 8,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": true
@@ -7575,9 +7575,9 @@
           "SampleMaps": [
             {
               "SourceAction": "gem7",
-              "SampleFile": "5.1 - drone.wav",
+              "SampleFile": "5.1 - Drone.wav",
               "SourceActionIndex": 16,
-              "SampleFileIndex": 8,
+              "SampleFileIndex": 9,
               "LoopStart": 3.11823129,
               "LoopEnd": 11.54730158,
               "ExcludeFromLooping": false
@@ -7601,7 +7601,7 @@
           "SampleMaps": [
             {
               "SourceAction": "missile",
-              "SampleFile": "6.1 - claps.wav",
+              "SampleFile": "6.1 - Claps.wav",
               "SourceActionIndex": 24,
               "SampleFileIndex": 23,
               "LoopStart": 0.0,
@@ -7610,7 +7610,7 @@
             },
             {
               "SourceAction": "bird",
-              "SampleFile": "6.2 - claps combo.wav",
+              "SampleFile": "6.2 - Claps combo.wav",
               "SourceActionIndex": 23,
               "SampleFileIndex": 24,
               "LoopStart": 0.0,
@@ -7621,7 +7621,7 @@
               "SourceAction": "gem1",
               "SampleFile": "2.1 - Hats.wav",
               "SourceActionIndex": 10,
-              "SampleFileIndex": 7,
+              "SampleFileIndex": 8,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": true
@@ -7633,90 +7633,96 @@
           "TranslationInfos": [
             {
               "SourceNumber": 1,
-              "DestinationType": "enemy",
-              "DestinationSubType": "bird"
+              "DestinationType": "gem",
+              "DestinationSubType": "2"
             },
             {
               "SourceNumber": 2,
-              "DestinationType": "enemy",
-              "DestinationSubType": "rat"
-            },
-            {
-              "SourceNumber": 3,
-              "DestinationType": "lava",
+              "DestinationType": "block",
               "DestinationSubType": null
             },
             {
+              "SourceNumber": 3,
+              "DestinationType": "gem",
+              "DestinationSubType": "6"
+            },
+            {
               "SourceNumber": 4,
+              "DestinationType": "gem",
+              "DestinationSubType": "5"
+            },
+            {
+              "SourceNumber": 5,
+              "DestinationType": "gem",
+              "DestinationSubType": "3"
+            },
+            {
+              "SourceNumber": 6,
+              "DestinationType": "gem",
+              "DestinationSubType": "4"
+            },
+            {
+              "SourceNumber": 7,
               "DestinationType": null,
               "DestinationSubType": null
             },
             {
-              "SourceNumber": 5,
-              "DestinationType": "overhang",
+              "SourceNumber": 8,
+              "DestinationType": "aircon",
               "DestinationSubType": null
             }
           ],
           "SampleMaps": [
             {
-              "SourceAction": "punch",
+              "SourceAction": "gem2",
               "SampleFile": "7.1 - Lead B 1.wav",
-              "SourceActionIndex": 2,
+              "SourceActionIndex": 11,
               "SampleFileIndex": 26,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": false
             },
             {
-              "SourceAction": "kick",
-              "SampleFile": "7.2 - Lead B 2.wav",
-              "SourceActionIndex": 1,
+              "SourceAction": "gem3",
+              "SampleFile": "7.5 - Lead B 5.wav",
+              "SourceActionIndex": 12,
               "SampleFileIndex": 27,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": false
             },
             {
-              "SourceAction": "jump",
-              "SampleFile": "7.3 - Lead B 3.wav",
-              "SourceActionIndex": 3,
+              "SourceAction": "gem4",
+              "SampleFile": "7.6 - Lead B 6.wav",
+              "SourceActionIndex": 13,
               "SampleFileIndex": 28,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": false
             },
             {
-              "SourceAction": "jump",
+              "SourceAction": "gem5",
               "SampleFile": "7.4 - Lead B 4.wav",
-              "SourceActionIndex": 3,
+              "SourceActionIndex": 14,
               "SampleFileIndex": 29,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": false
             },
             {
-              "SourceAction": "jump",
-              "SampleFile": "7.5 - Lead B 5.wav",
-              "SourceActionIndex": 3,
+              "SourceAction": "gem6",
+              "SampleFile": "7.3 - Lead B 3.wav",
+              "SourceActionIndex": 15,
               "SampleFileIndex": 30,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": false
             },
             {
-              "SourceAction": "jump",
-              "SampleFile": "7.6 - Lead B 6.wav",
-              "SourceActionIndex": 3,
-              "SampleFileIndex": 31,
-              "LoopStart": 0.0,
-              "LoopEnd": 0.0,
-              "ExcludeFromLooping": false
-            },
-            {
-              "SourceAction": "jump",
+              "SourceAction": "land",
               "SampleFile": "7.7 - Lead B 7.wav",
-              "SourceActionIndex": 3,
-              "SampleFileIndex": 32,
+              "SourceActionIndex": 4,
+              "SampleFileIndex": 31,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": false
@@ -7725,6 +7731,15 @@
               "SourceAction": "jump",
               "SampleFile": "7.8 - Lead B 8.wav",
               "SourceActionIndex": 3,
+              "SampleFileIndex": 32,
+              "LoopStart": 0.0,
+              "LoopEnd": 0.0,
+              "ExcludeFromLooping": false
+            },
+            {
+              "SourceAction": "slide",
+              "SampleFile": "7.2 - Lead B 2.wav",
+              "SourceActionIndex": 5,
               "SampleFileIndex": 33,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
@@ -7734,7 +7749,144 @@
               "SourceAction": "gem1",
               "SampleFile": "2.1 - Hats.wav",
               "SourceActionIndex": 10,
-              "SampleFileIndex": 7,
+              "SampleFileIndex": 8,
+              "LoopStart": 0.0,
+              "LoopEnd": 0.0,
+              "ExcludeFromLooping": true
+            }
+          ]
+        },
+        {
+          "TrackNumber": 8,
+          "TranslationInfos": [
+            {
+              "SourceNumber": 1,
+              "DestinationType": "enemy",
+              "DestinationSubType": "rat"
+            },
+            {
+              "SourceNumber": 2,
+              "DestinationType": "enemy",
+              "DestinationSubType": "honeybadger"
+            },
+            {
+              "SourceNumber": 3,
+              "DestinationType": "aircon",
+              "DestinationSubType": null
+            },
+            {
+              "SourceNumber": 4,
+              "DestinationType": "enemy",
+              "DestinationSubType": "bird"
+            },
+            {
+              "SourceNumber": 5,
+              "DestinationType": "gem",
+              "DestinationSubType": "3"
+            },
+            {
+              "SourceNumber": 6,
+              "DestinationType": "gem",
+              "DestinationSubType": "4"
+            },
+            {
+              "SourceNumber": 7,
+              "DestinationType": "enemy",
+              "DestinationSubType": "missile"
+            },
+            {
+              "SourceNumber": 8,
+              "DestinationType": "gem",
+              "DestinationSubType": "5"
+            }
+          ],
+          "SampleMaps": [
+            {
+              "SourceAction": "rat",
+              "SampleFile": "8.1 - Solo 1.wav",
+              "SourceActionIndex": 21,
+              "SampleFileIndex": 35,
+              "LoopStart": 0.0,
+              "LoopEnd": 0.0,
+              "ExcludeFromLooping": false
+            },
+            {
+              "SourceAction": "honeybadger",
+              "SampleFile": "8.2 - Solo 2.wav",
+              "SourceActionIndex": 22,
+              "SampleFileIndex": 36,
+              "LoopStart": 0.0,
+              "LoopEnd": 0.0,
+              "ExcludeFromLooping": false
+            },
+            {
+              "SourceAction": "jump",
+              "SampleFile": "8.6 - Solo 6.wav",
+              "SourceActionIndex": 3,
+              "SampleFileIndex": 37,
+              "LoopStart": 0.0,
+              "LoopEnd": 0.0,
+              "ExcludeFromLooping": false
+            },
+            {
+              "SourceAction": "land",
+              "SampleFile": "8.3 - Solo 3.wav",
+              "SourceActionIndex": 4,
+              "SampleFileIndex": 38,
+              "LoopStart": 0.0,
+              "LoopEnd": 0.0,
+              "ExcludeFromLooping": false
+            },
+            {
+              "SourceAction": "bird",
+              "SampleFile": "8.4 - Solo 4.wav",
+              "SourceActionIndex": 23,
+              "SampleFileIndex": 39,
+              "LoopStart": 0.0,
+              "LoopEnd": 0.0,
+              "ExcludeFromLooping": false
+            },
+            {
+              "SourceAction": "gem3",
+              "SampleFile": "8.5 - Solo 5.wav",
+              "SourceActionIndex": 12,
+              "SampleFileIndex": 40,
+              "LoopStart": 0.0,
+              "LoopEnd": 0.0,
+              "ExcludeFromLooping": false
+            },
+            {
+              "SourceAction": "gem4",
+              "SampleFile": "8.6 - Solo 6.wav",
+              "SourceActionIndex": 13,
+              "SampleFileIndex": 37,
+              "LoopStart": 0.0,
+              "LoopEnd": 0.0,
+              "ExcludeFromLooping": false
+            },
+            {
+              "SourceAction": "missile",
+              "SampleFile": "8.7 - Solo 7.wav",
+              "SourceActionIndex": 24,
+              "SampleFileIndex": 42,
+              "LoopStart": 0.0,
+              "LoopEnd": 0.0,
+              "ExcludeFromLooping": false
+            },
+            {
+              "SourceAction": "gem5",
+              "SampleFile": "8.8 - Solo 8.wav",
+              "SourceActionIndex": 14,
+              "SampleFileIndex": 43,
+              "LoopStart": 0.0,
+              "LoopEnd": 0.0,
+              "ExcludeFromLooping": false
+            },
+            {
+              "SourceAction": "gem1",
+              "SampleFile": "2.1 - Hats.wav",
+              "SourceActionIndex": 10,
+              "SampleFileIndex": 8,
               "LoopStart": 0.0,
               "LoopEnd": 0.0,
               "ExcludeFromLooping": true
@@ -7960,13 +8112,13 @@
           "Track": 1
         },
         {
-          "TimeStamp": 44.0,
-          "Type": "enemy",
-          "SubType": "rat",
-          "YPos": 510,
+          "TimeStamp": 42.0,
+          "Type": "Palette",
+          "SubType": "3",
+          "YPos": 0,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 44.0,
@@ -7978,40 +8130,40 @@
           "Track": 2
         },
         {
-          "TimeStamp": 44.5,
+          "TimeStamp": 44.0,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "NoteNum": 60,
+          "Track": 3
         },
         {
           "TimeStamp": 45.0,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 64,
-          "Track": 1
+          "NoteNum": 62,
+          "Track": 3
         },
         {
-          "TimeStamp": 45.75,
+          "TimeStamp": 46.0,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 46.75,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 46.5,
-          "Type": "enemy",
-          "SubType": "rat",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "NoteNum": 60,
+          "Track": 3
         },
         {
           "TimeStamp": 47.0,
@@ -8028,17 +8180,53 @@
           "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 1
+          "NoteNum": 62,
+          "Track": 3
         },
         {
-          "TimeStamp": 52.0,
+          "TimeStamp": 48.5,
           "Type": "enemy",
-          "SubType": "rat",
+          "SubType": "honeybadger",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 49.0,
+          "Type": "enemy",
+          "SubType": "bird",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 62,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 50.0,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 50.5,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 51.0,
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 58,
+          "Track": 3
         },
         {
           "TimeStamp": 52.0,
@@ -8050,40 +8238,40 @@
           "Track": 2
         },
         {
-          "TimeStamp": 52.5,
+          "TimeStamp": 52.0,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "NoteNum": 60,
+          "Track": 3
         },
         {
           "TimeStamp": 53.0,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 64,
-          "Track": 1
+          "NoteNum": 62,
+          "Track": 3
         },
         {
-          "TimeStamp": 53.75,
+          "TimeStamp": 54.0,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 54.75,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 54.5,
-          "Type": "enemy",
-          "SubType": "rat",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "NoteNum": 60,
+          "Track": 3
         },
         {
           "TimeStamp": 55.5,
@@ -8091,8 +8279,8 @@
           "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 1
+          "NoteNum": 62,
+          "Track": 3
         },
         {
           "TimeStamp": 56.0,
@@ -8104,13 +8292,49 @@
           "Track": 0
         },
         {
-          "TimeStamp": 60.0,
+          "TimeStamp": 56.5,
           "Type": "enemy",
-          "SubType": "rat",
+          "SubType": "honeybadger",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 57.0,
+          "Type": "enemy",
+          "SubType": "bird",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 62,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 58.0,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 58.5,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 59.0,
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 58,
+          "Track": 3
         },
         {
           "TimeStamp": 60.0,
@@ -8122,47 +8346,47 @@
           "Track": 2
         },
         {
-          "TimeStamp": 60.5,
+          "TimeStamp": 60.0,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "NoteNum": 60,
+          "Track": 3
         },
         {
           "TimeStamp": 61.0,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 64,
-          "Track": 1
+          "NoteNum": 62,
+          "Track": 3
         },
         {
-          "TimeStamp": 61.75,
+          "TimeStamp": 62.0,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 62.75,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 62.5,
-          "Type": "enemy",
-          "SubType": "rat",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "NoteNum": 60,
+          "Track": 3
         },
         {
           "TimeStamp": 63.0,
           "Type": "platform",
           "SubType": "5",
           "YPos": 564,
-          "Width": 8.0,
+          "Width": 11.0,
           "NoteNum": 0,
           "Track": 0
         },
@@ -8172,17 +8396,62 @@
           "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 1
+          "NoteNum": 62,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 64.5,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 65.0,
+          "Type": "enemy",
+          "SubType": "bird",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 62,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 66.0,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 66.5,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 67.0,
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 58,
+          "Track": 3
         },
         {
           "TimeStamp": 68.0,
-          "Type": "enemy",
-          "SubType": "rat",
-          "YPos": 510,
+          "Type": "LoopRecordStart",
+          "SubType": "3",
+          "YPos": 0,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 68.0,
@@ -8194,49 +8463,40 @@
           "Track": 2
         },
         {
-          "TimeStamp": 68.5,
+          "TimeStamp": 68.0,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "NoteNum": 60,
+          "Track": 3
         },
         {
           "TimeStamp": 69.0,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 64,
-          "Track": 1
+          "NoteNum": 62,
+          "Track": 3
         },
         {
-          "TimeStamp": 69.75,
+          "TimeStamp": 70.0,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 70.75,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 70.5,
-          "Type": "enemy",
-          "SubType": "rat",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 71.0,
-          "Type": "platform",
-          "SubType": "2",
-          "YPos": 564,
-          "Width": 8.0,
-          "NoteNum": 0,
-          "Track": 0
+          "NoteNum": 60,
+          "Track": 3
         },
         {
           "TimeStamp": 71.5,
@@ -8244,44 +8504,62 @@
           "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 1
+          "NoteNum": 62,
+          "Track": 3
         },
         {
           "TimeStamp": 72.5,
           "Type": "enemy",
-          "SubType": "rat",
+          "SubType": "honeybadger",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 73.0,
+          "Type": "enemy",
+          "SubType": "bird",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 62,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 74.0,
+          "Type": "platform",
+          "SubType": "2",
+          "YPos": 564,
+          "Width": 7.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 74.0,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 36,
+          "Track": 3
         },
         {
           "TimeStamp": 74.5,
-          "Type": "gem",
-          "SubType": "2",
+          "Type": "enemy",
+          "SubType": "honeybadger",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 1
+          "NoteNum": 36,
+          "Track": 3
         },
         {
-          "TimeStamp": 75.25,
-          "Type": "gem",
-          "SubType": "3",
+          "TimeStamp": 75.0,
+          "Type": "enemy",
+          "SubType": "missile",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 58,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 76.0,
-          "Type": "enemy",
-          "SubType": "rat",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "Track": 3
         },
         {
           "TimeStamp": 76.0,
@@ -8293,49 +8571,40 @@
           "Track": 2
         },
         {
-          "TimeStamp": 76.5,
+          "TimeStamp": 76.0,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "NoteNum": 60,
+          "Track": 3
         },
         {
           "TimeStamp": 77.0,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 64,
-          "Track": 1
+          "NoteNum": 62,
+          "Track": 3
         },
         {
-          "TimeStamp": 77.75,
+          "TimeStamp": 78.0,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 78.75,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 78.5,
-          "Type": "enemy",
-          "SubType": "rat",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 79.0,
-          "Type": "platform",
-          "SubType": "4",
-          "YPos": 564,
-          "Width": 9.0,
-          "NoteNum": 0,
-          "Track": 0
+          "NoteNum": 60,
+          "Track": 3
         },
         {
           "TimeStamp": 79.5,
@@ -8343,17 +8612,26 @@
           "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 1
+          "NoteNum": 62,
+          "Track": 3
         },
         {
           "TimeStamp": 80.5,
           "Type": "enemy",
-          "SubType": "rat",
+          "SubType": "honeybadger",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 81.0,
+          "Type": "platform",
+          "SubType": "4",
+          "YPos": 564,
+          "Width": 10.0,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 81.0,
@@ -8361,35 +8639,44 @@
           "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 1
+          "NoteNum": 62,
+          "Track": 3
         },
         {
-          "TimeStamp": 81.75,
+          "TimeStamp": 82.0,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 82.5,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 36,
+          "Track": 3
+        },
+        {
+          "TimeStamp": 83.0,
           "Type": "enemy",
           "SubType": "missile",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 64,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 83.0,
-          "Type": "gem",
-          "SubType": "2",
-          "YPos": 360,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 1
+          "NoteNum": 58,
+          "Track": 3
         },
         {
           "TimeStamp": 84.0,
-          "Type": "enemy",
-          "SubType": "rat",
-          "YPos": 510,
+          "Type": "LoopPlayStart",
+          "SubType": "3",
+          "YPos": 0,
           "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 84.0,
@@ -8401,101 +8688,20 @@
           "Track": 2
         },
         {
-          "TimeStamp": 84.5,
-          "Type": "enemy",
-          "SubType": "rat",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 85.0,
-          "Type": "enemy",
-          "SubType": "missile",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 64,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 85.75,
-          "Type": "enemy",
-          "SubType": "rat",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 86.5,
-          "Type": "enemy",
-          "SubType": "rat",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 87.5,
-          "Type": "enemy",
-          "SubType": "bird",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 1
-        },
-        {
           "TimeStamp": 88.0,
-          "Type": "platform",
-          "SubType": "5",
-          "YPos": 564,
-          "Width": 8.0,
+          "Type": "Palette",
+          "SubType": "1",
+          "YPos": 0,
+          "Width": 0.0,
           "NoteNum": 0,
           "Track": 0
         },
         {
-          "TimeStamp": 88.5,
-          "Type": "enemy",
-          "SubType": "rat",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 89.0,
-          "Type": "enemy",
-          "SubType": "bird",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 89.75,
-          "Type": "enemy",
-          "SubType": "missile",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 64,
-          "Track": 1
-        },
-        {
           "TimeStamp": 91.0,
-          "Type": "gem",
-          "SubType": "2",
-          "YPos": 360,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 92.0,
-          "Type": "LoopRecordStart",
-          "SubType": "1",
-          "YPos": 0,
-          "Width": 0.0,
+          "Type": "platform",
+          "SubType": "5",
+          "YPos": 564,
+          "Width": 8.0,
           "NoteNum": 0,
           "Track": 0
         },
@@ -8563,49 +8769,13 @@
           "Track": 1
         },
         {
-          "TimeStamp": 96.0,
+          "TimeStamp": 99.0,
           "Type": "platform",
           "SubType": "4",
           "YPos": 564,
-          "Width": 11.0,
+          "Width": 8.0,
           "NoteNum": 0,
           "Track": 0
-        },
-        {
-          "TimeStamp": 96.5,
-          "Type": "enemy",
-          "SubType": "rat",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 97.0,
-          "Type": "enemy",
-          "SubType": "bird",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 97.75,
-          "Type": "enemy",
-          "SubType": "missile",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 64,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 99.0,
-          "Type": "gem",
-          "SubType": "2",
-          "YPos": 360,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 1
         },
         {
           "TimeStamp": 100.0,
@@ -8671,58 +8841,22 @@
           "Track": 1
         },
         {
-          "TimeStamp": 104.5,
+          "TimeStamp": 107.0,
+          "Type": "platform",
+          "SubType": "1",
+          "YPos": 564,
+          "Width": 8.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 108.0,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 52,
           "Track": 1
-        },
-        {
-          "TimeStamp": 105.0,
-          "Type": "enemy",
-          "SubType": "bird",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 105.75,
-          "Type": "enemy",
-          "SubType": "missile",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 64,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 107.0,
-          "Type": "platform",
-          "SubType": "1",
-          "YPos": 564,
-          "Width": 10.0,
-          "NoteNum": 0,
-          "Track": 0
-        },
-        {
-          "TimeStamp": 107.0,
-          "Type": "gem",
-          "SubType": "2",
-          "YPos": 360,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 1
-        },
-        {
-          "TimeStamp": 108.0,
-          "Type": "LoopPlayStart",
-          "SubType": "1",
-          "YPos": 0,
-          "Width": 0.0,
-          "NoteNum": 0,
-          "Track": 0
         },
         {
           "TimeStamp": 108.0,
@@ -8734,13 +8868,67 @@
           "Track": 2
         },
         {
-          "TimeStamp": 112.0,
-          "Type": "Palette",
-          "SubType": "2",
-          "YPos": 0,
+          "TimeStamp": 108.5,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
           "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 109.0,
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 64,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 109.75,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 110.5,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 111.5,
+          "Type": "enemy",
+          "SubType": "bird",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 55,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 115.0,
+          "Type": "platform",
+          "SubType": "5",
+          "YPos": 564,
+          "Width": 10.0,
           "NoteNum": 0,
           "Track": 0
+        },
+        {
+          "TimeStamp": 116.0,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 116.0,
@@ -8752,13 +8940,85 @@
           "Track": 2
         },
         {
+          "TimeStamp": 116.5,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
+        },
+        {
           "TimeStamp": 117.0,
-          "Type": "platform",
-          "SubType": "5",
-          "YPos": 564,
-          "Width": 11.0,
-          "NoteNum": 0,
-          "Track": 0
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 64,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 117.75,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 118.5,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 119.5,
+          "Type": "enemy",
+          "SubType": "bird",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 55,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 120.5,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 122.5,
+          "Type": "gem",
+          "SubType": "2",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 57,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 123.25,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 58,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 124.0,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 124.0,
@@ -8770,13 +9030,22 @@
           "Track": 2
         },
         {
-          "TimeStamp": 124.0,
+          "TimeStamp": 124.5,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 60,
-          "Track": 3
+          "NoteNum": 52,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 125.0,
+          "Type": "platform",
+          "SubType": "2",
+          "YPos": 564,
+          "Width": 13.0,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 125.0,
@@ -8784,89 +9053,98 @@
           "SubType": "missile",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 62,
-          "Track": 3
+          "NoteNum": 64,
+          "Track": 1
         },
         {
-          "TimeStamp": 126.0,
-          "Type": "enemy",
-          "SubType": "honeybadger",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
-        },
-        {
-          "TimeStamp": 126.75,
+          "TimeStamp": 125.75,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 60,
-          "Track": 3
+          "NoteNum": 52,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 126.5,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 127.5,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 62,
-          "Track": 3
-        },
-        {
-          "TimeStamp": 128.0,
-          "Type": "platform",
-          "SubType": "2",
-          "YPos": 564,
-          "Width": 10.0,
-          "NoteNum": 0,
-          "Track": 0
+          "NoteNum": 55,
+          "Track": 1
         },
         {
           "TimeStamp": 128.5,
           "Type": "enemy",
-          "SubType": "honeybadger",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 129.0,
           "Type": "enemy",
-          "SubType": "missile",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 62,
-          "Track": 3
-        },
-        {
-          "TimeStamp": 130.0,
-          "Type": "enemy",
-          "SubType": "honeybadger",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
-        },
-        {
-          "TimeStamp": 130.5,
-          "Type": "enemy",
-          "SubType": "honeybadger",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
-        },
-        {
-          "TimeStamp": 131.0,
-          "Type": "enemy",
           "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
+          "NoteNum": 55,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 129.75,
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 64,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 130.5,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 470,
+          "Width": 0.0,
+          "NoteNum": 67,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 131.0,
+          "Type": "gem",
+          "SubType": "2",
+          "YPos": 440,
+          "Width": 0.0,
+          "NoteNum": 57,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 131.5,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 460,
+          "Width": 0.0,
           "NoteNum": 58,
-          "Track": 3
+          "Track": 1
+        },
+        {
+          "TimeStamp": 132.0,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 132.0,
@@ -8878,13 +9156,13 @@
           "Track": 2
         },
         {
-          "TimeStamp": 132.0,
+          "TimeStamp": 132.5,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 60,
-          "Track": 3
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 133.0,
@@ -8892,53 +9170,62 @@
           "SubType": "missile",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 62,
-          "Track": 3
+          "NoteNum": 64,
+          "Track": 1
         },
         {
-          "TimeStamp": 134.0,
-          "Type": "enemy",
-          "SubType": "honeybadger",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
-        },
-        {
-          "TimeStamp": 134.75,
+          "TimeStamp": 133.75,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 60,
-          "Track": 3
+          "NoteNum": 52,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 134.5,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 135.5,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 62,
-          "Track": 3
+          "NoteNum": 55,
+          "Track": 1
         },
         {
           "TimeStamp": 136.5,
           "Type": "enemy",
-          "SubType": "honeybadger",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 137.0,
           "Type": "enemy",
+          "SubType": "bird",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 55,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 137.75,
+          "Type": "enemy",
           "SubType": "missile",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 62,
-          "Track": 3
+          "NoteNum": 64,
+          "Track": 1
         },
         {
           "TimeStamp": 138.0,
@@ -8950,40 +9237,49 @@
           "Track": 0
         },
         {
-          "TimeStamp": 138.0,
-          "Type": "enemy",
-          "SubType": "honeybadger",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
-        },
-        {
           "TimeStamp": 138.5,
-          "Type": "enemy",
-          "SubType": "honeybadger",
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 470,
           "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
+          "NoteNum": 67,
+          "Track": 1
         },
         {
           "TimeStamp": 139.0,
-          "Type": "enemy",
-          "SubType": "bird",
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "2",
+          "YPos": 440,
+          "Width": 0.0,
+          "NoteNum": 57,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 139.5,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 460,
           "Width": 0.0,
           "NoteNum": 58,
-          "Track": 3
+          "Track": 1
         },
         {
           "TimeStamp": 140.0,
           "Type": "LoopRecordStart",
-          "SubType": "3",
+          "SubType": "1",
           "YPos": 0,
           "Width": 0.0,
           "NoteNum": 0,
           "Track": 0
+        },
+        {
+          "TimeStamp": 140.0,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 140.0,
@@ -8995,13 +9291,13 @@
           "Track": 2
         },
         {
-          "TimeStamp": 140.0,
+          "TimeStamp": 140.5,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 60,
-          "Track": 3
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 141.0,
@@ -9009,53 +9305,62 @@
           "SubType": "missile",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 62,
-          "Track": 3
+          "NoteNum": 64,
+          "Track": 1
         },
         {
-          "TimeStamp": 142.0,
-          "Type": "enemy",
-          "SubType": "honeybadger",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
-        },
-        {
-          "TimeStamp": 142.75,
+          "TimeStamp": 141.75,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 60,
-          "Track": 3
+          "NoteNum": 52,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 142.5,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 143.5,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 62,
-          "Track": 3
+          "NoteNum": 55,
+          "Track": 1
         },
         {
           "TimeStamp": 144.5,
           "Type": "enemy",
-          "SubType": "honeybadger",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 145.0,
           "Type": "enemy",
+          "SubType": "bird",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 55,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 145.75,
+          "Type": "enemy",
           "SubType": "missile",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 62,
-          "Track": 3
+          "NoteNum": 64,
+          "Track": 1
         },
         {
           "TimeStamp": 146.0,
@@ -9067,31 +9372,40 @@
           "Track": 0
         },
         {
-          "TimeStamp": 146.0,
-          "Type": "enemy",
-          "SubType": "honeybadger",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
-        },
-        {
           "TimeStamp": 146.5,
-          "Type": "enemy",
-          "SubType": "honeybadger",
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 470,
           "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
+          "NoteNum": 67,
+          "Track": 1
         },
         {
           "TimeStamp": 147.0,
-          "Type": "enemy",
-          "SubType": "bird",
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "2",
+          "YPos": 440,
+          "Width": 0.0,
+          "NoteNum": 57,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 147.5,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 460,
           "Width": 0.0,
           "NoteNum": 58,
-          "Track": 3
+          "Track": 1
+        },
+        {
+          "TimeStamp": 148.0,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 148.0,
@@ -9103,13 +9417,13 @@
           "Track": 2
         },
         {
-          "TimeStamp": 148.0,
+          "TimeStamp": 148.5,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 60,
-          "Track": 3
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 149.0,
@@ -9117,53 +9431,62 @@
           "SubType": "missile",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 62,
-          "Track": 3
+          "NoteNum": 64,
+          "Track": 1
         },
         {
-          "TimeStamp": 150.0,
-          "Type": "enemy",
-          "SubType": "honeybadger",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
-        },
-        {
-          "TimeStamp": 150.75,
+          "TimeStamp": 149.75,
           "Type": "enemy",
           "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 60,
-          "Track": 3
+          "NoteNum": 52,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 150.5,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 151.5,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 62,
-          "Track": 3
+          "NoteNum": 55,
+          "Track": 1
         },
         {
           "TimeStamp": 152.5,
           "Type": "enemy",
-          "SubType": "honeybadger",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
+          "NoteNum": 52,
+          "Track": 1
         },
         {
           "TimeStamp": 153.0,
           "Type": "enemy",
+          "SubType": "bird",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 55,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 153.75,
+          "Type": "enemy",
           "SubType": "missile",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 62,
-          "Track": 3
+          "NoteNum": 64,
+          "Track": 1
         },
         {
           "TimeStamp": 154.0,
@@ -9175,36 +9498,36 @@
           "Track": 0
         },
         {
-          "TimeStamp": 154.0,
-          "Type": "enemy",
-          "SubType": "honeybadger",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
-        },
-        {
           "TimeStamp": 154.5,
-          "Type": "enemy",
-          "SubType": "honeybadger",
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 470,
           "Width": 0.0,
-          "NoteNum": 36,
-          "Track": 3
+          "NoteNum": 67,
+          "Track": 1
         },
         {
           "TimeStamp": 155.0,
-          "Type": "enemy",
-          "SubType": "bird",
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "2",
+          "YPos": 440,
+          "Width": 0.0,
+          "NoteNum": 57,
+          "Track": 1
+        },
+        {
+          "TimeStamp": 155.5,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 460,
           "Width": 0.0,
           "NoteNum": 58,
-          "Track": 3
+          "Track": 1
         },
         {
           "TimeStamp": 156.0,
           "Type": "LoopPlayStart",
-          "SubType": "3",
+          "SubType": "1",
           "YPos": 0,
           "Width": 0.0,
           "NoteNum": 0,
@@ -9220,11 +9543,11 @@
           "Track": 2
         },
         {
-          "TimeStamp": 161.0,
+          "TimeStamp": 161.8,
           "Type": "platform",
           "SubType": "1",
           "YPos": 564,
-          "Width": 9.0,
+          "Width": 8.2,
           "NoteNum": 0,
           "Track": 0
         },
@@ -9267,7 +9590,7 @@
         {
           "TimeStamp": 172.0,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 52,
@@ -9275,8 +9598,8 @@
         },
         {
           "TimeStamp": 173.0,
-          "Type": "enemy",
-          "SubType": "missile",
+          "Type": "aircon",
+          "SubType": null,
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -9294,7 +9617,7 @@
         {
           "TimeStamp": 174.75,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 52,
@@ -9303,7 +9626,7 @@
         {
           "TimeStamp": 175.375,
           "Type": "enemy",
-          "SubType": "rat",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 55,
@@ -9330,7 +9653,7 @@
         {
           "TimeStamp": 180.0,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 52,
@@ -9338,8 +9661,8 @@
         },
         {
           "TimeStamp": 181.0,
-          "Type": "enemy",
-          "SubType": "missile",
+          "Type": "aircon",
+          "SubType": null,
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -9357,7 +9680,7 @@
         {
           "TimeStamp": 182.75,
           "Type": "enemy",
-          "SubType": "rat",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 55,
@@ -9365,7 +9688,7 @@
         },
         {
           "TimeStamp": 183.5,
-          "Type": "aircon",
+          "Type": "block",
           "SubType": null,
           "YPos": 510,
           "Width": 0.0,
@@ -9393,7 +9716,7 @@
         {
           "TimeStamp": 188.0,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 52,
@@ -9401,8 +9724,8 @@
         },
         {
           "TimeStamp": 189.0,
-          "Type": "enemy",
-          "SubType": "missile",
+          "Type": "aircon",
+          "SubType": null,
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -9420,7 +9743,7 @@
         {
           "TimeStamp": 190.75,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 52,
@@ -9429,7 +9752,7 @@
         {
           "TimeStamp": 191.375,
           "Type": "enemy",
-          "SubType": "rat",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 55,
@@ -9456,7 +9779,7 @@
         {
           "TimeStamp": 196.0,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 52,
@@ -9464,8 +9787,8 @@
         },
         {
           "TimeStamp": 197.0,
-          "Type": "enemy",
-          "SubType": "missile",
+          "Type": "aircon",
+          "SubType": null,
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -9483,7 +9806,7 @@
         {
           "TimeStamp": 198.75,
           "Type": "enemy",
-          "SubType": "rat",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 55,
@@ -9491,7 +9814,7 @@
         },
         {
           "TimeStamp": 199.5,
-          "Type": "aircon",
+          "Type": "block",
           "SubType": null,
           "YPos": 510,
           "Width": 0.0,
@@ -9519,7 +9842,7 @@
         {
           "TimeStamp": 204.0,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 52,
@@ -9527,8 +9850,8 @@
         },
         {
           "TimeStamp": 205.0,
-          "Type": "enemy",
-          "SubType": "missile",
+          "Type": "aircon",
+          "SubType": null,
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -9546,7 +9869,7 @@
         {
           "TimeStamp": 206.75,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 52,
@@ -9555,7 +9878,7 @@
         {
           "TimeStamp": 207.375,
           "Type": "enemy",
-          "SubType": "rat",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 55,
@@ -9582,7 +9905,7 @@
         {
           "TimeStamp": 212.0,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 52,
@@ -9590,8 +9913,8 @@
         },
         {
           "TimeStamp": 213.0,
-          "Type": "enemy",
-          "SubType": "missile",
+          "Type": "aircon",
+          "SubType": null,
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -9609,7 +9932,7 @@
         {
           "TimeStamp": 214.75,
           "Type": "enemy",
-          "SubType": "rat",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 55,
@@ -9617,7 +9940,7 @@
         },
         {
           "TimeStamp": 215.5,
-          "Type": "aircon",
+          "Type": "block",
           "SubType": null,
           "YPos": 510,
           "Width": 0.0,
@@ -9654,7 +9977,7 @@
         {
           "TimeStamp": 220.0,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 52,
@@ -9662,8 +9985,8 @@
         },
         {
           "TimeStamp": 221.0,
-          "Type": "enemy",
-          "SubType": "missile",
+          "Type": "aircon",
+          "SubType": null,
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -9681,7 +10004,7 @@
         {
           "TimeStamp": 222.75,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 52,
@@ -9690,7 +10013,7 @@
         {
           "TimeStamp": 223.375,
           "Type": "enemy",
-          "SubType": "rat",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 55,
@@ -9717,7 +10040,7 @@
         {
           "TimeStamp": 228.0,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 52,
@@ -9725,8 +10048,8 @@
         },
         {
           "TimeStamp": 229.0,
-          "Type": "enemy",
-          "SubType": "missile",
+          "Type": "aircon",
+          "SubType": null,
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -9744,7 +10067,7 @@
         {
           "TimeStamp": 230.75,
           "Type": "enemy",
-          "SubType": "rat",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 55,
@@ -9752,7 +10075,7 @@
         },
         {
           "TimeStamp": 231.5,
-          "Type": "aircon",
+          "Type": "block",
           "SubType": null,
           "YPos": 510,
           "Width": 0.0,
@@ -9764,7 +10087,7 @@
           "Type": "platform",
           "SubType": "3",
           "YPos": 564,
-          "Width": 11.0,
+          "Width": 10.2,
           "NoteNum": 0,
           "Track": 0
         },
@@ -9824,8 +10147,8 @@
         },
         {
           "TimeStamp": 252.0,
-          "Type": "enemy",
-          "SubType": "bird",
+          "Type": "gem",
+          "SubType": "2",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -9833,7 +10156,7 @@
         },
         {
           "TimeStamp": 253.0,
-          "Type": null,
+          "Type": "aircon",
           "SubType": null,
           "YPos": 510,
           "Width": 0.0,
@@ -9851,8 +10174,8 @@
         },
         {
           "TimeStamp": 255.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "4",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 72,
@@ -9869,8 +10192,8 @@
         },
         {
           "TimeStamp": 256.0,
-          "Type": "overhang",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "3",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 71,
@@ -9878,8 +10201,8 @@
         },
         {
           "TimeStamp": 257.0,
-          "Type": "lava",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "6",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 67,
@@ -9887,8 +10210,8 @@
         },
         {
           "TimeStamp": 258.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "5",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 69,
@@ -9896,8 +10219,8 @@
         },
         {
           "TimeStamp": 259.0,
-          "Type": "overhang",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "3",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 71,
@@ -9914,8 +10237,8 @@
         },
         {
           "TimeStamp": 260.0,
-          "Type": "enemy",
-          "SubType": "bird",
+          "Type": "gem",
+          "SubType": "2",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -9923,7 +10246,7 @@
         },
         {
           "TimeStamp": 261.0,
-          "Type": null,
+          "Type": "aircon",
           "SubType": null,
           "YPos": 510,
           "Width": 0.0,
@@ -9941,8 +10264,8 @@
         },
         {
           "TimeStamp": 263.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "4",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 72,
@@ -9950,8 +10273,8 @@
         },
         {
           "TimeStamp": 264.0,
-          "Type": "overhang",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "3",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 71,
@@ -9959,8 +10282,8 @@
         },
         {
           "TimeStamp": 265.0,
-          "Type": "lava",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "6",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 67,
@@ -9968,8 +10291,8 @@
         },
         {
           "TimeStamp": 266.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "5",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 69,
@@ -9986,8 +10309,8 @@
         },
         {
           "TimeStamp": 267.0,
-          "Type": "enemy",
-          "SubType": "rat",
+          "Type": "block",
+          "SubType": null,
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 66,
@@ -10004,8 +10327,8 @@
         },
         {
           "TimeStamp": 268.0,
-          "Type": "enemy",
-          "SubType": "bird",
+          "Type": "gem",
+          "SubType": "2",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -10013,7 +10336,7 @@
         },
         {
           "TimeStamp": 269.0,
-          "Type": null,
+          "Type": "aircon",
           "SubType": null,
           "YPos": 510,
           "Width": 0.0,
@@ -10031,8 +10354,8 @@
         },
         {
           "TimeStamp": 271.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "4",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 72,
@@ -10040,8 +10363,8 @@
         },
         {
           "TimeStamp": 272.0,
-          "Type": "overhang",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "3",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 71,
@@ -10049,8 +10372,8 @@
         },
         {
           "TimeStamp": 273.0,
-          "Type": "lava",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "6",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 67,
@@ -10058,8 +10381,8 @@
         },
         {
           "TimeStamp": 274.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "5",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 69,
@@ -10076,8 +10399,8 @@
         },
         {
           "TimeStamp": 275.0,
-          "Type": "overhang",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "3",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 71,
@@ -10094,8 +10417,8 @@
         },
         {
           "TimeStamp": 276.0,
-          "Type": "enemy",
-          "SubType": "bird",
+          "Type": "gem",
+          "SubType": "2",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -10103,7 +10426,7 @@
         },
         {
           "TimeStamp": 277.0,
-          "Type": null,
+          "Type": "aircon",
           "SubType": null,
           "YPos": 510,
           "Width": 0.0,
@@ -10121,8 +10444,8 @@
         },
         {
           "TimeStamp": 279.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "4",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 72,
@@ -10130,8 +10453,8 @@
         },
         {
           "TimeStamp": 280.0,
-          "Type": "overhang",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "3",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 71,
@@ -10139,8 +10462,8 @@
         },
         {
           "TimeStamp": 281.0,
-          "Type": "lava",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "6",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 67,
@@ -10148,8 +10471,8 @@
         },
         {
           "TimeStamp": 282.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "5",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 69,
@@ -10157,8 +10480,8 @@
         },
         {
           "TimeStamp": 283.0,
-          "Type": "enemy",
-          "SubType": "rat",
+          "Type": "block",
+          "SubType": null,
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 66,
@@ -10184,8 +10507,8 @@
         },
         {
           "TimeStamp": 284.0,
-          "Type": "enemy",
-          "SubType": "bird",
+          "Type": "gem",
+          "SubType": "2",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -10193,7 +10516,7 @@
         },
         {
           "TimeStamp": 285.0,
-          "Type": null,
+          "Type": "aircon",
           "SubType": null,
           "YPos": 510,
           "Width": 0.0,
@@ -10211,8 +10534,8 @@
         },
         {
           "TimeStamp": 287.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "4",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 72,
@@ -10220,8 +10543,8 @@
         },
         {
           "TimeStamp": 288.0,
-          "Type": "overhang",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "3",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 71,
@@ -10229,8 +10552,8 @@
         },
         {
           "TimeStamp": 289.0,
-          "Type": "lava",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "6",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 67,
@@ -10238,8 +10561,8 @@
         },
         {
           "TimeStamp": 290.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "5",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 69,
@@ -10247,8 +10570,8 @@
         },
         {
           "TimeStamp": 291.0,
-          "Type": "overhang",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "3",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 71,
@@ -10265,8 +10588,8 @@
         },
         {
           "TimeStamp": 292.0,
-          "Type": "enemy",
-          "SubType": "bird",
+          "Type": "gem",
+          "SubType": "2",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -10283,7 +10606,7 @@
         },
         {
           "TimeStamp": 293.0,
-          "Type": null,
+          "Type": "aircon",
           "SubType": null,
           "YPos": 510,
           "Width": 0.0,
@@ -10301,8 +10624,8 @@
         },
         {
           "TimeStamp": 295.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "4",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 72,
@@ -10310,8 +10633,8 @@
         },
         {
           "TimeStamp": 296.0,
-          "Type": "overhang",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "3",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 71,
@@ -10319,8 +10642,8 @@
         },
         {
           "TimeStamp": 297.0,
-          "Type": "lava",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "6",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 67,
@@ -10328,8 +10651,8 @@
         },
         {
           "TimeStamp": 298.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "5",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 69,
@@ -10337,8 +10660,8 @@
         },
         {
           "TimeStamp": 299.0,
-          "Type": "enemy",
-          "SubType": "rat",
+          "Type": "block",
+          "SubType": null,
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 66,
@@ -10364,8 +10687,8 @@
         },
         {
           "TimeStamp": 300.0,
-          "Type": "enemy",
-          "SubType": "bird",
+          "Type": "gem",
+          "SubType": "2",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -10382,7 +10705,7 @@
         },
         {
           "TimeStamp": 301.0,
-          "Type": null,
+          "Type": "aircon",
           "SubType": null,
           "YPos": 510,
           "Width": 0.0,
@@ -10400,8 +10723,8 @@
         },
         {
           "TimeStamp": 303.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "4",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 72,
@@ -10409,8 +10732,8 @@
         },
         {
           "TimeStamp": 304.0,
-          "Type": "overhang",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "3",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 71,
@@ -10418,8 +10741,8 @@
         },
         {
           "TimeStamp": 305.0,
-          "Type": "lava",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "6",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 67,
@@ -10427,8 +10750,8 @@
         },
         {
           "TimeStamp": 306.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "5",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 69,
@@ -10436,8 +10759,8 @@
         },
         {
           "TimeStamp": 307.0,
-          "Type": "overhang",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "3",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 71,
@@ -10454,8 +10777,8 @@
         },
         {
           "TimeStamp": 308.0,
-          "Type": "enemy",
-          "SubType": "bird",
+          "Type": "gem",
+          "SubType": "2",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 64,
@@ -10463,7 +10786,7 @@
         },
         {
           "TimeStamp": 309.0,
-          "Type": null,
+          "Type": "aircon",
           "SubType": null,
           "YPos": 510,
           "Width": 0.0,
@@ -10490,8 +10813,8 @@
         },
         {
           "TimeStamp": 311.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "4",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 72,
@@ -10499,8 +10822,8 @@
         },
         {
           "TimeStamp": 312.0,
-          "Type": "overhang",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "3",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 71,
@@ -10508,8 +10831,8 @@
         },
         {
           "TimeStamp": 313.0,
-          "Type": "lava",
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "6",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 67,
@@ -10517,8 +10840,8 @@
         },
         {
           "TimeStamp": 314.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "5",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 69,
@@ -10526,8 +10849,8 @@
         },
         {
           "TimeStamp": 315.0,
-          "Type": "enemy",
-          "SubType": "rat",
+          "Type": "block",
+          "SubType": null,
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 66,
@@ -10565,7 +10888,7 @@
           "Type": "platform",
           "SubType": "2",
           "YPos": 564,
-          "Width": 7.0,
+          "Width": 6.1,
           "NoteNum": 0,
           "Track": 0
         },
@@ -11220,7 +11543,7 @@
         {
           "TimeStamp": 429.0,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 62,
@@ -11247,7 +11570,7 @@
         {
           "TimeStamp": 431.5,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 62,
@@ -11265,7 +11588,7 @@
         {
           "TimeStamp": 433.0,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 62,
@@ -11292,7 +11615,7 @@
         {
           "TimeStamp": 435.0,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "missile",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 58,
@@ -11319,7 +11642,7 @@
         {
           "TimeStamp": 437.0,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 62,
@@ -11355,7 +11678,7 @@
         {
           "TimeStamp": 439.5,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 62,
@@ -11373,7 +11696,7 @@
         {
           "TimeStamp": 441.0,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 62,
@@ -11400,7 +11723,7 @@
         {
           "TimeStamp": 443.0,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "missile",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 58,
@@ -11454,7 +11777,7 @@
         {
           "TimeStamp": 445.0,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 62,
@@ -11481,7 +11804,7 @@
         {
           "TimeStamp": 447.5,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 62,
@@ -11499,7 +11822,7 @@
         {
           "TimeStamp": 449.0,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 62,
@@ -11526,7 +11849,7 @@
         {
           "TimeStamp": 451.0,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "missile",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 58,
@@ -11553,7 +11876,7 @@
         {
           "TimeStamp": 453.0,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 62,
@@ -11589,7 +11912,7 @@
         {
           "TimeStamp": 455.5,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 62,
@@ -11607,7 +11930,7 @@
         {
           "TimeStamp": 457.0,
           "Type": "enemy",
-          "SubType": "missile",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 62,
@@ -11634,7 +11957,7 @@
         {
           "TimeStamp": 459.0,
           "Type": "enemy",
-          "SubType": "bird",
+          "SubType": "missile",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 58,
@@ -11686,6 +12009,15 @@
           "Track": 0
         },
         {
+          "TimeStamp": 472.0,
+          "Type": "Palette",
+          "SubType": "8",
+          "YPos": 0,
+          "Width": 0.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
           "TimeStamp": 473.0,
           "Type": "platform",
           "SubType": "1",
@@ -11697,7 +12029,7 @@
         {
           "TimeStamp": 476.0,
           "Type": "LoopPlayStart",
-          "SubType": "3",
+          "SubType": "1",
           "YPos": 0,
           "Width": 0.0,
           "NoteNum": 0,
@@ -11706,7 +12038,7 @@
         {
           "TimeStamp": 476.0,
           "Type": "LoopPlayStart",
-          "SubType": "4",
+          "SubType": "3",
           "YPos": 0,
           "Width": 0.0,
           "NoteNum": 0,
@@ -11723,15 +12055,6 @@
         },
         {
           "TimeStamp": 476.0,
-          "Type": "LoopPlayStart",
-          "SubType": "7",
-          "YPos": 0,
-          "Width": 0.0,
-          "NoteNum": 0,
-          "Track": 0
-        },
-        {
-          "TimeStamp": 476.0,
           "Type": "gem",
           "SubType": "1",
           "YPos": 510,
@@ -11741,26 +12064,26 @@
         },
         {
           "TimeStamp": 476.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 490,
           "Width": 0.0,
-          "NoteNum": 52,
+          "NoteNum": 51,
           "Track": 8
         },
         {
           "TimeStamp": 478.25,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 490,
           "Width": 0.0,
           "NoteNum": 52,
           "Track": 8
         },
         {
           "TimeStamp": 479.5,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "3",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 55,
@@ -11768,25 +12091,16 @@
         },
         {
           "TimeStamp": 480.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 470,
           "Width": 0.0,
           "NoteNum": 59,
           "Track": 8
         },
         {
           "TimeStamp": 482.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 482.75,
-          "Type": null,
+          "Type": "aircon",
           "SubType": null,
           "YPos": 510,
           "Width": 0.0,
@@ -11798,7 +12112,7 @@
           "Type": "platform",
           "SubType": "5",
           "YPos": 564,
-          "Width": 10.0,
+          "Width": 8.0,
           "NoteNum": 0,
           "Track": 0
         },
@@ -11813,53 +12127,53 @@
         },
         {
           "TimeStamp": 484.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 460,
           "Width": 0.0,
-          "NoteNum": 52,
+          "NoteNum": 51,
           "Track": 8
         },
         {
           "TimeStamp": 486.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 470,
           "Width": 0.0,
           "NoteNum": 55,
           "Track": 8
         },
         {
           "TimeStamp": 487.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "5",
+          "YPos": 480,
           "Width": 0.0,
           "NoteNum": 62,
           "Track": 8
         },
         {
           "TimeStamp": 488.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 490,
           "Width": 0.0,
           "NoteNum": 59,
           "Track": 8
         },
         {
           "TimeStamp": 488.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 470,
           "Width": 0.0,
           "NoteNum": 57,
           "Track": 8
         },
         {
           "TimeStamp": 489.5,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "4",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 57,
@@ -11867,30 +12181,30 @@
         },
         {
           "TimeStamp": 490.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 470,
           "Width": 0.0,
           "NoteNum": 57,
           "Track": 8
         },
         {
           "TimeStamp": 491.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "bird",
+          "YPos": 490,
           "Width": 0.0,
-          "NoteNum": 55,
+          "NoteNum": 54,
           "Track": 8
         },
         {
-          "TimeStamp": 491.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
+          "TimeStamp": 492.0,
+          "Type": "platform",
+          "SubType": "2",
+          "YPos": 564,
+          "Width": 5.8,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 492.0,
@@ -11903,15 +12217,114 @@
         },
         {
           "TimeStamp": 492.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 460,
+          "Width": 0.0,
+          "NoteNum": 51,
+          "Track": 8
+        },
+        {
+          "TimeStamp": 494.25,
+          "Type": "enemy",
+          "SubType": "honeybadger",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 52,
           "Track": 8
         },
         {
-          "TimeStamp": 494.0,
+          "TimeStamp": 495.5,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 480,
+          "Width": 0.0,
+          "NoteNum": 55,
+          "Track": 8
+        },
+        {
+          "TimeStamp": 496.5,
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 490,
+          "Width": 0.0,
+          "NoteNum": 59,
+          "Track": 8
+        },
+        {
+          "TimeStamp": 498.6,
+          "Type": "platform",
+          "SubType": "2",
+          "YPos": 564,
+          "Width": 7.4,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 500.0,
+          "Type": "gem",
+          "SubType": "1",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 44,
+          "Track": 2
+        },
+        {
+          "TimeStamp": 500.0,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 480,
+          "Width": 0.0,
+          "NoteNum": 51,
+          "Track": 8
+        },
+        {
+          "TimeStamp": 502.5,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 460,
+          "Width": 0.0,
+          "NoteNum": 55,
+          "Track": 8
+        },
+        {
+          "TimeStamp": 503.5,
+          "Type": "gem",
+          "SubType": "5",
+          "YPos": 460,
+          "Width": 0.0,
+          "NoteNum": 62,
+          "Track": 8
+        },
+        {
+          "TimeStamp": 504.0,
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 510,
+          "Width": 0.0,
+          "NoteNum": 59,
+          "Track": 8
+        },
+        {
+          "TimeStamp": 504.5,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 480,
+          "Width": 0.0,
+          "NoteNum": 57,
+          "Track": 8
+        },
+        {
+          "TimeStamp": 505.5,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 450,
+          "Width": 0.0,
+          "NoteNum": 57,
+          "Track": 8
+        },
+        {
+          "TimeStamp": 506.0,
           "Type": "platform",
           "SubType": "2",
           "YPos": 564,
@@ -11920,139 +12333,31 @@
           "Track": 0
         },
         {
-          "TimeStamp": 494.25,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 495.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 496.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 59,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 498.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 498.75,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 53,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 500.0,
-          "Type": "gem",
-          "SubType": "1",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 44,
-          "Track": 2
-        },
-        {
-          "TimeStamp": 500.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 502.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 503.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 62,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 504.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 59,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 504.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 505.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
-        },
-        {
           "TimeStamp": 506.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 480,
           "Width": 0.0,
           "NoteNum": 57,
           "Track": 8
         },
         {
           "TimeStamp": 507.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "bird",
+          "YPos": 490,
           "Width": 0.0,
-          "NoteNum": 55,
+          "NoteNum": 54,
           "Track": 8
         },
         {
-          "TimeStamp": 507.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "TimeStamp": 508.0,
+          "Type": "LoopPlayStart",
+          "SubType": "4",
+          "YPos": 0,
           "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 508.0,
@@ -12065,57 +12370,57 @@
         },
         {
           "TimeStamp": 508.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "enemy",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
+          "NoteNum": 51,
           "Track": 8
         },
         {
           "TimeStamp": 510.25,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 490,
           "Width": 0.0,
           "NoteNum": 52,
           "Track": 8
         },
         {
           "TimeStamp": 511.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 480,
           "Width": 0.0,
           "NoteNum": 55,
           "Track": 8
         },
         {
           "TimeStamp": 512.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 470,
           "Width": 0.0,
           "NoteNum": 59,
           "Track": 8
         },
         {
           "TimeStamp": 514.0,
-          "Type": null,
+          "Type": "aircon",
           "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 514.75,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "YPos": 450,
           "Width": 0.0,
           "NoteNum": 53,
           "Track": 8
+        },
+        {
+          "TimeStamp": 515.0,
+          "Type": "platform",
+          "SubType": "2",
+          "YPos": 564,
+          "Width": 8.0,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 516.0,
@@ -12128,83 +12433,83 @@
         },
         {
           "TimeStamp": 516.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 430,
           "Width": 0.0,
-          "NoteNum": 52,
+          "NoteNum": 51,
           "Track": 8
         },
         {
           "TimeStamp": 518.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 400,
           "Width": 0.0,
           "NoteNum": 55,
           "Track": 8
         },
         {
           "TimeStamp": 519.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "5",
+          "YPos": 410,
           "Width": 0.0,
           "NoteNum": 62,
           "Track": 8
         },
         {
           "TimeStamp": 520.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 430,
           "Width": 0.0,
           "NoteNum": 59,
           "Track": 8
         },
         {
           "TimeStamp": 520.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 450,
           "Width": 0.0,
           "NoteNum": 57,
           "Track": 8
         },
         {
           "TimeStamp": 521.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 470,
           "Width": 0.0,
           "NoteNum": 57,
           "Track": 8
         },
         {
           "TimeStamp": 522.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 490,
           "Width": 0.0,
           "NoteNum": 57,
           "Track": 8
         },
         {
           "TimeStamp": 523.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
+          "Type": "platform",
+          "SubType": "1",
+          "YPos": 564,
+          "Width": 6.8,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
-          "TimeStamp": 523.5,
-          "Type": null,
-          "SubType": null,
+          "TimeStamp": 523.0,
+          "Type": "enemy",
+          "SubType": "bird",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 55,
+          "NoteNum": 54,
           "Track": 8
         },
         {
@@ -12218,57 +12523,48 @@
         },
         {
           "TimeStamp": 524.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "enemy",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
+          "NoteNum": 51,
           "Track": 8
         },
         {
           "TimeStamp": 526.25,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 470,
           "Width": 0.0,
           "NoteNum": 52,
           "Track": 8
         },
         {
           "TimeStamp": 527.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 470,
           "Width": 0.0,
           "NoteNum": 55,
           "Track": 8
         },
         {
           "TimeStamp": 528.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 470,
           "Width": 0.0,
           "NoteNum": 59,
           "Track": 8
         },
         {
-          "TimeStamp": 530.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 530.75,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 53,
-          "Track": 8
+          "TimeStamp": 530.6,
+          "Type": "platform",
+          "SubType": "5",
+          "YPos": 564,
+          "Width": 10.4,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 532.0,
@@ -12281,84 +12577,84 @@
         },
         {
           "TimeStamp": 532.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 460,
           "Width": 0.0,
-          "NoteNum": 52,
+          "NoteNum": 51,
           "Track": 8
         },
         {
           "TimeStamp": 534.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 430,
           "Width": 0.0,
           "NoteNum": 55,
           "Track": 8
         },
         {
           "TimeStamp": 535.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "5",
+          "YPos": 470,
           "Width": 0.0,
           "NoteNum": 62,
           "Track": 8
         },
         {
           "TimeStamp": 536.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 490,
           "Width": 0.0,
           "NoteNum": 59,
           "Track": 8
         },
         {
           "TimeStamp": 536.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 470,
           "Width": 0.0,
           "NoteNum": 57,
           "Track": 8
         },
         {
           "TimeStamp": 537.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 470,
           "Width": 0.0,
           "NoteNum": 57,
           "Track": 8
         },
         {
           "TimeStamp": 538.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 500,
           "Width": 0.0,
           "NoteNum": 57,
           "Track": 8
         },
         {
           "TimeStamp": 539.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "bird",
+          "YPos": 450,
           "Width": 0.0,
-          "NoteNum": 55,
+          "NoteNum": 54,
           "Track": 8
         },
         {
-          "TimeStamp": 539.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "TimeStamp": 540.0,
+          "Type": "LoopPlayStart",
+          "SubType": "7",
+          "YPos": 0,
           "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 540.0,
@@ -12371,35 +12667,44 @@
         },
         {
           "TimeStamp": 540.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 450,
           "Width": 0.0,
-          "NoteNum": 52,
+          "NoteNum": 51,
           "Track": 8
         },
         {
+          "TimeStamp": 541.0,
+          "Type": "platform",
+          "SubType": "2",
+          "YPos": 564,
+          "Width": 8.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
           "TimeStamp": 542.25,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 460,
           "Width": 0.0,
           "NoteNum": 52,
           "Track": 8
         },
         {
           "TimeStamp": 543.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 460,
           "Width": 0.0,
           "NoteNum": 55,
           "Track": 8
         },
         {
           "TimeStamp": 544.5,
-          "Type": null,
-          "SubType": null,
+          "Type": "enemy",
+          "SubType": "missile",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 59,
@@ -12407,18 +12712,9 @@
         },
         {
           "TimeStamp": 546.0,
-          "Type": null,
+          "Type": "aircon",
           "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 546.75,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "YPos": 430,
           "Width": 0.0,
           "NoteNum": 53,
           "Track": 8
@@ -12434,44 +12730,53 @@
         },
         {
           "TimeStamp": 548.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 470,
           "Width": 0.0,
-          "NoteNum": 52,
+          "NoteNum": 51,
           "Track": 8
         },
         {
+          "TimeStamp": 549.0,
+          "Type": "platform",
+          "SubType": "4",
+          "YPos": 564,
+          "Width": 12.8,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
           "TimeStamp": 550.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 470,
           "Width": 0.0,
           "NoteNum": 55,
           "Track": 8
         },
         {
           "TimeStamp": 551.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "5",
+          "YPos": 480,
           "Width": 0.0,
           "NoteNum": 62,
           "Track": 8
         },
         {
           "TimeStamp": 552.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 460,
           "Width": 0.0,
           "NoteNum": 59,
           "Track": 8
         },
         {
           "TimeStamp": 552.5,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "4",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 57,
@@ -12479,38 +12784,29 @@
         },
         {
           "TimeStamp": 553.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 460,
           "Width": 0.0,
           "NoteNum": 57,
           "Track": 8
         },
         {
           "TimeStamp": 554.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 490,
           "Width": 0.0,
           "NoteNum": 57,
           "Track": 8
         },
         {
           "TimeStamp": 555.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "bird",
+          "YPos": 440,
           "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 555.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
+          "NoteNum": 54,
           "Track": 8
         },
         {
@@ -12524,57 +12820,48 @@
         },
         {
           "TimeStamp": 556.0,
-          "Type": null,
-          "SubType": null,
+          "Type": "enemy",
+          "SubType": "rat",
           "YPos": 510,
           "Width": 0.0,
-          "NoteNum": 52,
+          "NoteNum": 51,
           "Track": 8
         },
         {
           "TimeStamp": 558.25,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "honeybadger",
+          "YPos": 490,
           "Width": 0.0,
           "NoteNum": 52,
           "Track": 8
         },
         {
           "TimeStamp": 559.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 470,
           "Width": 0.0,
           "NoteNum": 55,
           "Track": 8
         },
         {
           "TimeStamp": 560.5,
-          "Type": null,
-          "SubType": null,
+          "Type": "enemy",
+          "SubType": "missile",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 59,
           "Track": 8
         },
         {
-          "TimeStamp": 562.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 562.75,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 53,
-          "Track": 8
+          "TimeStamp": 562.6,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 6.4,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
           "TimeStamp": 564.0,
@@ -12587,26 +12874,26 @@
         },
         {
           "TimeStamp": 564.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "rat",
+          "YPos": 490,
           "Width": 0.0,
-          "NoteNum": 52,
+          "NoteNum": 51,
           "Track": 8
         },
         {
           "TimeStamp": 566.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "3",
+          "YPos": 490,
           "Width": 0.0,
           "NoteNum": 55,
           "Track": 8
         },
         {
           "TimeStamp": 567.5,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "5",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 62,
@@ -12614,35 +12901,44 @@
         },
         {
           "TimeStamp": 568.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "missile",
+          "YPos": 480,
           "Width": 0.0,
           "NoteNum": 59,
           "Track": 8
         },
         {
           "TimeStamp": 568.5,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "4",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 57,
           "Track": 8
         },
         {
+          "TimeStamp": 569.0,
+          "Type": "platform",
+          "SubType": "1",
+          "YPos": 564,
+          "Width": 9.0,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
           "TimeStamp": 569.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "gem",
+          "SubType": "4",
+          "YPos": 480,
           "Width": 0.0,
           "NoteNum": 57,
           "Track": 8
         },
         {
           "TimeStamp": 570.5,
-          "Type": null,
-          "SubType": null,
+          "Type": "gem",
+          "SubType": "4",
           "YPos": 510,
           "Width": 0.0,
           "NoteNum": 57,
@@ -12650,327 +12946,66 @@
         },
         {
           "TimeStamp": 571.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
+          "Type": "enemy",
+          "SubType": "bird",
+          "YPos": 490,
           "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 571.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 572.0,
-          "Type": "gem",
-          "SubType": "1",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 44,
-          "Track": 2
-        },
-        {
-          "TimeStamp": 572.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 574.25,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 575.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 576.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 59,
+          "NoteNum": 54,
           "Track": 8
         },
         {
           "TimeStamp": 578.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
+          "Type": "platform",
+          "SubType": "5",
+          "YPos": 564,
+          "Width": 11.0,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
-          "TimeStamp": 578.75,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 53,
-          "Track": 8
+          "TimeStamp": 589.0,
+          "Type": "platform",
+          "SubType": "5",
+          "YPos": 564,
+          "Width": 4.8,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
-          "TimeStamp": 580.0,
-          "Type": "gem",
+          "TimeStamp": 594.4,
+          "Type": "platform",
+          "SubType": "3",
+          "YPos": 564,
+          "Width": 12.6,
+          "NoteNum": 0,
+          "Track": 0
+        },
+        {
+          "TimeStamp": 607.0,
+          "Type": "platform",
           "SubType": "1",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 44,
-          "Track": 2
+          "YPos": 564,
+          "Width": 11.0,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
-          "TimeStamp": 580.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 8
+          "TimeStamp": 618.0,
+          "Type": "platform",
+          "SubType": "4",
+          "YPos": 564,
+          "Width": 8.0,
+          "NoteNum": 0,
+          "Track": 0
         },
         {
-          "TimeStamp": 582.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 583.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 62,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 584.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 59,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 584.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 585.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 586.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 587.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 587.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 588.0,
-          "Type": "gem",
-          "SubType": "1",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 44,
-          "Track": 2
-        },
-        {
-          "TimeStamp": 588.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 590.25,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 591.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 592.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 59,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 594.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 594.75,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 53,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 596.0,
-          "Type": "gem",
-          "SubType": "1",
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 44,
-          "Track": 2
-        },
-        {
-          "TimeStamp": 596.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 52,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 598.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 599.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 62,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 600.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 59,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 600.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 601.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 602.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 57,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 603.0,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
-        },
-        {
-          "TimeStamp": 603.5,
-          "Type": null,
-          "SubType": null,
-          "YPos": 510,
-          "Width": 0.0,
-          "NoteNum": 55,
-          "Track": 8
+          "TimeStamp": 626.0,
+          "Type": "platform",
+          "SubType": "2",
+          "YPos": 564,
+          "Width": 11.0,
+          "NoteNum": 0,
+          "Track": 0
         }
       ]
     }
