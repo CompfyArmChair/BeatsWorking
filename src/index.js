@@ -258,7 +258,7 @@ var game = new Phaser.Game(config);
 /*********Game control variables********/
 var bpm = 112;
 //pixels per beat
-var ppb = 200;
+var ppb = 100;
 var jumpXDistance;
 var levelWidth = 1366;
 var levelHeight = 768;
@@ -267,6 +267,7 @@ var kickContantPoint = [215, 520];
 var jumpContantPoint = [225, 560];
 var dudeConstantPointX = 0;
 var startYHeightBaseForConstantPoint = 486.5;
+var assetBaseRatio = 200;
 /***************************************/
 
 // Game state
@@ -1446,6 +1447,8 @@ function buildEnemy(enemyConfig, game)
     var frame = -1;
     var contactPoint = dudeConstantPointX; // change these when resizing enemy hit boxes ********
     var special = 0;
+    var resizeRatio = 1;
+    debugger;
     if (enemyConfig.Type === "enemy")
     {
         if (enemyConfig.SubType == "rat")
@@ -1479,6 +1482,7 @@ function buildEnemy(enemyConfig, game)
             speed = ppb + 300;
             contactPoint = punchContantPoint[0]; // change these when resizing enemy hit boxes ********
             special = 3;
+            resizeRatio = ppb  / assetBaseRatio;
         }
     }
     else if (enemyConfig.Type === "gem")
@@ -1493,6 +1497,7 @@ function buildEnemy(enemyConfig, game)
         contactPoint = jumpContantPoint[0]; // change these when resizing enemy hit boxes ********
         y = 435;
         graphic = "block";
+        resizeRatio = ppb  / assetBaseRatio;
     }
     else if (enemyConfig.Type === "aircon")
     {
@@ -1500,6 +1505,7 @@ function buildEnemy(enemyConfig, game)
         y = 536;
         graphic = "aircon";
         special = 4;
+        resizeRatio = ppb  / assetBaseRatio;
     }
     else if (enemyConfig.Type === "LoopRecordStart")
     {
@@ -1547,6 +1553,10 @@ function buildEnemy(enemyConfig, game)
     var x = getAssetPlacement(speed, contactPoint);
     var enemy = game.physics.add.image(x, y, graphic);
     enemy.x += enemy.width/2; 
+    enemy.setScale(resizeRatio);
+    debugger;
+    var yAdjustment = getYAdjustment(enemy, resizeRatio);
+    enemy.y += yAdjustment; 
     if (frame > -1)
         enemy.setFrame(frame);
     enemy.setData('enemy-data', enemyConfig);
@@ -1601,10 +1611,15 @@ function buildEnemy(enemyConfig, game)
     }
     else if (special == 4)
     {
-        enemy.setSize(50, 50, false);
+        enemy.setSize(50, 50, false);        
     }
     enemies.push(enemy);
     addEnemyCollisions(game, enemy);
+}
+
+function getYAdjustment(enemy, resizeRatio)
+{
+    return (enemy.height - (enemy.height * resizeRatio)) / 2;
 }
 
 function CreateText(game, textString, width, y)
